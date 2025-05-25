@@ -1,0 +1,4 @@
+{
+	"name": "Scene_EndingScene",
+	"references" : ["Core"]
+}
