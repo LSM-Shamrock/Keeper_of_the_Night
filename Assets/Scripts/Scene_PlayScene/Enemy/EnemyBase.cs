@@ -29,7 +29,7 @@ public abstract class EnemyBase : PlaySceneObjectBase
         _col.enabled = false;
         _sr.enabled = false;
     }
-    protected void DeleteThisClone()
+    protected virtual void DeleteThisClone()
     {
         Destroy(gameObject);
     }
