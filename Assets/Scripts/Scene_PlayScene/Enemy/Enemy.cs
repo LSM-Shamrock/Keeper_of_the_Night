@@ -46,13 +46,13 @@ public class Enemy : EnemyBase
         Init_HiddenNameLogic();
 
 
-        Debug.Log($"{type.ToString()} 소환됨");
+        Debug.Log($"소환됨: {type.ToString()}");
     }
 
 
     protected override void DeleteThisClone()
     {
-        Debug.Log($"{_type.ToString()} 삭제함");
+        Debug.Log($"삭제함: {_type.ToString()}");
         base.DeleteThisClone();
     }
 

@@ -40,7 +40,7 @@ public class EnemyGenerator : PlaySceneObjectBase
         Vector3 position = Vector3.zero;
         position.x = RandomNumber(1, 2) == 1 ? 300 : -300;
 
-        Debug.Log( $"{type.ToString()} 소환함");
+        Debug.Log( $"소환함: {type.ToString()}");
 
         GameObject prefab = LoadResource<GameObject>(Prefabs.Enemy);
         GameObject go = prefab.CreateClone();
