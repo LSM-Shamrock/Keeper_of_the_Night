@@ -5,7 +5,7 @@ public class EnemyProjectile_IceShard : EnemyProjectile
 {
     protected override IEnumerator Routine_ContactCharacter()
     {
-        yield return WaitUntil(() => ContactCharacter);
+        yield return WaitUntil(() => IsContactCharacter);
         TakeDamageToPlayer(11);
         _sr.sprite = Utile.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
         _sr.SetTransparency(0.5f);
@@ -28,9 +28,9 @@ public class EnemyProjectile_IceShard : EnemyProjectile
         foreach (int i in Count(20))
         {
             transform.position += _direction * 12f;
-            if (ContactMoonlightswordShield)
+            if (IsContactMoonlightswordShield)
                 DestroyThisClone();
-            if (ContactCharacter)
+            if (IsContactCharacter)
             {
                 while (true)
                 {

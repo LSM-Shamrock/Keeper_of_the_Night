@@ -19,7 +19,7 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
                 transform.AddX(2f);
                 transform.localScale += Vector3.one * 1f;
 
-                if (ContactMoonlightswordShield)
+                if (IsContactMoonlightswordShield)
                     DestroyThisClone();
 
                 yield return waitForFixedUpdate;
@@ -32,7 +32,7 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
                 transform.AddX(-2f);
                 transform.localScale += Vector3.one * 1f;
 
-                if (ContactMoonlightswordShield)
+                if (IsContactMoonlightswordShield)
                     DestroyThisClone();
 
                 yield return waitForFixedUpdate;
@@ -49,7 +49,7 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
     {
         while (true)
         {
-            if (ContactCharacter)
+            if (IsContactCharacter)
             {
                 TakeDamageToPlayer(2);
                 yield return WaitForSeconds(0.1f);

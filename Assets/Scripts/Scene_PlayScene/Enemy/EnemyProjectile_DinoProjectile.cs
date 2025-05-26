@@ -7,7 +7,7 @@ public class EnemyProjectile_DinoProjectile : EnemyProjectile
     {
         while (true)
         {
-            if (ContactCharacter)
+            if (IsContactCharacter)
             {
                 TakeDamageToPlayer(2);
                 yield return WaitForSeconds(0.01f);
@@ -25,7 +25,7 @@ public class EnemyProjectile_DinoProjectile : EnemyProjectile
             transform.localScale += Vector3.one * 0.5f;
             transform.position += _direction * 7f;
 
-            if (ContactMoonlightswordShield)
+            if (IsContactMoonlightswordShield)
                 DestroyThisClone();
 
             yield return waitForFixedUpdate;

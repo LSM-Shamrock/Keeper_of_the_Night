@@ -12,10 +12,10 @@ public class EnemyProjectile_Fire : EnemyProjectile
             transform.localScale += Vector3.one * 0.5f;
             transform.position += _direction * 8f;
 
-            if (ContactMoonlightswordShield)
+            if (IsContactMoonlightswordShield)
                 DestroyThisClone();
 
-            if (ContactCharacter)
+            if (IsContactCharacter)
             {
                 while (true)
                 {
@@ -30,7 +30,7 @@ public class EnemyProjectile_Fire : EnemyProjectile
     }
     protected override IEnumerator Routine_ContactCharacter()
     {
-        yield return WaitUntil(() => ContactCharacter);
+        yield return WaitUntil(() => IsContactCharacter);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 50f;
         foreach (int i in Count(10))

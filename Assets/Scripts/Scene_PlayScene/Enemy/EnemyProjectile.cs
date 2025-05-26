@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class EnemyProjectile : PlaySceneObjectBase
 {
-    protected bool ContactCharacter => _col.IsContact(Objects.Character);
-    protected bool ContactMoonlightswordShield => false;
+    protected bool IsContactCharacter => _col.IsContact(Objects.Character);
+    protected bool IsContactMoonlightswordShield => _col.IsContact(Objects.MoonlightswordShield);
     protected SpriteRenderer _sr;
     protected Collider2D _col;
     protected Vector3 _direction;
