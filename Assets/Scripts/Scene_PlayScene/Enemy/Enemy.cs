@@ -44,7 +44,13 @@ public class Enemy : EnemyBase
         StartCoroutine(Loop_Jump_Dino());
 
         Init_HiddenNameLogic();
+
+
+        Debug.Log($"{type.ToString()} 소환됨");
     }
+
+
+    
 
 
     #region 야괴 이름 외치기
