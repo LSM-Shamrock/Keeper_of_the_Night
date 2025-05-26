@@ -40,6 +40,8 @@ public class EnemyGenerator : PlaySceneObjectBase
         Vector3 position = Vector3.zero;
         position.x = RandomNumber(1, 2) == 1 ? 300 : -300;
 
+        Debug.Log( $"{type.ToString()} º“»Ø«‘");
+
         GameObject prefab = LoadResource<GameObject>(Prefabs.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
