@@ -50,7 +50,11 @@ public class Enemy : EnemyBase
     }
 
 
-    
+    protected override void DeleteThisClone()
+    {
+        Debug.Log($"{_type.ToString()} 삭제함");
+        base.DeleteThisClone();
+    }
 
 
     #region 야괴 이름 외치기
