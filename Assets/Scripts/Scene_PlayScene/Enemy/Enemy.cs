@@ -175,10 +175,7 @@ public class Enemy : EnemyBase
         while (true)
         {
             if (_type != Sprites.Enemys.Shadow)
-            {
-                yield return null;
-                continue;
-            }
+                yield return WaitUntil(() => _type == Sprites.Enemys.Shadow);
 
             if (_hp > 0)
                 transform.localScale = Vector3.one * (255f - _hp * _hp / 50f);
