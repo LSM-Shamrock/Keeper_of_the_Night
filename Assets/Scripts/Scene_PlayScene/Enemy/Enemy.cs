@@ -44,9 +44,6 @@ public class Enemy : EnemyBase
         StartCoroutine(Loop_Jump_Dino());
 
         Init_HiddenNameLogic();
-
-
-        Debug.Log($"º“»Øµ : {type.ToString()}");
     }
 
 
