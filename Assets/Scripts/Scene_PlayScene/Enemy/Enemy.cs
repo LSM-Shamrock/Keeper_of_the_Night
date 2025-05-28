@@ -30,6 +30,7 @@ public class Enemy : EnemyBase
         }
         transform.localScale = Vector3.one * size;
     }
+
     public void Init(Sprites.Enemys type)
     {
         base.Init();
@@ -46,18 +47,14 @@ public class Enemy : EnemyBase
         Init_HiddenNameLogic();
     }
 
-
     protected override void DeleteThisClone()
     {
         Debug.Log($"삭제함: {_type.ToString()}");
         base.DeleteThisClone();
     }
 
-
     #region 야괴 이름 외치기
-
     string _hiddenName;
-
     void Init_HiddenNameLogic()
     {
         switch (_type)
@@ -77,7 +74,35 @@ public class Enemy : EnemyBase
         }
         StartCoroutine(Loop_HiddenNameLogic());
     }
-
+    void CreateNameParticles()
+    {
+        var loop = StartCoroutine(Loop_Create());
+        StartCoroutine(StopParticle());
+        IEnumerator StopParticle()
+        {
+            foreach (int i in Count(20))
+            {
+                yield return WaitForSeconds(0.05f);
+                yield return waitForFixedUpdate;
+            }
+            StopCoroutine(loop);
+        }
+        IEnumerator Loop_Create()
+        {
+            while (true)
+            {
+                Create();
+                yield return waitForFixedUpdate;
+            }
+        }
+        void Create()
+        {
+            var prefab = Utile.LoadResource<GameObject>(Prefabs.EnemyHiddenNameParticle);
+            var go = prefab.CreateClone();
+            var particle = go.Component<EnemyHiddenNameParticle>();
+            particle.Init(transform.position);
+        }
+    }
     IEnumerator Loop_HiddenNameLogic()
     {
         while (true)
@@ -122,39 +147,7 @@ public class Enemy : EnemyBase
             yield return waitForFixedUpdate;
         }
     }
-
-    void CreateNameParticles()
-    {
-        var loop = StartCoroutine(Loop_Create());
-        StartCoroutine(StopParticle());
-        IEnumerator StopParticle()
-        {
-            foreach (int i in Count(20))
-            {
-                yield return WaitForSeconds(0.05f);
-                yield return waitForFixedUpdate;
-            }
-            StopCoroutine(loop);
-        }
-        IEnumerator Loop_Create()
-        {
-            while (true)
-            {
-                Create();
-                yield return waitForFixedUpdate;
-            }
-        }
-        void Create()
-        {
-            var prefab = Utile.LoadResource<GameObject>(Prefabs.EnemyHiddenNameParticle);
-            var go = prefab.CreateClone();
-            var particle = go.Component<EnemyHiddenNameParticle>();
-            particle.Init(transform.position);
-        }
-    }
-
     #endregion
-
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
@@ -175,6 +168,55 @@ public class Enemy : EnemyBase
             remainingWaveKill -= 1;
             DeleteThisClone();
         }
+    }
+
+    void CreatePoison()
+    {
+        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_Poison);
+        var go = Instantiate(prefab);
+        var projectile = go.GetComponent<EnemyProjectile_Poison>();
+        projectile.OnCreate(transform.position, _moveDirection);
+    }
+    void CreateWhirlwind()
+    {
+        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_Whirlwind);
+        var go = Instantiate(prefab);
+        var projectile = go.GetComponent<EnemyProjectile_Whirlwind>();
+        projectile.OnCreate(transform.position, _moveDirection);
+    }
+    void CallingRat()
+    {
+        var prefab = LoadResource<GameObject>(Prefabs.EnemySkill_Rat);
+        var go = Instantiate(prefab);
+        var rat = go.GetComponent<EnemySkill_Rat>();
+        rat.OnCreate();
+    }
+    IEnumerator PlayPipeSoundAndWaiting()
+    {
+        var clip = LoadResource<AudioClip>(Audios.Pipe);
+        _audioSource?.PlayOneShot(clip);
+        yield return WaitForSeconds(clip.length);
+    }
+    void CreateFire()
+    {
+        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_Fire);
+        var go = Instantiate(prefab);
+        var projectile = go.GetComponent<EnemyProjectile_Fire>();
+        projectile.OnCreate(transform.position, _moveDirection);
+    }
+    void CreateIceShard()
+    {
+        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_IceShard);
+        var go = Instantiate(prefab);
+        var projectile = go.GetComponent<EnemyProjectile_IceShard>();
+        projectile.OnCreate(transform.position, _moveDirection);
+    }
+    void CreateDinoProjectile()
+    {
+        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_DinoProjectile);
+        var go = Instantiate(prefab);
+        var projectile = go.GetComponent<EnemyProjectile_DinoProjectile>();
+        projectile.OnCreate(transform.position, _moveDirection);
     }
 
     IEnumerator Loop_Shadow_Logic()
@@ -270,55 +312,6 @@ public class Enemy : EnemyBase
                 yield return waitForFixedUpdate;
             }
         }
-    }
-
-    void CreatePoison()
-    {
-        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_Poison);
-        var go = Instantiate(prefab);
-        var projectile = go.GetComponent<EnemyProjectile_Poison>();
-        projectile.OnCreate(transform.position, _moveDirection);
-    }
-    void CreateWhirlwind()
-    {
-        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_Whirlwind);
-        var go = Instantiate(prefab);
-        var projectile = go.GetComponent<EnemyProjectile_Whirlwind>();
-        projectile.OnCreate(transform.position, _moveDirection);
-    }
-    void CallingRat()
-    {
-        var prefab = LoadResource<GameObject>(Prefabs.EnemySkill_Rat);
-        var go = Instantiate(prefab);
-        var rat = go.GetComponent<EnemySkill_Rat>();
-        rat.OnCreate();
-    }
-    IEnumerator PlayPipeSoundAndWaiting()
-    {
-        var clip = LoadResource<AudioClip>(Audios.Pipe);
-        _audioSource?.PlayOneShot(clip);
-        yield return WaitForSeconds(clip.length);
-    }
-    void CreateFire()
-    {
-        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_Fire);
-        var go = Instantiate(prefab);
-        var projectile = go.GetComponent<EnemyProjectile_Fire>();
-        projectile.OnCreate(transform.position, _moveDirection);
-    }
-    void CreateIceShard()
-    {
-        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_IceShard);
-        var go = Instantiate(prefab);
-        var projectile = go.GetComponent<EnemyProjectile_IceShard>();
-        projectile.OnCreate(transform.position, _moveDirection);
-    }
-    void CreateDinoProjectile()
-    {
-        var prefab = LoadResource<GameObject>(Prefabs.EnemyProjectile_DinoProjectile);
-        var go = Instantiate(prefab);
-        var projectile = go.GetComponent<EnemyProjectile_DinoProjectile>();
-        projectile.OnCreate(transform.position, _moveDirection);
     }
 
     IEnumerator Loop_Move()
@@ -771,5 +764,4 @@ public class Enemy : EnemyBase
             yield return WaitForSeconds(2f);
         }
     }
-
 }
