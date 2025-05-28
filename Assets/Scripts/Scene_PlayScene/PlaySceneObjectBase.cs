@@ -5,22 +5,6 @@ using UnityEngine;
 public enum ShadowState 
 { None, Killed, Giantization }
 
-public enum PlaySceneObjects
-{
-    Wall,
-    Ground,
-    Character,
-
-    Camera,
-    MoonlightSword,
-    MoonlightswordShield,
-    Water,
-    WaterPrison,
-    MoonlightGun,
-    BossDinoBlackBall,
-    BossDinoSkill,
-}
-
 public class PlaySceneObjectBase : ObjectBase
 {
     // 플레이어 캐릭터
