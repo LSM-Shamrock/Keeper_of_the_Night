@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ShadowState 
-{ None, Killed, Giantization }
-
 public class PlaySceneObjectBase : ObjectBase
 {
     // 플레이어 캐릭터
