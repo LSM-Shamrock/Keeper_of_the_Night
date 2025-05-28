@@ -11,18 +11,18 @@ public class Sprites
 
     public enum Enemys
     {
-        Shadow = 1,
-        VoidCavity = 2,
-        CrazyLaughMask = 3,
-        MotherSpiritSnake = 4,
-        Bird = 5,
-        SadEyes = 6,
-        DreamGhost = 7,
-        ThePiedPiper = 8,
-        Fire = 11,
-        Red = 12,
-        SnowLady = 13,
-        BossDino = 15,
+        Shadow,
+        VoidCavity,
+        CrazyLaughMask,
+        MotherSpiritSnake,
+        Bird,
+        SadEyes,
+        DreamGhost,
+        ThePiedPiper,
+        Fire,
+        Red,
+        SnowLady,
+        BossDino,
     }
 
     public enum EnemySkill
