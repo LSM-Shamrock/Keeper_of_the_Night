@@ -7,6 +7,7 @@ using static Utile;
 public class Enemy : EnemyBase
 {
     float _hp;
+
     Sprites.Enemys _type;
 
     void Init_HpAndSprite()
