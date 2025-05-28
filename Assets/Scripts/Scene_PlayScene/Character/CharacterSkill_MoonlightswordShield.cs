@@ -9,7 +9,7 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
     SpriteRenderer _yellow;
     SpriteRenderer _white;
 
-    bool IsContactGround => _child.Component<Collider2D>().IsContact(Objects.Ground);
+    bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
 
     bool IsSleepground => currentCharacter == Sprites.Characters.Sleepground;
 

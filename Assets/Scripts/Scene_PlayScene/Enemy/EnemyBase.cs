@@ -8,16 +8,16 @@ public abstract class EnemyBase : PlaySceneObjectBase
     protected AudioSource _audioSource;
     protected Vector3 _moveDirection;
 
-    protected bool IsContactWall => _col.IsContact(Objects.Wall);
-    protected bool IsContactGround => _col.IsContact(Objects.Ground);
-    protected bool IsContactCharacter => _col.IsContact(Objects.Character);
+    protected bool IsContactWall => _col.IsContact(PlaySceneObjects.Wall);
+    protected bool IsContactGround => _col.IsContact(PlaySceneObjects.Ground);
+    protected bool IsContactCharacter => _col.IsContact(PlaySceneObjects.Character);
     protected bool IsContactCameraLight => _col.IsContact(Prefabs.CharacterSkill_CameraFlash);
-    protected bool IsContactMoonlightSword => _col.IsContact(Objects.MoonlightSword);
-    protected bool IsContactMoonlightswordShield => _col.IsContact(Objects.MoonlightswordShield);
-    protected bool IsContactWater => _col.IsContact(Objects.Water);
-    protected bool IsContactWaterPrison => _col.IsContact(Objects.WaterPrison);
+    protected bool IsContactMoonlightSword => _col.IsContact(PlaySceneObjects.MoonlightSword);
+    protected bool IsContactMoonlightswordShield => _col.IsContact(PlaySceneObjects.MoonlightswordShield);
+    protected bool IsContactWater => _col.IsContact(PlaySceneObjects.Water);
+    protected bool IsContactWaterPrison => _col.IsContact(PlaySceneObjects.WaterPrison);
     protected bool IsContactMoonlightgunBullet => _col.IsContact(Prefabs.CharacterSkill_MoonlightgunBullet);
-    protected bool IsContactBossDinoSkill => _col.IsContact(Objects.BossDinoSkill);
+    protected bool IsContactBossDinoSkill => _col.IsContact(PlaySceneObjects.BossDinoSkill);
 
     protected void Show()
     {

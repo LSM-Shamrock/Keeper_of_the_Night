@@ -5,7 +5,7 @@ using UnityEngine;
 public enum ShadowState 
 { None, Killed, Giantization }
 
-public enum Objects
+public enum PlaySceneObjects
 {
     Wall,
     Ground,
@@ -30,7 +30,7 @@ public class PlaySceneObjectBase : ObjectBase
         get
         {
             if (s_character == null)
-                s_character = Utile.FindGameObject(Objects.Character).transform;
+                s_character = Utile.FindGameObject(PlaySceneObjects.Character).transform;
             return s_character;
         }
     }
@@ -61,7 +61,7 @@ public class PlaySceneObjectBase : ObjectBase
         get
         {
             if (s_moonlightswordShield == null)
-                s_moonlightswordShield = Utile.FindGameObject(Objects.MoonlightswordShield).transform;
+                s_moonlightswordShield = Utile.FindGameObject(PlaySceneObjects.MoonlightswordShield).transform;
             return s_moonlightswordShield;
         }
     }
@@ -72,7 +72,7 @@ public class PlaySceneObjectBase : ObjectBase
         get
         {
             if (s_waterPrison == null)
-                s_waterPrison = Utile.FindGameObject(Objects.WaterPrison).transform;
+                s_waterPrison = Utile.FindGameObject(PlaySceneObjects.WaterPrison).transform;
             return s_waterPrison;
         }
     }
@@ -83,7 +83,7 @@ public class PlaySceneObjectBase : ObjectBase
         get
         {
             if (s_bossDinoBlackBall == null)
-                s_bossDinoBlackBall = Utile.FindGameObject(Objects.BossDinoBlackBall).transform;
+                s_bossDinoBlackBall = Utile.FindGameObject(PlaySceneObjects.BossDinoBlackBall).transform;
             return s_bossDinoBlackBall;
         }
     }

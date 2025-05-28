@@ -48,7 +48,7 @@ public class CharacterSkill_Water : PlaySceneObjectBase
 
         float fallAndSlowdown = 0.5f;
 
-        while (!col.IsContact(Objects.Ground))
+        while (!col.IsContact(PlaySceneObjects.Ground))
         {
             transform.position += direction * (4f / (fallAndSlowdown / 2f));
             transform.AddY(-fallAndSlowdown);

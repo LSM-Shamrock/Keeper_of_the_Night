@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyProjectile_Whirlwind : EnemyProjectile
 {
-    bool IsContactGround => _col.IsContact(Objects.Ground);
+    bool IsContactGround => _col.IsContact(PlaySceneObjects.Ground);
     protected override IEnumerator Start_Shoot()
     {
         transform.localScale = Vector3.one * 5f;

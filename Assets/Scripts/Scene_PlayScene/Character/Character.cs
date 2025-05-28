@@ -11,7 +11,7 @@ public class Character : PlaySceneObjectBase
     Dictionary<Sprites.Characters, Sprite> _sprites = new();
     int _jumpGauge;
 
-    bool IsOnGround => _col.IsContact(Objects.Ground);
+    bool IsOnGround => _col.IsContact(PlaySceneObjects.Ground);
 
     protected override void Start()
     {

@@ -8,7 +8,7 @@ public class CharacterSkill_MoonlightgunBullet : PlaySceneObjectBase
     Vector3 _direction;
 
     bool IsContactEnemy => _col.IsContact(Prefabs.Enemy);
-    bool IsContactGround => _col.IsContact(Objects.Ground);
+    bool IsContactGround => _col.IsContact(PlaySceneObjects.Ground);
 
     public void Shoot(Vector3 position, Vector3 direction)
     {
