@@ -225,10 +225,10 @@ public class Enemy : EnemyBase
             yield break;
 
         // 체력 변화: 100~0 
-        // 크기 변화: 200~55 = 55+(145~0)
+        // 크기 변화: 200~25 = 25+(175~0)
 
-        // 최소 크기 55
-        // hp변화당 1.45크기변화
+        // 최소 크기 25
+        // hp변화당 1.75크기변화
 
         // 기존 카메라 타격 횟수: 100/0.5 = 200회
 
@@ -255,6 +255,9 @@ public class Enemy : EnemyBase
                 shadowState = ShadowState.EndOfGiantization;
             }
 
+            // 크기 업데이트
+            transform.localScale = Vector3.one * (25f + giantization * _hp * 1.75f);
+
             // 카메라 빛에 피해 받기
             if (IsContactCameraLight)
             {
@@ -267,9 +270,6 @@ public class Enemy : EnemyBase
                     DeleteThisClone();
                 }
             }
-
-            // 크기 업데이트
-            transform.localScale = Vector3.one * (55f + giantization * _hp * 1.45f);
 
             // 특수기술 캔슬링
             if (IsContactMoonlightswordShield ||
