@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public abstract class EnemyBase : PlaySceneObjectBase
@@ -11,13 +11,13 @@ public abstract class EnemyBase : PlaySceneObjectBase
     protected bool IsContactWall => _col.IsContact(PlaySceneObjects.Wall);
     protected bool IsContactGround => _col.IsContact(PlaySceneObjects.Ground);
     protected bool IsContactCharacter => _col.IsContact(PlaySceneObjects.Character);
-    protected bool IsContactCameraLight => _col.IsContact(Prefabs.CharacterSkill_CameraFlash);
     protected bool IsContactMoonlightSword => _col.IsContact(PlaySceneObjects.MoonlightSword);
     protected bool IsContactMoonlightswordShield => _col.IsContact(PlaySceneObjects.MoonlightswordShield);
     protected bool IsContactWater => _col.IsContact(PlaySceneObjects.Water);
     protected bool IsContactWaterPrison => _col.IsContact(PlaySceneObjects.WaterPrison);
     protected bool IsContactMoonlightgunBullet => _col.IsContact(Prefabs.CharacterSkill_MoonlightgunBullet);
     protected bool IsContactBossDinoSkill => _col.IsContact(PlaySceneObjects.BossDinoSkill);
+    protected bool IsContactCameraLight => _col.IsContact(Prefabs.CharacterSkill_CameraFlash);
 
     protected void Show()
     {
