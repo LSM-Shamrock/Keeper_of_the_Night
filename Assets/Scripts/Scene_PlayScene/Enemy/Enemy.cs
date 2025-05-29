@@ -234,7 +234,7 @@ public class Enemy : EnemyBase
 
         float giantization = 0;
 
-        float giantizationTimer = 10f;
+        float giantizationTimer = 2f;
 
         while (true)
         {
@@ -243,8 +243,8 @@ public class Enemy : EnemyBase
             {
                 if (giantizationTimer <= 0f)
                 { 
-                    giantization += 0.1f;
                     giantizationTimer = 0.5f;
+                    giantization += 0.2f;
                 }
                 else 
                     giantizationTimer -= FixedDeltaTime; 
