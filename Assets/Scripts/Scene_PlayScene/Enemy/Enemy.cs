@@ -10,44 +10,6 @@ public class Enemy : EnemyBase
 
     Sprites.Enemys _type;
 
-    void Init_HpAndSprite()
-    {
-        Sprite sprite = LoadResource<Sprite>(_type);
-        gameObject.SetSpriteAndPolygon(sprite);
-        float size = 0;
-        switch (_type)
-        {
-            case Sprites.Enemys.Shadow: _hp = 100; break;
-            case Sprites.Enemys.VoidCavity: _hp = 12; size = 31.4f; break;
-            case Sprites.Enemys.CrazyLaughMask: _hp = 18; size = 31.9f; break;
-            case Sprites.Enemys.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
-            case Sprites.Enemys.Bird: _hp = 20; size = 31.0f; break;
-            case Sprites.Enemys.SadEyes: _hp = 20; size = 31.4f; break;
-            case Sprites.Enemys.ThePiedPiper: _hp = 18; size = 36.6f; break;
-            case Sprites.Enemys.Fire: _hp = 23; size = 40.5f; break;
-            case Sprites.Enemys.Red: _hp = 25; size = 54.9f; break;
-            case Sprites.Enemys.SnowLady: _hp = 23; size = 50.0f; break;
-            case Sprites.Enemys.BossDino: _hp = 100; size = 76.8f; break;
-        }
-        transform.localScale = Vector3.one * size;
-    }
-
-    public void Init(Sprites.Enemys type)
-    {
-        base.Init();
-        _type = type;
-        onNightmareEvent.Add(this, DeleteThisClone);
-        Init_HpAndSprite();
-        StartCoroutine(Loop_Move());
-        StartCoroutine(Loop_Attack());
-        StartCoroutine(Loop_Shadow_Logic());
-        StartCoroutine(Loop_Flap_Bird());
-        StartCoroutine(Loop_Jump_Thepiedpiper());
-        StartCoroutine(Loop_Jump_Dino());
-
-        Init_HiddenNameLogic();
-    }
-
     protected override void DeleteThisClone()
     {
         Debug.Log($"삭제함: {_type.ToString()}");
@@ -150,14 +112,49 @@ public class Enemy : EnemyBase
     }
     #endregion
 
+    public void Init(Sprites.Enemys type)
+    {
+        base.Init();
+        _type = type;
+        onNightmareEvent.Add(this, DeleteThisClone);
+        Init_HpAndSprite();
+        StartCoroutine(Loop_Move());
+        StartCoroutine(Loop_Attack());
+        StartCoroutine(Loop_Shadow_Logic());
+        StartCoroutine(Loop_Flap_Bird());
+        StartCoroutine(Loop_Jump_Thepiedpiper());
+        StartCoroutine(Loop_Jump_Dino());
+
+        Init_HiddenNameLogic();
+    }
+
+    void Init_HpAndSprite()
+    {
+        Sprite sprite = LoadResource<Sprite>(_type);
+        gameObject.SetSpriteAndPolygon(sprite);
+        float size = 0;
+        switch (_type)
+        {
+            case Sprites.Enemys.Shadow: _hp = 55; break;
+            case Sprites.Enemys.VoidCavity: _hp = 12; size = 31.4f; break;
+            case Sprites.Enemys.CrazyLaughMask: _hp = 18; size = 31.9f; break;
+            case Sprites.Enemys.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
+            case Sprites.Enemys.Bird: _hp = 20; size = 31.0f; break;
+            case Sprites.Enemys.SadEyes: _hp = 20; size = 31.4f; break;
+            case Sprites.Enemys.ThePiedPiper: _hp = 18; size = 36.6f; break;
+            case Sprites.Enemys.Fire: _hp = 23; size = 40.5f; break;
+            case Sprites.Enemys.Red: _hp = 25; size = 54.9f; break;
+            case Sprites.Enemys.SnowLady: _hp = 23; size = 50.0f; break;
+            case Sprites.Enemys.BossDino: _hp = 100; size = 76.8f; break;
+        }
+        transform.localScale = Vector3.one * size;
+    }
+
     protected override IEnumerator WhenTakingDamage(int damage)
     {
+        // 영도는 일반적인 공격에 효과 없음
         if (_type == Sprites.Enemys.Shadow)
-        {
-            _hp -= damage;
-            yield return WaitForSeconds(0.1f);
             yield break;
-        }
 
         _hp -= damage;
         if (_hp < 0) 
@@ -223,28 +220,61 @@ public class Enemy : EnemyBase
 
     IEnumerator Loop_Shadow_Logic()
     {
+        // 영도가 아닐 시 바로 종료
+        if (_type != Sprites.Enemys.Shadow)
+            yield break;
+
+        // 체력 변화: 100~0 
+        // 크기 변화: 200~55 = 55+(145~0)
+
+        // 최소 크기 55
+        // hp변화당 1.45크기변화
+
+        // 기존 카메라 타격 횟수: 100/0.5 = 200회
+
+        float giantization = 0;
+
+        float giantizationTimer = 10f;
+
         while (true)
         {
-            if (_type != Sprites.Enemys.Shadow)
-                yield return WaitUntil(() => _type == Sprites.Enemys.Shadow);
-
-            if (_hp > 0)
-                transform.localScale = Vector3.one * (255f - _hp * _hp / 50f);
-            else
-                shadowState = ShadowState.Giantization;
-
-            if (_hp > 100)
+            // 거대화
+            if (giantization < 1f)
             {
-                shadowState = ShadowState.Killed;
-                DeleteThisClone();
+                if (giantizationTimer <= 0f)
+                { 
+                    giantization += 0.1f;
+                    giantizationTimer = 0.5f;
+                }
+                else 
+                    giantizationTimer -= FixedDeltaTime; 
+            }
+            else
+            {
+                giantization = 1f;
+                shadowState = ShadowState.EndOfGiantization;
             }
 
+            // 카메라 빛에 피해 받기
+            if (IsContactCameraLight)
+            {
+                _hp -= 0.5f;
+
+                // 죽음
+                if (_hp <= 0)
+                {
+                    shadowState = ShadowState.Killed;
+                    DeleteThisClone();
+                }
+            }
+
+            // 크기 업데이트
+            transform.localScale = Vector3.one * (55f + giantization * _hp * 1.45f);
+
+            // 특수기술 캔슬링
             if (IsContactMoonlightswordShield ||
                 IsContactBossDinoSkill ||
                 IsContactWaterPrison) onDisarmSpecialSkill.Call();
-
-            if (IsContactCameraLight)
-                _hp += 0.5f;
 
             yield return waitForFixedUpdate;
         }

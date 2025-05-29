@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using static Utile;
@@ -22,12 +22,12 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
     {
         if (currentCharacter == Sprites.Characters.Suhyen)
         {
-            _text.text = "Ä«¸Þ¶óÀÇ ºûÀ¸·Î Ã³Ä¡ÇÏ¼¼¿ä!";
+            _text.text = "ì¹´ë©”ë¼ì˜ ë¹›ìœ¼ë¡œ ì²˜ì¹˜í•˜ì„¸ìš”!";
             _text.color = StringToColor("#ebfad1");
         }
         else if (wave == 15)
         {
-            _text.text = "°ø·æÀ» Ã³Ä¡ÇÏ¼¼¿ä!";
+            _text.text = "ê³µë£¡ì„ ì²˜ì¹˜í•˜ì„¸ìš”!";
             _text.color = StringToColor("#ff0000");
         }
         else
@@ -37,16 +37,16 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
             else
                 _text.color = StringToColor("#3e5c0a");
 
-            _text.text = "´ÙÀ½ ¿þÀÌºê±îÁö:";
+            _text.text = "ë‹¤ìŒ ì›¨ì´ë¸Œê¹Œì§€:";
             if (remainingWaveSecond > 0)
             {
-                _text.text += $"{remainingWaveSecond}ÃÊ";
+                _text.text += $"{remainingWaveSecond}ì´ˆ";
                 if (remainingWaveKill > 0)
                     _text.text += ",";
             }
             if (remainingWaveKill > 0)
             {
-                _text.text += $"{remainingWaveKill}Å³";
+                _text.text += $"{remainingWaveKill}í‚¬";
             }
         }
     }
@@ -131,7 +131,7 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
     {
         if (wave == 1)
         {
-            if (shadowState == ShadowState.Giantization)
+            if (shadowState == ShadowState.EndOfGiantization)
                 _text.enabled = true;
             else
                 _text.enabled = false;

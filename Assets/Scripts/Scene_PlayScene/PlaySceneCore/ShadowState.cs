@@ -1,7 +1,7 @@
-public enum ShadowState
+﻿public enum ShadowState
 { 
     None, 
     Killed, 
-    Giantization 
+    EndOfGiantization 
 }
 

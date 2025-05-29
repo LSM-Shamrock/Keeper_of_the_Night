@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -83,7 +83,7 @@ public class Character : PlaySceneObjectBase
     {
         while (true)
         {
-            if (shadowState != ShadowState.Giantization)
+            if (shadowState != ShadowState.EndOfGiantization)
             {
                 yield return waitForFixedUpdate;
                 continue;
@@ -135,7 +135,7 @@ public class Character : PlaySceneObjectBase
         {
             if (IsPressedT)
             {
-                yield return SpeechAndWaitInput("¾ß±« ÀÌ¸§ ¿ÜÄ¡±â:", inpuut => shoutedEnemyName = inpuut);
+                yield return SpeechAndWaitInput("ì•¼ê´´ ì´ë¦„ ì™¸ì¹˜ê¸°:", inpuut => shoutedEnemyName = inpuut);
                 foreach (int i in Count(3))
                 {
                     yield return SpeechForSeconds(shoutedEnemyName + "!", 0.5f);

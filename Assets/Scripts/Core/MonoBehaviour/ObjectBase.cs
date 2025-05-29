@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -15,15 +15,16 @@ public class ObjectBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         return distance;
     }
 
-    // º¯¼ö
+    // ë³€ìˆ˜
     protected static int wave;
     protected static Sprites.Characters selectedCharacter = Sprites.Characters.Sleepground;
-    protected static string characterDescription = "¿ù±¤°ËÀ¸·Î ±Ù°Å¸® °ø°İ";
-    protected static string specialDescription = "¿ù±¤°Ë ¹æ¾î¸·";
+    protected static string characterDescription = "ì›”ê´‘ê²€ìœ¼ë¡œ ê·¼ê±°ë¦¬ ê³µê²©";
+    protected static string specialDescription = "ì›”ê´‘ê²€ ë°©ì–´ë§‰";
     protected static int characterMaxHealth = 200;
 
 
-    // Èå¸§
+    // íë¦„
+    protected float FixedDeltaTime => Time.fixedDeltaTime;
     protected readonly WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
     protected WaitForSeconds WaitForSeconds(float seconds)
@@ -44,7 +45,7 @@ public class ObjectBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             yield return i;
     }
 
-    // ÀÔ·Â 
+    // ì…ë ¥ 
     protected bool IsContactMousePointer { get; private set; }
     protected bool IsMouseClicked { get; private set; }
     protected bool IsPressedW { get; private set; }
@@ -75,7 +76,7 @@ public class ObjectBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 
-    // ¸»ÇÏ±â
+    // ë§í•˜ê¸°
     static Transform SpeechbubbleRoot
     {
         get
