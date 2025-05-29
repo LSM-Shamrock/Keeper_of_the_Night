@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,21 +50,21 @@ public class Enemy : EnemyBase
 
     protected override void DeleteThisClone()
     {
-        Debug.Log($"»èÁ¦ÇÔ: {_type.ToString()}");
+        Debug.Log($"ì‚­ì œí•¨: {_type.ToString()}");
         base.DeleteThisClone();
     }
 
-    #region ¾ß±« ÀÌ¸§ ¿ÜÄ¡±â
+    #region ì•¼ê´´ ì´ë¦„ ì™¸ì¹˜ê¸°
     string _hiddenName;
     void Init_HiddenNameLogic()
     {
         switch (_type)
         {
             case Sprites.Enemys.ThePiedPiper:
-                _hiddenName = "ÇÏ¹Î¿ì";
+                _hiddenName = "í•˜ë¯¼ìš°";
                 break;
             case Sprites.Enemys.BossDino:
-                _hiddenName = "°ø·æ";
+                _hiddenName = "ê³µë£¡";
                 break;
 
             default:
@@ -116,14 +116,14 @@ public class Enemy : EnemyBase
 
             if (shoutedEnemyName == _hiddenName)
             {
-                Debug.Log("¾ß±« ÀÌ¸§ ÀûÁß : " + _hiddenName + " : " + _type.ToString());
+                Debug.Log("ì•¼ê´´ ì´ë¦„ ì ì¤‘ : " + _hiddenName + " : " + _type.ToString());
                 yield return WaitForSeconds(0.25f);
                 CreateNameParticles();
                 if (_type == Sprites.Enemys.BossDino)
                 {
-                    yield return SpeechForSeconds("À¹!", 0.75f);
-                    yield return SpeechForSeconds("À¸¾Æ¾Ñ", 1f);
-                    yield return SpeechForSeconds("ÀÌ·² ÁÙ ¾Ë¾ÒÁÒ?", 1.5f);
+                    yield return SpeechForSeconds("ìœ½!", 0.75f);
+                    yield return SpeechForSeconds("ìœ¼ì•„ì•—", 1f);
+                    yield return SpeechForSeconds("ì´ëŸ´ ì¤„ ì•Œì•˜ì£ ?", 1.5f);
                 }
 
                 else
@@ -152,23 +152,24 @@ public class Enemy : EnemyBase
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        _hp -= damage;
         if (_type == Sprites.Enemys.Shadow)
         {
+            _hp -= damage;
             yield return WaitForSeconds(0.1f);
+            yield break;
         }
-        else if (_hp > 0) 
+
+        _hp -= damage;
+        if (_hp < 0) 
         {
-            yield return SpeechForSeconds(_hp.ToString(), 0.1f);
-        }
-        else
-        {
+            remainingWaveKill -= 1;
+
             if (_type == Sprites.Enemys.BossDino) 
                 isBossDinoKilled = true;
 
-            remainingWaveKill -= 1;
             DeleteThisClone();
         }
+        yield return SpeechForSeconds(_hp.ToString(), 0.1f);
     }
 
     void CreatePoison()
@@ -362,7 +363,7 @@ public class Enemy : EnemyBase
         if (_type == Sprites.Enemys.CrazyLaughMask)
         {
             if (RandomNumber(1, 500) == 1)
-                yield return SpeechForSeconds("¤»ÈåÇÏÇÏÇÏÇÏÁK¤»ÅˆÈåÇÏÁK", 1f);
+                yield return SpeechForSeconds("ã…‹íí•˜í•˜í•˜í•˜í•³ã…‹í«íí•˜í•³", 1f);
         }
         if (DistanceTo(Character) < 50f)
         {
@@ -684,7 +685,7 @@ public class Enemy : EnemyBase
 
         if (DistanceTo(Character) < 200)
         {
-            Speech("¢Ü");
+            Speech("â™ª");
             foreach (int i in Count(RandomNumber(3, 6)))
             {
                 CallingRat();
