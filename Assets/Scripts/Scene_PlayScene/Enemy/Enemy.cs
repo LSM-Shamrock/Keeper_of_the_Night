@@ -135,7 +135,7 @@ public class Enemy : EnemyBase
         float size = 0;
         switch (_type)
         {
-            case Sprites.Enemys.Shadow: _hp = 55; break;
+            case Sprites.Enemys.Shadow: _hp = 100; break;
             case Sprites.Enemys.VoidCavity: _hp = 12; size = 31.4f; break;
             case Sprites.Enemys.CrazyLaughMask: _hp = 18; size = 31.9f; break;
             case Sprites.Enemys.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
@@ -232,27 +232,30 @@ public class Enemy : EnemyBase
 
         // 기존 카메라 타격 횟수: 100/0.5 = 200회
 
+        float timer = 5f;
         float giantization = 0;
 
-        float giantizationTimer = 2f;
+        const float Interval = 1f;
 
         while (true)
         {
             // 거대화
             if (giantization < 1f)
             {
-                if (giantizationTimer <= 0f)
-                { 
-                    giantizationTimer = 0.5f;
-                    giantization += 0.2f;
+                timer += FixedDeltaTime;
+                _sr.SetBrightness(-0.75f * (timer / Interval));
+            
+                if (timer >= Interval)
+                {
+                    timer = 0;
+                    giantization += 0.25f;
                 }
-                else 
-                    giantizationTimer -= FixedDeltaTime; 
             }
             else
             {
                 giantization = 1f;
                 shadowState = ShadowState.EndOfGiantization;
+                _sr.SetBrightness(0f);
             }
 
             // 크기 업데이트
