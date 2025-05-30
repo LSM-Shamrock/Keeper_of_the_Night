@@ -232,7 +232,7 @@ public class Enemy : EnemyBase
 
         // 기존 카메라 타격 횟수: 100/0.5 = 200회
 
-        float timer = 5f;
+        float timer = -5f;
         float giantization = 0;
 
         const float Interval = 1f;
@@ -243,7 +243,9 @@ public class Enemy : EnemyBase
             if (giantization < 1f)
             {
                 timer += FixedDeltaTime;
-                _sr.SetBrightness(-0.75f * (timer / Interval));
+
+                if (timer > 0f)
+                    _sr.SetBrightness(-0.75f * (timer / Interval));
             
                 if (timer >= Interval)
                 {
