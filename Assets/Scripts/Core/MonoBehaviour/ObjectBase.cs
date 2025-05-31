@@ -83,7 +83,7 @@ public class ObjectBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (s_speechbubbleRoot == null)
             {
-                var prefab = Utile.LoadResource<GameObject>(Prefabs.SpeechbubbleCanvas);
+                var prefab = Utile.LoadResource<GameObject>(Prefabs.Core.SpeechbubbleCanvas);
                 var go = prefab.CreateClone();
                 var canvas = go.Component<Canvas>();
                 canvas.worldCamera = Camera.main;
@@ -102,7 +102,7 @@ public class ObjectBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (s_inputbox == null)
             {
-                var prefab = Utile.LoadResource<GameObject>(Prefabs.InputboxCanvas);
+                var prefab = Utile.LoadResource<GameObject>(Prefabs.Core.InputboxCanvas);
                 var go = prefab.CreateClone();
                 var inputbox = go.Component<Inputbox>();
                 inputbox.Init();
@@ -120,7 +120,7 @@ public class ObjectBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         else
         {
-            var prefab = Utile.LoadResource<GameObject>(Prefabs.Speechbubble);
+            var prefab = Utile.LoadResource<GameObject>(Prefabs.Core.Speechbubble);
             var go = Instantiate(prefab, SpeechbubbleRoot);
             speechbubble = go.Component<Speechbubble>();
             speechbubble.Init(transform);

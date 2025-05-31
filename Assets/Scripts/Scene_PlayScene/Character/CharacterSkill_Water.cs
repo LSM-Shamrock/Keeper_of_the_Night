@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CharacterSkill_Water : PlaySceneObjectBase
@@ -54,7 +54,7 @@ public class CharacterSkill_Water : PlaySceneObjectBase
             transform.AddY(-fallAndSlowdown);
             fallAndSlowdown += 0.05f;
 
-            if (col.IsContact(Prefabs.Enemy))
+            if (col.IsContact(Prefabs.Scene_PlayScene.Enemy))
             {
                 if (size > 10f)
                 {

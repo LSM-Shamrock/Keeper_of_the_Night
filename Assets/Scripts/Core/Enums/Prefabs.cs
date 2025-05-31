@@ -1,26 +1,36 @@
+﻿
 
-public enum Prefabs
+public class Prefabs
 {
-    SpeechbubbleCanvas,
-    Speechbubble,
-    InputboxCanvas,
+    public enum Core
+    {
+        SpeechbubbleCanvas,
+        Speechbubble,
+        InputboxCanvas,
+    }
 
-    CharacterSkill_CameraFlash,
-    CharacterSkill_MoonlightgunBullet,
+    public enum Scene_PlayScene
+    {
+        CharacterSkill_CameraFlash,
+        CharacterSkill_MoonlightgunBullet,
 
-    Enemy_Dreamghost_ButterflyParticle,
-    Enemy_Dreamghost_Phantom,
-    Enemy_Dreamghost_Whiteout,
+        Enemy_Dreamghost_ButterflyParticle,
+        Enemy_Dreamghost_Phantom,
+        Enemy_Dreamghost_Whiteout,
 
-    Enemy,
-    EnemySkill_Rat,
-    EnemyProjectile_Poison,
-    EnemyProjectile_Whirlwind,
-    EnemyProjectile_Fire,
-    EnemyProjectile_IceShard,
-    EnemyProjectile_DinoProjectile,
+        Enemy,
+        EnemySkill_Rat,
+        EnemyProjectile_Poison,
+        EnemyProjectile_Whirlwind,
+        EnemyProjectile_Fire,
+        EnemyProjectile_IceShard,
+        EnemyProjectile_DinoProjectile,
 
-    EnemyHiddenNameParticle,
+        EnemyHiddenNameParticle,
+    }
 
-    Ending_Particle,
+    public enum Scene_EndingScene
+    {
+        Ending_Particle,
+    }
 }

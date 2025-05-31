@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections;
 using UnityEngine;
 using static Utile;
@@ -33,7 +33,7 @@ public class CharacterSkill_Camera : PlaySceneObjectBase
 
     void Flash()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.CharacterSkill_CameraFlash);
+        var prefab = LoadResource<GameObject>(Prefabs.Scene_PlayScene.CharacterSkill_CameraFlash);
         var go = prefab.CreateClone();
         var flash = go.GetComponent<CharacterSkill_CameraFlash>();
         flash.Init(transform.position, _direction);

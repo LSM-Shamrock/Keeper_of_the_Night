@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using static Utile;
 
@@ -17,21 +17,21 @@ public class DreamGhost : EnemyBase
 
     void CreateButterflyParticle()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Enemy_Dreamghost_ButterflyParticle);
+        var prefab = LoadResource<GameObject>(Prefabs.Scene_PlayScene.Enemy_Dreamghost_ButterflyParticle);
         var go = Instantiate(prefab, transform.position, Quaternion.identity);
         var butterfly = go.GetComponent<DreamGhost_ButterflyParticle>();
         butterfly.OnCreated();
     }
     void CreatePhantom()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Enemy_Dreamghost_Phantom);
+        var prefab = LoadResource<GameObject>(Prefabs.Scene_PlayScene.Enemy_Dreamghost_Phantom);
         var go = Instantiate(prefab);
         var phantom = go.GetComponent<DreamGhost_Phantom>();
         phantom.Init();
     }
     IEnumerator WhiteoutEffect()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Enemy_Dreamghost_Whiteout);
+        var prefab = LoadResource<GameObject>(Prefabs.Scene_PlayScene.Enemy_Dreamghost_Whiteout);
         var go = Instantiate(prefab, Vector3.zero, Quaternion.identity);
         var sr = go.GetComponent<SpriteRenderer>();
 

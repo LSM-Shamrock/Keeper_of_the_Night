@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CharacterSkill_MoonlightGun : PlaySceneObjectBase
@@ -26,7 +26,7 @@ public class CharacterSkill_MoonlightGun : PlaySceneObjectBase
 
     void Shoot()
     {
-        var prefab = Utile.LoadResource<GameObject>(Prefabs.CharacterSkill_MoonlightgunBullet);
+        var prefab = Utile.LoadResource<GameObject>(Prefabs.Scene_PlayScene.CharacterSkill_MoonlightgunBullet);
         var go = prefab.CreateClone();
         go.transform.position = transform.position;
         var bullet = go.Component<CharacterSkill_MoonlightgunBullet>();

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CharacterSkill_WaterPrison : PlaySceneObjectBase
@@ -12,7 +12,7 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
     SpriteRenderer _sr;
     Collider2D _col;
 
-    bool IsContactEnemy => _col.IsContact(Prefabs.Enemy);
+    bool IsContactEnemy => _col.IsContact(Prefabs.Scene_PlayScene.Enemy);
 
     void Init()
     {
