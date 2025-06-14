@@ -1,5 +1,10 @@
-public class Sprites
+﻿public class Sprites
 {
+    public enum Cursor
+    {
+        Moonlightsword,
+    }
+
     public enum Characters
     {
         Sleepground,

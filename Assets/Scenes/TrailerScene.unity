@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 921946412}
   - component: {fileID: 921946411}
   - component: {fileID: 921946410}
+  - component: {fileID: 921946413}
   m_Layer: 5
   m_Name: TrailerCanvas
   m_TagString: Untagged
@@ -569,6 +570,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &921946413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 180147521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a519f4ac1e770147a68a4e171391616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1333266283
 PrefabInstance:
   m_ObjectHideFlags: 0
