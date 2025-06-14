@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,8 +8,15 @@ public class Trailer_ClickToStart : ObjectBase
 {
     protected override void Start()
     {
+        SetCusorSprite();
         StartCoroutine(Co_SizeUpdate());
         StartCoroutine(Co_ClickCheck());
+    }
+
+    private void SetCusorSprite()
+    {
+        Texture2D texture2D = LoadResource<Texture2D>(Sprites.Cursor.Moonlightsword);
+        Cursor.SetCursor(texture2D, Vector2.zero, CursorMode.ForceSoftware);
     }
 
     private IEnumerator Co_SizeUpdate()

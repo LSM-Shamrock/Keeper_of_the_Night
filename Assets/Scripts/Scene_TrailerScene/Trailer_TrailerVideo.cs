@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using static Utile;
 
-public class Trailer_Trailer : ObjectBase
+public class Trailer_TrailerVideo : ObjectBase
 {
     VideoPlayer _videoPlayer;
 

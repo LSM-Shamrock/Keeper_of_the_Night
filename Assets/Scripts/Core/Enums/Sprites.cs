@@ -1,4 +1,4 @@
-public class Sprites
+﻿public class Sprites
 {
     public enum Characters
     {
@@ -77,6 +77,11 @@ public class Sprites
         Endcard_1,
         Endcard_2,
         ThankYouForPlaying,
+    }
+
+    public enum Cursor
+    {
+        Moonlightsword,
     }
 
     public enum Thumbnails
