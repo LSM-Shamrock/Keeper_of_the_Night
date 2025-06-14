@@ -8,15 +8,15 @@ public class Trailer_ClickToStart : ObjectBase
 {
     protected override void Start()
     {
-        SetCusorSprite();
         StartCoroutine(Co_SizeUpdate());
         StartCoroutine(Co_ClickCheck());
+        SetCusorSprite();
     }
 
     private void SetCusorSprite()
     {
         Texture2D texture2D = LoadResource<Texture2D>(Sprites.Cursor.Moonlightsword);
-        Cursor.SetCursor(texture2D, Vector2.zero, CursorMode.ForceSoftware);
+        Cursor.SetCursor(texture2D, Vector2.zero, CursorMode.Auto);
     }
 
     private IEnumerator Co_SizeUpdate()
