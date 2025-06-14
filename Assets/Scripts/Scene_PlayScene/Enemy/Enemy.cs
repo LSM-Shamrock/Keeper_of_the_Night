@@ -152,21 +152,23 @@ public class Enemy : EnemyBase
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        // 영도는 일반적인 공격에 효과 없음
         if (_type == Sprites.Enemys.Shadow)
             yield break;
 
         _hp -= damage;
-        if (_hp < 0) 
+        if (_hp > 0)
         {
-            remainingWaveKill -= 1;
-
-            if (_type == Sprites.Enemys.BossDino) 
+            yield return SpeechForSeconds(_hp.ToString(), 0.1f);
+        }
+        else
+        {
+            if (_type == Sprites.Enemys.BossDino)
+            {
                 isBossDinoKilled = true;
-
+            }
+            remainingWaveKill -= 1;
             DeleteThisClone();
         }
-        yield return SpeechForSeconds(_hp.ToString(), 0.1f);
     }
 
     void CreatePoison()

@@ -13,86 +13,93 @@ public class EnemyGenerator : PlaySceneObjectBase
 
     void Init()
     {
-        StartCoroutine(Loop_SelectEnemyCreate());
+        StartCoroutine(Loop());
     }
 
-    Sprites.Enemys RandomEnemy()
-    {
-        List<Sprites.Enemys> list = new();
-        foreach (Sprites.Enemys enemy in Enum.GetValues(typeof(Sprites.Enemys)))
-        {
-            switch (enemy)
-            {
-                case Sprites.Enemys.Shadow:
-                case Sprites.Enemys.DreamGhost:
-                case Sprites.Enemys.BossDino:
-                    break;
-                default:
-                    if ((int)enemy <= wave) list.Add(enemy); 
-                    break;
-            }
-        }
-        return Utile.RandomElement(list);
-    }
+    Vector3 position = new Vector3(250f, 0f);
     
-    void Create(Sprites.Enemys type)
+    void CreateEnemy(Sprites.Enemys type)
     {
-        Vector3 position = Vector3.zero;
-        position.x = RandomNumber(1, 2) == 1 ? 300 : -300;
         GameObject prefab = LoadResource<GameObject>(Prefabs.Scene_PlayScene.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
         enemy.transform.position = position;
         enemy.Init(type);
     }
-    
-    IEnumerator CreateAndWait(Sprites.Enemys type)
+
+    IEnumerator Logic_CreateEnemy(int enemyChoice)
     {
-        Create(type);
-        if (isNightmare)
-        {
-            yield return WaitForSeconds(RandomNumber(2.5f, 3.75f));
-        }
+        if (enemyChoice == 9 || enemyChoice == 10)
+            enemyChoice = Utile.RandomNumber(2, 8);
+        if (enemyChoice == 14)
+            enemyChoice = Utile.RandomNumber(2, 13);
+
+        if (Utile.RandomNumber(1, 2) == 1)
+            position.x = 300;
         else
-        {
-            yield return WaitForSeconds(RandomNumber(2.5f, 5f));
-        }
+            position.x = -300;
+
+        if (enemyChoice == 2)
+            CreateEnemy(Sprites.Enemys.VoidCavity);
+        if (enemyChoice == 3)
+            CreateEnemy(Sprites.Enemys.CrazyLaughMask);
+        if (enemyChoice == 4)
+            CreateEnemy(Sprites.Enemys.MotherSpiritSnake);
+        if (enemyChoice == 5)
+            CreateEnemy(Sprites.Enemys.Bird);
+        if (enemyChoice == 6)
+            CreateEnemy(Sprites.Enemys.SadEyes);
+        if (enemyChoice == 8)
+            CreateEnemy(Sprites.Enemys.ThePiedPiper);
+        if (enemyChoice == 11)
+            CreateEnemy(Sprites.Enemys.Fire);
+        if (enemyChoice == 12)
+            CreateEnemy(Sprites.Enemys.Red);
+        if (enemyChoice == 13)
+            CreateEnemy(Sprites.Enemys.SnowLady);
+
+        if (isNightmare)
+            yield return WaitForSeconds(Utile.RandomNumber(2.5f, 3.75f));
+        else
+            yield return WaitForSeconds(Utile.RandomNumber(2.5f, 5f));
     }
     
-    IEnumerator Loop_SelectEnemyCreate()
+    IEnumerator Loop()
     {
         while (true)
         {
             if (wave == 0)
             {
-                yield return CreateAndWait(Sprites.Enemys.Red);
+                yield return Logic_CreateEnemy(12);
             }
             else if (wave == 1)
             {
-                Create(Sprites.Enemys.Shadow);
+                CreateEnemy(Sprites.Enemys.Shadow);
                 yield return WaitUntil(() => wave != 1);
-            }
-            else if (wave == 15)
-            {
-                Create(Sprites.Enemys.BossDino);
-                while (wave == 15)
-                {
-                    yield return CreateAndWait(RandomEnemy());
-                    yield return WaitForSeconds(3f);
-                    yield return waitForFixedUpdate;
-                }
             }
             else
             {
-                if (wave == 7) onDreamghostAppearance.Call();
-                else if (Enum.IsDefined(typeof(Sprites.Enemys), wave))
-                    yield return CreateAndWait((Sprites.Enemys)wave);
-
-                int generateWave = wave;
-                while (wave == generateWave)
+                if (wave == 7)
                 {
-                    yield return CreateAndWait(RandomEnemy());
-                    yield return waitForFixedUpdate;
+                    onDreamghostAppearance.Call();
+                }
+                if (wave == 15)
+                {
+                    CreateEnemy(Sprites.Enemys.BossDino);
+                    while (wave == 15)
+                    {
+                        yield return Logic_CreateEnemy(Utile.RandomNumber(2, 13));
+                        yield return WaitForSeconds(3f);
+                    }
+                }
+                else
+                {
+                    Logic_CreateEnemy(wave);
+                    int checkingWave = wave;
+                    while (wave == checkingWave)
+                    {
+                        yield return Logic_CreateEnemy(Utile.RandomNumber(2, wave));
+                    }
                 }
             }
             yield return waitForFixedUpdate;
