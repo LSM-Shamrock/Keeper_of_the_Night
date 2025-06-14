@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -20,6 +20,11 @@ public static class AutoSceneSwitcher
 
         if (state == PlayModeStateChange.ExitingEditMode)
         {
+            // 확인 팝업
+            bool shouldSwitch = EditorUtility.DisplayDialog("시작 씬 변경", $"\"{startScene}\"으로 씬 전환", "예", "아니오");
+            if (!shouldSwitch)
+                return;
+
             string exitingScenePath = EditorSceneManager.GetActiveScene().path;
             EditorPrefs.SetString(PrefsKey, exitingScenePath);
             if (exitingScenePath != StartScenePath)
