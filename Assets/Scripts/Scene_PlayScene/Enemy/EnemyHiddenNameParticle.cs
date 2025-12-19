@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemyHiddenNameParticle : PlaySceneObjectBase
@@ -7,11 +7,11 @@ public class EnemyHiddenNameParticle : PlaySceneObjectBase
     {
         SpriteRenderer sr = gameObject.Component<SpriteRenderer>();
 
-        transform.localScale = Vector3.one * Utile.RandomNumber(8, 10);
-        sr.SetBrightness(Utile.RandomNumber(-0.05f, 0.25f));
+        transform.localScale = Vector3.one * Utility.RandomNumber(8, 10);
+        sr.SetBrightness(Utility.RandomNumber(-0.05f, 0.25f));
         transform.position = position;
-        transform.AddX(Utile.RandomNumber(-50, 50));
-        transform.AddY(Utile.RandomNumber(-10, 10));
+        transform.AddX(Utility.RandomNumber(-50, 50));
+        transform.AddY(Utility.RandomNumber(-10, 10));
         StartCoroutine(Routine());
     }
 

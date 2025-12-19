@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,9 +9,9 @@ public class Text_HP : PlaySceneObjectBase
     {
         _text = GetComponentInChildren<Text>();
 
-        remainingHealth = characterMaxHealth;
+        remainingHealth = Manager.Game.characterMaxHealth;
         suhyenHealth = 60;
-        healthInDream = characterMaxHealth / 2;
+        healthInDream = Manager.Game.characterMaxHealth / 2;
         StartCoroutine(StartCo_IncreaseSizeWhenPlayerDie());
     }
     private void FixedUpdate()
@@ -28,28 +28,28 @@ public class Text_HP : PlaySceneObjectBase
     }
     void Update_HealthLimit()
     {
-        if (remainingHealth > characterMaxHealth)
-            remainingHealth = characterMaxHealth;
-        else if (healthInDream > characterMaxHealth / 2)
-            healthInDream = characterMaxHealth / 2;
+        if (remainingHealth > Manager.Game.characterMaxHealth)
+            remainingHealth = Manager.Game.characterMaxHealth;
+        else if (healthInDream > Manager.Game.characterMaxHealth / 2)
+            healthInDream = Manager.Game.characterMaxHealth / 2;
     }
     void Update_SetText()
     {
         if (isNightmare)
         {
-            _text.text = $"≤ﬁø°º≠¿« HP:{healthInDream}/{characterMaxHealth / 2}";
-            _text.color = Utile.StringToColor("#7d6080");
+            _text.text = $"ÍøàÏóêÏÑúÏùò HP:{healthInDream}/{Manager.Game.characterMaxHealth / 2}";
+            _text.color = Utility.StringToColor("#7d6080");
         }
         else if (currentCharacter == Sprites.Characters.Suhyen)
         {
-            _text.text = $"ºˆ«ˆHP:{suhyenHealth}/{60}";
-            _text.color = Utile.StringToColor("#8f40ff");
+            _text.text = $"ÏàòÌòÑHP:{suhyenHealth}/{60}";
+            _text.color = Utility.StringToColor("#8f40ff");
             _text.fontStyle = FontStyle.Bold;
         }
         else
         {
-            _text.text = $"HP:{remainingHealth}/{characterMaxHealth}";
-            _text.color = Utile.StringToColor("#806262");
+            _text.text = $"HP:{remainingHealth}/{Manager.Game.characterMaxHealth}";
+            _text.color = Utility.StringToColor("#806262");
             _text.fontStyle = FontStyle.Normal;
         }
     }

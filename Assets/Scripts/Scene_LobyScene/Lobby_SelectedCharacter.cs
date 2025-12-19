@@ -1,7 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine.UI;
 
-public class Lobby_SelectedCharacter : ObjectBase
+public class Lobby_SelectedCharacter : BaseController
 {
     protected override void Start()
     {
@@ -14,7 +14,7 @@ public class Lobby_SelectedCharacter : ObjectBase
         Text text = GetComponentInChildren<Text>();
         while (true)
         {
-            text.text = selectedCharacter.ToString();
+            text.text = Manager.Game.selectedCharacter.ToString();
             yield return null;
         }
     }

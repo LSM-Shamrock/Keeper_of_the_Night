@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
@@ -62,7 +62,7 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
             {
                 case Sprites.Characters.Dino:
 
-                    color = Utile.StringToColor("#16c72e");
+                    color = Utility.StringToColor("#16c72e");
                     position = (EndingProgress > 4 ? sleepground : dino).position;
                     position.y += 30;
                     if (EndingProgress == 28)
@@ -74,7 +74,7 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
 
                 case Sprites.Characters.Heptagram:
 
-                    color = Utile.StringToColor("#e8e230");
+                    color = Utility.StringToColor("#e8e230");
                     position = heptagram.position;
                     position.y += 30;
                     if (EndingProgress == 25)
@@ -86,7 +86,7 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
 
                 case Sprites.Characters.Rather:
 
-                    color = Utile.StringToColor("#2fc9e8");
+                    color = Utility.StringToColor("#2fc9e8");
                     position = rather.position;
                     position.y += 30;
                     break;
@@ -100,7 +100,7 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
 
     IEnumerator Loop_AddProgress()
     {
-        yield return WaitUntil(() => !IsMouseClicked);
+        yield return WaitUntil(() => !Manager.Input.IsMouseClicked);
         yield return WaitForSeconds(0.5f);
         while (true)
         {
@@ -112,10 +112,10 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
                     yield return WaitForSeconds(0.1f);
                 }
 
-                if (IsMouseClicked)
+                if (Manager.Input.IsMouseClicked)
                 {
                     EndingProgress++;
-                    yield return WaitUntil(() => !IsMouseClicked);
+                    yield return WaitUntil(() => !Manager.Input.IsMouseClicked);
                     yield return WaitForSeconds(0.1f);
                 }
             }

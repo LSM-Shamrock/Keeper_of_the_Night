@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Reflection;
 
-public static class Utile 
+public static class Utility 
 {
     static Dictionary<(Type, string), object> s_resources = new();
     public static T LoadResource<T>(Enum pathEnumValue) where T : UnityEngine.Object

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemyProjectile_IceShard : EnemyProjectile
@@ -7,7 +7,7 @@ public class EnemyProjectile_IceShard : EnemyProjectile
     {
         yield return WaitUntil(() => IsContactCharacter);
         TakeDamageToPlayer(11);
-        _sr.sprite = Utile.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
+        _sr.sprite = Utility.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 50f;
         ice += 4;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,8 +7,8 @@ public class Text_Wave : PlaySceneObjectBase
     protected override void Start()
     {
         
-        remainingHealth = characterMaxHealth;
-        healthInDream = characterMaxHealth / 2;
+        remainingHealth = Manager.Game.characterMaxHealth;
+        healthInDream = Manager.Game.characterMaxHealth / 2;
         StartCoroutine(Start_IncreaseSizeWhenPlayerDie());
         StartCoroutine(Start_UpdateText());
     }
@@ -25,14 +25,14 @@ public class Text_Wave : PlaySceneObjectBase
         {
             if (isNightmare)
             {
-                text.text = $"WAVE:7 - �Ǹ�";
-                text.color = Utile.StringToColor("#704080");
+                text.text = $"WAVE:7 - 악몽";
+                text.color = Utility.StringToColor("#704080");
                 transform.localScale += Vector3.one * 0.18f;
                 yield return WaitUntil(() => !isNightmare);
                 transform.localScale += Vector3.one * -0.18f;
             }
-            text.text = $"WAVE:{wave}";
-            text.color = Utile.StringToColor("#3e5c0a");
+            text.text = $"WAVE:{Manager.Game.wave}";
+            text.color = Utility.StringToColor("#3e5c0a");
             yield return null;
         }
     }

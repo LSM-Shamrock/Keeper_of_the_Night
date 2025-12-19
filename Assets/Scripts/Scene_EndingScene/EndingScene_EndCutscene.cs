@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -10,9 +10,9 @@ public class EndingScene_EndCutscene : EndingSceneObjectBase
     Image _back;
     Image _front;
 
-    Sprite ThankYouForPlaying => Utile.LoadResource<Sprite>(Sprites.Ending.ThankYouForPlaying);
-    Sprite Endcard_1 => Utile.LoadResource<Sprite>(Sprites.Ending.Endcard_1);
-    Sprite Endcard_2 => Utile.LoadResource<Sprite>(Sprites.Ending.Endcard_2);
+    Sprite ThankYouForPlaying => Utility.LoadResource<Sprite>(Sprites.Ending.ThankYouForPlaying);
+    Sprite Endcard_1 => Utility.LoadResource<Sprite>(Sprites.Ending.Endcard_1);
+    Sprite Endcard_2 => Utility.LoadResource<Sprite>(Sprites.Ending.Endcard_2);
 
 
     protected override void Start()
@@ -42,7 +42,7 @@ public class EndingScene_EndCutscene : EndingSceneObjectBase
             if (match.Success)
             {
                 Sprites.Ending enumValue = Enum.Parse<Sprites.Ending>(match.Groups["sprite"].Value);
-                Sprite sprite = Utile.LoadResource<Sprite>(enumValue);
+                Sprite sprite = Utility.LoadResource<Sprite>(enumValue);
                 _front.sprite = sprite;
             }
 

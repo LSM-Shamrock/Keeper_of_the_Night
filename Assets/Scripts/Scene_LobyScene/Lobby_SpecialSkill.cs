@@ -1,8 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lobby_SpecialSkill : ObjectBase
+public class Lobby_SpecialSkill : BaseController
 {
     protected override void Start()
     {
@@ -15,7 +15,7 @@ public class Lobby_SpecialSkill : ObjectBase
         Text text = GetComponentInChildren<Text>();
         while (true)
         {
-            text.text = "Æ¯¼ö±â¼ú:" + specialDescription;
+            text.text = "íŠ¹ìˆ˜ê¸°ìˆ :" + Manager.Game.specialDescription;
             yield return null;
         }
     }

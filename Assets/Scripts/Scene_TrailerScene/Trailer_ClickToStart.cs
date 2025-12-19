@@ -1,10 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static Utile;
+using static Utility;
 
-public class Trailer_ClickToStart : ObjectBase
+public class Trailer_ClickToStart : BaseController
 {
     protected override void Start()
     {

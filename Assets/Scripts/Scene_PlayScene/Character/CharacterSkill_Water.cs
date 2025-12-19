@@ -21,7 +21,7 @@ public class CharacterSkill_Water : PlaySceneObjectBase
         while (true)
         {
             yield return WaitUntil(() => currentCharacter == Sprites.Characters.Rather);
-            if (IsMouseClicked)
+            if (Manager.Input.IsMouseClicked)
             {
                 StartCoroutine(Throw());
                 yield return WaitForSeconds(0.3f);
@@ -41,8 +41,8 @@ public class CharacterSkill_Water : PlaySceneObjectBase
 
         transform.position = Character.position;
 
-        Vector3 direction = (Utile.MousePosition - transform.position).normalized;
-        transform.rotation = Utile.Direction2Rotation(direction);
+        Vector3 direction = (Utility.MousePosition - transform.position).normalized;
+        transform.rotation = Utility.Direction2Rotation(direction);
 
         go.SetActive(true);
 

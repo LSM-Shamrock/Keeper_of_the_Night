@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class EndingSceneObjectBase : ObjectBase
+public abstract class EndingSceneObjectBase : BaseController
 {
 
     protected readonly static Dictionary<Sprites.Characters, Transform> Character = new();
@@ -17,34 +17,34 @@ public abstract class EndingSceneObjectBase : ObjectBase
     protected static readonly string[] EndingScript = new[]
     {
         string.Empty,
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ³Ê´Â µ¹¾Æ°¡¸é ¶Ç´Ù½Ã ±â¾ïÀ» ÀÒ°í Çàº¹ÇÏ°Ô »ì ¼ö ÀÖ°ÚÁö..",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ÇÏÁö¸¸ ³­ ¾Æ´Ï¾ß",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ³»¾ÆµéÀ» º¸°íµµ ¾Ë¾Æº¸Áö ¸øÇÑ »ç½ÇÀÌ ¾ó¸¶³ª..",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ë„ˆëŠ” ëŒì•„ê°€ë©´ ë˜ë‹¤ì‹œ ê¸°ì–µì„ ìƒê³  í–‰ë³µí•˜ê²Œ ì‚´ ìˆ˜ ìˆê² ì§€..",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) í•˜ì§€ë§Œ ë‚œ ì•„ë‹ˆì•¼",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ë‚´ì•„ë“¤ì„ ë³´ê³ ë„ ì•Œì•„ë³´ì§€ ëª»í•œ ì‚¬ì‹¤ì´ ì–¼ë§ˆë‚˜..",
         string.Empty,                                           
-        nameof(Sprites.Characters.Rather) +     "(¶ó´õ) ¾ß ÀÌ ½âÀ»³ğ¾Æ!",
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) ¾ÈµÅ,¾ÈµÅ!",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ³ª¸¸ ÀÌ·¸°Ô ´çÇÏ°í °¥¼ø ¾øÀİ¾Æ",
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) Çü, ±×¾ÆÀÌ ÇÑÅ×¼­ ³ª¿Í",
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) ±× ¾ÆÀÌ´Â Àß¸ø ¾øÀİ¾Æ",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ¾ê°¡ ±×¶§ ´Ï°¡ µ¿Èñ´ë½Å »ì·È´ø ¾ÆÀÌ",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ¸ÂÁö?",
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) Á¦¹ß Á¤½Å Â÷·Á",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ÀÌ ¾ÆÀÌ¸¸ ¾ø¾ú´õ¶ó¸é",
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ¿ì¸® µ¿Èñ´Â »ì ¼ö ÀÖ¾ú´Ù°í!!",
-        nameof(Sprites.Characters.Rather) +     "(¶ó´õ) Àú,Àú³ğÀÌ..",
-        nameof(Sprites.Characters.Rather) +     "(¶ó´õ) ÀÌ·±,¹¹¶óµµ Á» ÇØºÁ!",
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) »ì¾ÆÀÖ´Â ÀÎ°£..",
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) ÀÌ ¹æ¹ı¹Û¿¡ ¾ø´Â °ÍÀÎ°¡..",
+        nameof(Sprites.Characters.Rather) +     "(ë¼ë”) ì•¼ ì´ ì©ì„ë†ˆì•„!",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) ì•ˆë¼,ì•ˆë¼!",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ë‚˜ë§Œ ì´ë ‡ê²Œ ë‹¹í•˜ê³  ê°ˆìˆœ ì—†ì–ì•„",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) í˜•, ê·¸ì•„ì´ í•œí…Œì„œ ë‚˜ì™€",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) ê·¸ ì•„ì´ëŠ” ì˜ëª» ì—†ì–ì•„",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ì–˜ê°€ ê·¸ë•Œ ë‹ˆê°€ ë™í¬ëŒ€ì‹  ì‚´ë ¸ë˜ ì•„ì´",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ë§ì§€?",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) ì œë°œ ì •ì‹  ì°¨ë ¤",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ì´ ì•„ì´ë§Œ ì—†ì—ˆë”ë¼ë©´",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ìš°ë¦¬ ë™í¬ëŠ” ì‚´ ìˆ˜ ìˆì—ˆë‹¤ê³ !!",
+        nameof(Sprites.Characters.Rather) +     "(ë¼ë”) ì €,ì €ë†ˆì´..",
+        nameof(Sprites.Characters.Rather) +     "(ë¼ë”) ì´ëŸ°,ë­ë¼ë„ ì¢€ í•´ë´!",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) ì‚´ì•„ìˆëŠ” ì¸ê°„..",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) ì´ ë°©ë²•ë°–ì— ì—†ëŠ” ê²ƒì¸ê°€..",
         string.Empty,
         string.Empty,
         string.Empty,
         string.Empty,                                           
         "*" + nameof(Sprites.Ending.EndCutscene_1),                   
         "*" + nameof(Sprites.Ending.EndCutscene_2),                   
-        nameof(Sprites.Characters.Heptagram) +  "(°¢º°) ¹Ì¾ÈÇØ",
+        nameof(Sprites.Characters.Heptagram) +  "(ê°ë³„) ë¯¸ì•ˆí•´",
         "*" + nameof(Sprites.Ending.EndCutscene_3),                   
         "*" + nameof(Sprites.Ending.EndCutscene_4),                   
-        nameof(Sprites.Characters.Dino) +       "(°ø·æ) ³Ê¸¦ ÁöÅ°Áö ¸øÇÑ ³»°¡ ¹Ó±¸³ª",
+        nameof(Sprites.Characters.Dino) +       "(ê³µë£¡) ë„ˆë¥¼ ì§€í‚¤ì§€ ëª»í•œ ë‚´ê°€ ë°‰êµ¬ë‚˜",
         "*" + nameof(Sprites.Ending.EndCutscene_5),
         "*" + nameof(Sprites.Ending.EndCutscene_6),
         "*" + nameof(Sprites.Ending.EndCutscene_7),

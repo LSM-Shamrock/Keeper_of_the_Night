@@ -27,9 +27,9 @@ public class Character : PlaySceneObjectBase
         _col = GetComponent<Collider2D>();
         _sr = GetComponent<SpriteRenderer>();
         foreach (Sprites.Characters character in Enum.GetValues(typeof(Sprites.Characters)))
-            _sprites[character] = Utile.LoadResource<Sprite>(character);
+            _sprites[character] = Utility.LoadResource<Sprite>(character);
 
-        currentCharacter = selectedCharacter;
+        currentCharacter = Manager.Game.selectedCharacter;
         _sr.sprite = _sprites[currentCharacter];
         onNightmareEvent.Add(this, OnNightmareEvent);
         StartCoroutine(Loop_Jump());
@@ -46,7 +46,7 @@ public class Character : PlaySceneObjectBase
             if (IsOnGround)
             {
                 _jumpGauge = 15;
-                while (IsPressedW && _jumpGauge > 0)
+                while (Manager.Input.IsPressedW && _jumpGauge > 0)
                 {   
                     transform.position += Vector3.up * (_jumpGauge * _jumpGauge / 10);
                     _jumpGauge--;
@@ -64,12 +64,12 @@ public class Character : PlaySceneObjectBase
         {   
             if (ice <= 0)
             {
-                if (IsPressedA && transform.position.x > -240)
+                if (Manager.Input.IsPressedA && transform.position.x > -240)
                 {
                     characterMoveDirection = Vector3.left;
                     transform.position += characterMoveDirection * 3;
                 }
-                if (IsPressedD && transform.position.x < 240)
+                if (Manager.Input.IsPressedD && transform.position.x < 240)
                 {
                     characterMoveDirection = Vector3.right;
                     transform.position += characterMoveDirection * 3;
@@ -91,7 +91,7 @@ public class Character : PlaySceneObjectBase
             currentCharacter = Sprites.Characters.Suhyen;
             _sr.sprite = _sprites[Sprites.Characters.Suhyen];
             yield return WaitUntil(() => shadowState == ShadowState.Killed);
-            currentCharacter = selectedCharacter;
+            currentCharacter = Manager.Game.selectedCharacter;
             _sr.sprite = _sprites[currentCharacter];
             yield return waitForFixedUpdate;
         }
@@ -110,7 +110,7 @@ public class Character : PlaySceneObjectBase
     }
     void Update_DinoSpecial()
     {
-        if (selectedCharacter != Sprites.Characters.Dino) return;
+        if (Manager.Game.selectedCharacter != Sprites.Characters.Dino) return;
         if (!isSpecialSkillInvoking)
         {
             _sr.color = Color.white;
@@ -124,8 +124,8 @@ public class Character : PlaySceneObjectBase
     }
     void OnNightmareEvent()
     {
-        if (wave == 7) SpeechForSeconds("ZzzzZzzz", 3f);
-        if (wave == 8) SpeechForSeconds("!", 2f);
+        if (Manager.Game.wave == 7) Manager.Speech.SpeechForSeconds(transform, "ZzzzZzzz", 3f);
+        if (Manager.Game.wave == 8) Manager.Speech.SpeechForSeconds(transform, "!", 2f);
     }
 
 
@@ -133,12 +133,12 @@ public class Character : PlaySceneObjectBase
     {
         while (true)
         {
-            if (IsPressedT)
+            if (Manager.Input.IsPressedT)
             {
-                yield return SpeechAndWaitInput("야괴 이름 외치기:", inpuut => shoutedEnemyName = inpuut);
+                yield return Manager.Speech.SpeechAndWaitInput(transform, "야괴 이름 외치기:", inpuut => shoutedEnemyName = inpuut);
                 foreach (int i in Count(3))
                 {
-                    yield return SpeechForSeconds(shoutedEnemyName + "!", 0.5f);
+                    yield return Manager.Speech.SpeechForSeconds(transform, shoutedEnemyName + "!", 0.5f);
                     yield return WaitForSeconds(0.25f);
                     yield return waitForFixedUpdate;
                 }

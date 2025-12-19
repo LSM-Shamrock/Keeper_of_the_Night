@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Speechbubble : ObjectBase
+public class Speechbubble : BaseController
 {
     Text _text;
     Transform _master;

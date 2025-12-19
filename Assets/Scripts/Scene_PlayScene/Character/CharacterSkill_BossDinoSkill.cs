@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,14 +32,14 @@ public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
         Transform transform = go.transform;
         SpriteRenderer sr = go.Component<SpriteRenderer>();
 
-        sr.sprite = Utile.LoadResource<Sprite>(Sprites.CharacterSkill.Dino_BossDinoSkill_Red);
+        sr.sprite = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Dino_BossDinoSkill_Red);
         transform.localScale = Vector3.one * 3f;
         sr.SetAlpha(0.5f);
         sr.SetBrightness(0f);
 
         transform.position = BossDinoBlackBall.position;
-        Vector3 direction = (Utile.MousePosition - transform.position).normalized;
-        float randomDistance = Utile.RandomNumber(1, 250);
+        Vector3 direction = (Utility.MousePosition - transform.position).normalized;
+        float randomDistance = Utility.RandomNumber(1, 250);
         transform.position += direction * randomDistance;
 
 
@@ -100,12 +100,12 @@ public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
         while (true)
         {
             bool characterCheck = currentCharacter == Sprites.Characters.Dino;
-            if (characterCheck && isSpecialSkillInvoking && IsMouseClicked)
+            if (characterCheck && isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
             {
                 _child.SetActive(true);
                 _line.positionCount = 2;
                 transform.position = BossDinoBlackBall.position;
-                Vector3 direction = (Utile.MousePosition - transform.position).normalized;
+                Vector3 direction = (Utility.MousePosition - transform.position).normalized;
                 _line.SetPosition(0, transform.position);
                 transform.position += direction * 250f;
                 _line.SetPosition(1, transform.position);
@@ -147,13 +147,13 @@ public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
         while (true)
         {
             Color color;
-            color = Utile.StringToColor("#ff0000");
+            color = Utility.StringToColor("#ff0000");
             color.a = 0.5f;
             _line.startColor = color;
             _line.endColor = color;
             yield return WaitForSeconds(0.1f);
 
-            color = Utile.StringToColor("#ff4040");
+            color = Utility.StringToColor("#ff4040");
             color.a = 0.5f;
             _line.startColor = color;
             _line.endColor = color;

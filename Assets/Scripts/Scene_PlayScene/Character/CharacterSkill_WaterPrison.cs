@@ -29,7 +29,7 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
 
     void OnDisarmSpecialSkill()
     {
-        if (selectedCharacter == Sprites.Characters.Rather)
+        if (Manager.Game.selectedCharacter == Sprites.Characters.Rather)
         {
             isSpecialSkillInvoking = false;
             _child.SetActive(false);
@@ -85,13 +85,13 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
         {
             yield return WaitUntil(() => currentCharacter == Sprites.Characters.Rather);
 
-            if (specialSkillCooltime <= 0 && IsPressedS)
+            if (specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
             {
                 specialSkillCooltime = 20f;
                 isSpecialSkillInvoking = true;
 
                 transform.SetY(-70);
-                transform.SetX(Utile.MouseX);
+                transform.SetX(Utility.MouseX);
 
                 float size = 200;
                 _child.transform.localScale = Vector3.one * size;

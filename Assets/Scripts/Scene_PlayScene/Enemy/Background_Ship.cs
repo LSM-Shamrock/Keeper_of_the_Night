@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Background_Ship : PlaySceneObjectBase
@@ -10,6 +10,6 @@ public class Background_Ship : PlaySceneObjectBase
     }
     protected override void Update()
     {
-        _sr.enabled = wave == 15;
+        _sr.enabled = Manager.Game.wave == 15;
     }
 }

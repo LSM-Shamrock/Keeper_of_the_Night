@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemySkill_Rat : EnemyBase
@@ -9,7 +9,7 @@ public class EnemySkill_Rat : EnemyBase
     {
         base.Init();
         onNightmareEvent.Add(this, DeleteThisClone);
-        transform.SetX(Utile.RandomNumber(1, 2) == 1 ? 300f : -300f);
+        transform.SetX(Utility.RandomNumber(1, 2) == 1 ? 300f : -300f);
         StartCoroutine(Routine_Move());
         StartCoroutine(Routine_Attack());
     }
@@ -60,7 +60,7 @@ public class EnemySkill_Rat : EnemyBase
     {
         _hp -= damage;
         if (_hp > 0)
-            yield return SpeechForSeconds(_hp.ToString(), 0.1f);
+            yield return Manager.Speech.SpeechForSeconds(transform, _hp.ToString(), 0.1f);
         else 
             DeleteThisClone();
     }

@@ -605,7 +605,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c255b65b5e368444581d06eb131d18ef, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: c255b65b5e368444581d06eb131d18ef, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
@@ -3862,6 +3862,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.5686275
       objectReference: {fileID: 0}
+    - target: {fileID: 8445309566500069228, guid: c4a16d6bb18c6a34eaace39dfd078e68, type: 3}
+      propertyPath: m_Name
+      value: Text_SpecialSkill
+      objectReference: {fileID: 0}
     - target: {fileID: 8767133823696752035, guid: c4a16d6bb18c6a34eaace39dfd078e68, type: 3}
       propertyPath: m_Pivot.x
       value: 1
@@ -5401,8 +5405,9 @@ GameObject:
   - component: {fileID: 7263557165639347311}
   - component: {fileID: 4897494170199740102}
   - component: {fileID: 4786910055563319475}
+  - component: {fileID: 7263557165639347312}
   m_Layer: 5
-  m_Name: Foregrounds
+  m_Name: UI_PlayScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5500,6 +5505,18 @@ Canvas:
   m_SortingLayerID: -661206315
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &7263557165639347312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1158995871908094253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3409ad1df0185ee49b2c92fe8cbf1faf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +11,7 @@ public class EndingScene_Particle : EndingSceneObjectBase
     public void Init(Sprites.Ending type)
     {
         _image = GetComponent<Image>();
-        _image.sprite = Utile.LoadResource<Sprite>(type);
+        _image.sprite = Utility.LoadResource<Sprite>(type);
 
         _type = type;
 
@@ -44,13 +44,13 @@ public class EndingScene_Particle : EndingSceneObjectBase
     {
         while (true)
         {
-            float brightness = Utile.RandomNumber(-0.25f, 0.1f);
+            float brightness = Utility.RandomNumber(-0.25f, 0.1f);
       
             Transform dino = Character[Sprites.Characters.Dino];
 
             transform.position = dino.position;
-            transform.AddX(Utile.RandomNumber(-50, 50));
-            transform.AddY(Utile.RandomNumber(-50, 50));
+            transform.AddX(Utility.RandomNumber(-50, 50));
+            transform.AddY(Utility.RandomNumber(-50, 50));
             
             yield return transform.MoveToTransformOverTime(0.5f, dino);
             
@@ -62,7 +62,7 @@ public class EndingScene_Particle : EndingSceneObjectBase
     {
         while (true)
         {
-            float brightness = Utile.RandomNumber(0.1f, 0.25f);
+            float brightness = Utility.RandomNumber(0.1f, 0.25f);
 
             Transform to;
             if (EndingProgress > 20)
@@ -73,8 +73,8 @@ public class EndingScene_Particle : EndingSceneObjectBase
             transform.position = to.position;
 
             Vector3 v = Vector3.zero;
-            v.x = Utile.RandomNumber(-25, 25);
-            v.y = Utile.RandomNumber(-25, 25);
+            v.x = Utility.RandomNumber(-25, 25);
+            v.y = Utility.RandomNumber(-25, 25);
             yield return transform.MoveToPositionOverTime(0.5f, to.position + v);
             
             yield return waitForFixedUpdate;

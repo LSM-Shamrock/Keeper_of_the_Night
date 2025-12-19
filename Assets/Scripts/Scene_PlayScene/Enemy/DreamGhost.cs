@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static Utile;
+using static Utility;
 
 public class DreamGhost : EnemyBase
 {
@@ -41,21 +41,21 @@ public class DreamGhost : EnemyBase
             sr.AddTransparency(-0.05f);
             yield return waitForFixedUpdate;
         }
-        isNightmare = wave == 7;
+        isNightmare = Manager.Game.wave == 7;
         onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
             yield return waitForFixedUpdate;
         }
-        yield return WaitUntil(() => wave == 8);
+        yield return WaitUntil(() => Manager.Game.wave == 8);
         sr.SetTransparency(1f);
         foreach (int i in Count(20))
         {
             sr.AddTransparency(-0.05f);
             yield return waitForFixedUpdate;
         }
-        isNightmare = wave == 7;
+        isNightmare = Manager.Game.wave == 7;
         onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
@@ -66,10 +66,10 @@ public class DreamGhost : EnemyBase
 
     IEnumerator OnNightmareEvent()
     {
-        if (wave == 7)
+        if (Manager.Game.wave == 7)
             Hide();
 
-        while (wave != 8)
+        while (Manager.Game.wave != 8)
         {
             CreatePhantom();
             yield return WaitForSeconds(RandomNumber(2, 4));
@@ -91,7 +91,7 @@ public class DreamGhost : EnemyBase
         yield return WaitForSeconds(1f);
         Hide();
         StartCoroutine(WhiteoutEffect());
-        yield return WaitUntil(() => wave == 8);
+        yield return WaitUntil(() => Manager.Game.wave == 8);
         transform.SetX(Character.position.x > 0 ? -200f : 200f);
         Show();
         while (true)
@@ -128,7 +128,7 @@ public class DreamGhost : EnemyBase
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        if (wave == 8)
+        if (Manager.Game.wave == 8)
             Hide();
         yield break;
     }

@@ -1,17 +1,17 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlaySceneObjectBase : ObjectBase
+public class PlaySceneObjectBase : BaseController
 {
-    // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ
+    // í”Œë ˆì´ì–´ ìºë¦­í„°
     static Transform s_character;
     protected static Transform Character
     {
         get
         {
             if (s_character == null)
-                s_character = Utile.FindGameObject(PlaySceneObjects.Character).transform;
+                s_character = Utility.FindGameObject(PlaySceneObjects.Character).transform;
             return s_character;
         }
     }
@@ -35,14 +35,14 @@ public class PlaySceneObjectBase : ObjectBase
     }
 
 
-    // ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ ½ºÅ³ 
+    // í”Œë ˆì´ì–´ ìºë¦­í„° ìŠ¤í‚¬ 
     static Transform s_moonlightswordShield;
     protected static Transform MoonlightswordShield
     {
         get
         {
             if (s_moonlightswordShield == null)
-                s_moonlightswordShield = Utile.FindGameObject(PlaySceneObjects.MoonlightswordShield).transform;
+                s_moonlightswordShield = Utility.FindGameObject(PlaySceneObjects.MoonlightswordShield).transform;
             return s_moonlightswordShield;
         }
     }
@@ -53,7 +53,7 @@ public class PlaySceneObjectBase : ObjectBase
         get
         {
             if (s_waterPrison == null)
-                s_waterPrison = Utile.FindGameObject(PlaySceneObjects.WaterPrison).transform;
+                s_waterPrison = Utility.FindGameObject(PlaySceneObjects.WaterPrison).transform;
             return s_waterPrison;
         }
     }
@@ -64,13 +64,13 @@ public class PlaySceneObjectBase : ObjectBase
         get
         {
             if (s_bossDinoBlackBall == null)
-                s_bossDinoBlackBall = Utile.FindGameObject(PlaySceneObjects.BossDinoBlackBall).transform;
+                s_bossDinoBlackBall = Utility.FindGameObject(PlaySceneObjects.BossDinoBlackBall).transform;
             return s_bossDinoBlackBall;
         }
     }
 
 
-    // ½ÅÈ£, º¯¼ö
+    // ì‹ í˜¸, ë³€ìˆ˜
     protected static readonly SignalOfMonoBehaviour onWaveClear = new(); 
     protected static readonly SignalOfMonoBehaviour onDisarmSpecialSkill = new(); 
     protected static readonly SignalOfMonoBehaviour onDreamghostAppearance = new();
@@ -89,25 +89,25 @@ public class PlaySceneObjectBase : ObjectBase
     protected static bool isBossDinoKilled;
 
 
-    #region ¾ß±« ÀÌ¸§ ¿ÜÄ¡±â
+    #region ì•¼ê´´ ì´ë¦„ ì™¸ì¹˜ê¸°
     protected static string shoutedEnemyName;
     protected readonly List<string> hiddenSurnames = new()
     {
-        "±è", "ÀÌ", "¹Ú", "ÃÖ", "Á¤",
-        "°­", "Á¶", "À±", "Àå", "ÀÓ",
-        "ÇÑ", "¿À", "¼­", "½Å", "±Ç",
-        "È²", "¾È", "¼Û", "Àü", "È«",
+        "ê¹€", "ì´", "ë°•", "ìµœ", "ì •",
+        "ê°•", "ì¡°", "ìœ¤", "ì¥", "ì„",
+        "í•œ", "ì˜¤", "ì„œ", "ì‹ ", "ê¶Œ",
+        "í™©", "ì•ˆ", "ì†¡", "ì „", "í™",
     };
     protected readonly List<string> hiddenMainames = new()
     {
-        "¼­ÁØ", "ÇÏÁØ", "µµÀ±", "¹ÎÁØ", "½Ã¿ì",
-        "¿¹ÁØ", "ÁÖ¿ø", "ÁöÈ£", "ÁØ¿ì", "À¯ÁØ",
-        "Àº¿ì", "ÁöÈÄ", "¼­Áø", "µµÇö", "¼±¿ì",
-        "¿ìÁø", "½ÃÀ±", "°Ç¿ì", "¿¬¿ì", "ÁØ¼­",
-        "¼­À±", "ÇÏÀ±", "¼­¿¬", "Áö¿ì", "ÇÏÀº",
-        "ÁöÀ¯", "Áö¾È", "¼­¾Æ", "¼ö¾Æ", "Áö¾Æ",
-        "ÇÏ¸°", "´ÙÀº", "¼­Çö", "¹Î¼­", "Ã¤¿ø",
-        "¼ÒÀ²", "À±¼­", "½Ã¾Æ", "¿¹¸°", "¼ÒÀ±",
+        "ì„œì¤€", "í•˜ì¤€", "ë„ìœ¤", "ë¯¼ì¤€", "ì‹œìš°",
+        "ì˜ˆì¤€", "ì£¼ì›", "ì§€í˜¸", "ì¤€ìš°", "ìœ ì¤€",
+        "ì€ìš°", "ì§€í›„", "ì„œì§„", "ë„í˜„", "ì„ ìš°",
+        "ìš°ì§„", "ì‹œìœ¤", "ê±´ìš°", "ì—°ìš°", "ì¤€ì„œ",
+        "ì„œìœ¤", "í•˜ìœ¤", "ì„œì—°", "ì§€ìš°", "í•˜ì€",
+        "ì§€ìœ ", "ì§€ì•ˆ", "ì„œì•„", "ìˆ˜ì•„", "ì§€ì•„",
+        "í•˜ë¦°", "ë‹¤ì€", "ì„œí˜„", "ë¯¼ì„œ", "ì±„ì›",
+        "ì†Œìœ¨", "ìœ¤ì„œ", "ì‹œì•„", "ì˜ˆë¦°", "ì†Œìœ¤",
     };
     #endregion
 

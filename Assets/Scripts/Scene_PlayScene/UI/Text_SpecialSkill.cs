@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,27 +29,27 @@ public class Text_SpecialSkill : PlaySceneObjectBase
         {
             if (currentCharacter == Sprites.Characters.Sleepground)
             {
-                _text.color = Utile.StringToColor("#918d10");
-                _text.text = "S·Î °Ë»Ì±â";
+                _text.color = Utility.StringToColor("#918d10");
+                _text.text = "Së¡œ ê²€ë½‘ê¸°";
                 return;
             }
             if (currentCharacter == Sprites.Characters.Dino)
             {
-                _text.color = Utile.StringToColor("#918d10");
-                _text.text = "¸¶¿ì½º·Î ÈíÇ÷";
+                _text.color = Utility.StringToColor("#918d10");
+                _text.text = "ë§ˆìš°ìŠ¤ë¡œ í¡í˜ˆ";
                 return;
             }
         }
 
         if (specialSkillCooltime > 0)
         {
-            _text.color = Utile.StringToColor("#848484");
-            _text.text = $"Æ¯¼ö±â¼ú ÄðÅ¸ÀÓ:{specialSkillCooltime:F1}";
+            _text.color = Utility.StringToColor("#848484");
+            _text.text = $"íŠ¹ìˆ˜ê¸°ìˆ  ì¿¨íƒ€ìž„:{specialSkillCooltime:F1}";
         }
         else
         {
-            _text.color = Utile.StringToColor("#918d10");
-            _text.text = "S·Î Æ¯¼ö±â¼ú!";
+            _text.color = Utility.StringToColor("#918d10");
+            _text.text = "Së¡œ íŠ¹ìˆ˜ê¸°ìˆ !";
         }
     }
 
@@ -77,7 +77,7 @@ public class Text_SpecialSkill : PlaySceneObjectBase
     }
     IEnumerator Start_WaitFor15WaveAndClearCooltime()
     {
-        yield return WaitUntil(() => wave == 15);
+        yield return WaitUntil(() => Manager.Game.wave == 15);
         specialSkillCooltime = 0f;
     }
 }

@@ -42,7 +42,7 @@ public class EndingScene_Character : EndingSceneObjectBase
 
     void CreatePurpleParticle()
     {
-        var prefab = Utile.LoadResource<GameObject>(Prefabs.Scene_EndingScene.Ending_Particle);
+        var prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_EndingScene.Ending_Particle);
         var go = prefab.CreateClone();
         go.transform.SetParent(transform.parent);
         var particle = go.Component<EndingScene_Particle>();
@@ -51,7 +51,7 @@ public class EndingScene_Character : EndingSceneObjectBase
 
     void CreateYellowParticle()
     {
-        var prefab = Utile.LoadResource<GameObject>(Prefabs.Scene_EndingScene.Ending_Particle);
+        var prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_EndingScene.Ending_Particle);
         var go = prefab.CreateClone();
         go.transform.SetParent(transform.parent);
         var particle = go.Component<EndingScene_Particle>();

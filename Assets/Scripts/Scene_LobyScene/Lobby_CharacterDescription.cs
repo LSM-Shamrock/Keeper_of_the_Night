@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lobby_CharacterDescription : ObjectBase
+public class Lobby_CharacterDescription : BaseController
 {
     protected override void Start()
     {
@@ -22,7 +22,7 @@ public class Lobby_CharacterDescription : ObjectBase
     {
         while (true)
         {
-            _text.text = characterDescription;
+            _text.text = Manager.Game.characterDescription;
             yield return null;
         }
     }

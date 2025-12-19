@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections;
 using UnityEngine.UI;
 using System;
 
-public class Lobby_Character : ObjectBase, IPointerClickHandler
+public class Lobby_Character : BaseController, IPointerClickHandler
 {
     protected override void Start()
     {
@@ -19,7 +19,7 @@ public class Lobby_Character : ObjectBase, IPointerClickHandler
         Color color;
         while (true)
         {
-            if (selectedCharacter.ToString() == gameObject.name)
+            if (Manager.Game.selectedCharacter.ToString() == gameObject.name)
             {
                 color = Color.white;
                 size = 1.25f;
@@ -37,23 +37,23 @@ public class Lobby_Character : ObjectBase, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        selectedCharacter = (Sprites.Characters)Enum.Parse(typeof(Sprites.Characters), gameObject.name);
-        switch (selectedCharacter)
+        Manager.Game.selectedCharacter = (Sprites.Characters)Enum.Parse(typeof(Sprites.Characters), gameObject.name);
+        switch (Manager.Game.selectedCharacter)
         {
             case Sprites.Characters.Sleepground:
-                characterDescription = "¿ù±¤°ËÀ¸·Î ±Ù°Å¸® °ø°İ";
-                specialDescription = "¿ù±¤°Ë ¹æ¾î¸·";
-                characterMaxHealth = 200;
+                Manager.Game.characterDescription = "ì›”ê´‘ê²€ìœ¼ë¡œ ê·¼ê±°ë¦¬ ê³µê²©";
+                Manager.Game.specialDescription = "ì›”ê´‘ê²€ ë°©ì–´ë§‰";
+                Manager.Game.characterMaxHealth = 200;
                 break;
             case Sprites.Characters.Rather:
-                characterDescription = "¹°·Î °î¼±Çü °ø°İ";
-                specialDescription = "¹°°¨¿Á »ı¼º";
-                characterMaxHealth = 200;
+                Manager.Game.characterDescription = "ë¬¼ë¡œ ê³¡ì„ í˜• ê³µê²©";
+                Manager.Game.specialDescription = "ë¬¼ê°ì˜¥ ìƒì„±";
+                Manager.Game.characterMaxHealth = 200;
                 break;
             case Sprites.Characters.Dino:
-                characterDescription = "¿ù±¤°ÇÀ¸·Î Àå°Å¸®°ø°İ";
-                specialDescription = "¾ß±«·Î º¯½ÅÇØ ÈíÇ÷";
-                characterMaxHealth = 100;
+                Manager.Game.characterDescription = "ì›”ê´‘ê±´ìœ¼ë¡œ ì¥ê±°ë¦¬ê³µê²©";
+                Manager.Game.specialDescription = "ì•¼ê´´ë¡œ ë³€ì‹ í•´ í¡í˜ˆ";
+                Manager.Game.characterMaxHealth = 100;
                 break;
         }
     }

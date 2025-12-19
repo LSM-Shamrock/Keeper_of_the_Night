@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Lobby_HP : ObjectBase
+public class Lobby_HP : BaseController
 {
     protected override void Start()
     {
@@ -15,7 +15,7 @@ public class Lobby_HP : ObjectBase
         Text text = GetComponentInChildren<Text>();
         while (true)
         {
-            text.text = "HP:" + characterMaxHealth;
+            text.text = "HP:" + Manager.Game.characterMaxHealth;
             yield return null;
         }
     }

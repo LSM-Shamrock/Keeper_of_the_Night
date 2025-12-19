@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static Utile;
+using static Utility;
 
-public class Lobby_PlayButton : ObjectBase
+public class Lobby_PlayButton : BaseController
 {
     [SerializeField]
     int _wave;
@@ -33,7 +33,7 @@ public class Lobby_PlayButton : ObjectBase
                     {
                         size = _size2;
                         yield return WaitForSeconds(0.1f);
-                        wave = _wave;
+                        Manager.Game.wave = _wave;
                         StartScene(Scenes.PlayScene);
                     }
                 }

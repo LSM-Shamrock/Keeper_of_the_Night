@@ -1,7 +1,7 @@
 ﻿
 using System.Collections;
 using UnityEngine;
-using static Utile;
+using static Utility;
 
 public class CharacterSkill_Camera : PlaySceneObjectBase
 {
@@ -47,11 +47,11 @@ public class CharacterSkill_Camera : PlaySceneObjectBase
             yield return WaitUntil(() => currentCharacter == Sprites.Characters.Suhyen);
             
             _child.SetActive(true);
-            if (IsMouseClicked)
+            if (Manager.Input.IsMouseClicked)
             {
                 Flash();
                 yield return WaitForSeconds(0.1f);
-                yield return WaitUntil(() => !IsMouseClicked);
+                yield return WaitUntil(() => !Manager.Input.IsMouseClicked);
             }
 
             yield return waitForFixedUpdate;
@@ -67,7 +67,7 @@ public class CharacterSkill_Camera : PlaySceneObjectBase
         _sr.sprite = flip ? _sprite_left : _sprite_right;
 
         _direction = (MousePosition - transform.position).normalized;
-        transform.rotation = Utile.Direction2Rotation(_direction);
+        transform.rotation = Utility.Direction2Rotation(_direction);
         transform.position += _direction * 25f;
     }
 }

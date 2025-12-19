@@ -1,9 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Lobby_Thubnail : ObjectBase
+public class Lobby_Thubnail : BaseController
 {
     [SerializeField]
     Sprite[] _sprites;
@@ -98,7 +98,7 @@ public class Lobby_Thubnail : ObjectBase
             if (!Input.GetMouseButton(0)) { yield return null; continue; }
             if (!IsContactMousePointer) { yield return null; continue; }
 
-            transform.position = Utile.MousePosition;
+            transform.position = Utility.MousePosition;
             yield return null;
         }
     }

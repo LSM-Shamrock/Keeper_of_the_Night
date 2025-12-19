@@ -1,10 +1,10 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inputbox : ObjectBase
+public class Inputbox : BaseController
 {
     Canvas _canvas;
     InputField _inputField;
@@ -22,7 +22,7 @@ public class Inputbox : ObjectBase
 
         _inputField.Select();
 
-        yield return WaitUntil(() => IsPressedEnter);
+        yield return WaitUntil(() => Manager.Input.IsPressedEnter);
 
         action?.Invoke(_inputField.text);
 

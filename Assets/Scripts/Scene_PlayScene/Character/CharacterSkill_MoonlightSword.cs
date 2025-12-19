@@ -1,6 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using static Utile;
+using static Utility;
 
 public class CharacterSkill_MoonlightSword : PlaySceneObjectBase
 {
@@ -47,7 +47,7 @@ public class CharacterSkill_MoonlightSword : PlaySceneObjectBase
             if (isSpecialSkillInvoking) 
                 goto Return;
 
-            if (!IsMouseClicked) 
+            if (!Manager.Input.IsMouseClicked) 
                 goto Return;
 
             _child.SetActive(true);

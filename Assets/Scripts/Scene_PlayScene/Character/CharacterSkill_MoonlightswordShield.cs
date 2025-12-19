@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -100,21 +100,21 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
     }
     IEnumerator Loop_OnSkill()
     {
-        Sprite sprite_Droping = Utile.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
-        Sprite sprite_StuckInTheGround = Utile.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
+        Sprite sprite_Droping = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
+        Sprite sprite_StuckInTheGround = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
         while (true)
         {
             yield return WaitUntil(() => IsSleepground);
 
             if (isSpecialSkillInvoking)
             {
-                if (IsPressedS || IsMouseClicked)
+                if (Manager.Input.IsPressedS || Manager.Input.IsMouseClicked)
                 {
                     onDisarmSpecialSkill.Call();
-                    yield return WaitUntil(() => !IsPressedS);
+                    yield return WaitUntil(() => !Manager.Input.IsPressedS);
                 }
             }
-            else if (IsPressedS && specialSkillCooltime <= 0f)
+            else if (Manager.Input.IsPressedS && specialSkillCooltime <= 0f)
             {
                 isSpecialSkillInvoking = true;
                 _child.SetSpriteAndPolygon(sprite_Droping);
@@ -130,7 +130,7 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
                 ShowShield();
                 _child.SetSpriteAndPolygon(sprite_StuckInTheGround);
                 yield return WaitForSeconds(0.5f);
-                yield return WaitUntil(() => !IsPressedS);
+                yield return WaitUntil(() => !Manager.Input.IsPressedS);
             }
 
             yield return waitForFixedUpdate;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class CharacterSkill_BossDino : PlaySceneObjectBase
@@ -29,7 +29,7 @@ public class CharacterSkill_BossDino : PlaySceneObjectBase
 
     void OnSignal_SpecialSkillDisarm()
     {
-        if (selectedCharacter == Sprites.Characters.Dino)
+        if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
         {
             isSpecialSkillInvoking = false;
         }
@@ -37,7 +37,7 @@ public class CharacterSkill_BossDino : PlaySceneObjectBase
 
     void Update_Visual()
     {
-        bool b = selectedCharacter == Sprites.Characters.Dino && isSpecialSkillInvoking;
+        bool b = Manager.Game.selectedCharacter == Sprites.Characters.Dino && isSpecialSkillInvoking;
         _child.SetActive(b);
         _black.SetActive(b);
 
@@ -72,14 +72,14 @@ public class CharacterSkill_BossDino : PlaySceneObjectBase
 
     IEnumerator Loop_Routine()
     {
-        if (selectedCharacter == Sprites.Characters.Dino)
+        if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
             specialSkillCooltime = 35f;
 
         while (true)
         {
             yield return WaitUntil(() => currentCharacter == Sprites.Characters.Dino);
 
-            if (specialSkillCooltime <= 0 && IsPressedS)
+            if (specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
             {
                 specialSkillCooltime = 45f;
                 isSpecialSkillInvoking = true;

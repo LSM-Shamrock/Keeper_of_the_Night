@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Utile;
+using static Utility;
 
 public class Enemy : EnemyBase
 {
@@ -31,8 +31,8 @@ public class Enemy : EnemyBase
 
             default:
                 _hiddenName = "";
-                _hiddenName += Utile.RandomElement(hiddenSurnames);
-                _hiddenName += Utile.RandomElement(hiddenMainames);
+                _hiddenName += Utility.RandomElement(hiddenSurnames);
+                _hiddenName += Utility.RandomElement(hiddenMainames);
                 break;
         }
         StartCoroutine(Loop_HiddenNameLogic());
@@ -60,7 +60,7 @@ public class Enemy : EnemyBase
         }
         void Create()
         {
-            var prefab = Utile.LoadResource<GameObject>(Prefabs.Scene_PlayScene.EnemyHiddenNameParticle);
+            var prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_PlayScene.EnemyHiddenNameParticle);
             var go = prefab.CreateClone();
             var particle = go.Component<EnemyHiddenNameParticle>();
             particle.Init(transform.position);
@@ -70,9 +70,9 @@ public class Enemy : EnemyBase
     {
         while (true)
         {
-            if (IsPressedN)
+            if (Manager.Input.IsPressedN)
             {
-                yield return SpeechForSeconds(_hiddenName, 0.01f);
+                yield return Manager.Speech.SpeechForSeconds(transform, _hiddenName, 0.01f);
                 continue;
             }
 
@@ -83,14 +83,14 @@ public class Enemy : EnemyBase
                 CreateNameParticles();
                 if (_type == Sprites.Enemys.BossDino)
                 {
-                    yield return SpeechForSeconds("윽!", 0.75f);
-                    yield return SpeechForSeconds("으아앗", 1f);
-                    yield return SpeechForSeconds("이럴 줄 알았죠?", 1.5f);
+                    yield return Manager.Speech.SpeechForSeconds(transform, "윽!", 0.75f);
+                    yield return Manager.Speech.SpeechForSeconds(transform, "으아앗", 1f);
+                    yield return Manager.Speech.SpeechForSeconds(transform, "이럴 줄 알았죠?", 1.5f);
                 }
 
                 else
                 {
-                    Speech("!");
+                    Manager.Speech.Speech(transform, "!");
                     Vector3 p = transform.position;
                     foreach (int i in Count(20))
                     {
@@ -158,7 +158,7 @@ public class Enemy : EnemyBase
         _hp -= damage;
         if (_hp > 0)
         {
-            yield return SpeechForSeconds(_hp.ToString(), 0.1f);
+            yield return Manager.Speech.SpeechForSeconds(transform, _hp.ToString(), 0.1f);
         }
         else
         {
@@ -400,7 +400,7 @@ public class Enemy : EnemyBase
         if (_type == Sprites.Enemys.CrazyLaughMask)
         {
             if (RandomNumber(1, 500) == 1)
-                yield return SpeechForSeconds("ㅋ흐하하하하핳ㅋ흫흐하핳", 1f);
+                yield return Manager.Speech.SpeechForSeconds(transform, "ㅋ흐하하하하핳ㅋ흫흐하핳", 1f);
         }
         if (DistanceTo(Character) < 50f)
         {
@@ -722,7 +722,7 @@ public class Enemy : EnemyBase
 
         if (DistanceTo(Character) < 200)
         {
-            Speech("♪");
+            Manager.Speech.Speech(transform, "♪");
             foreach (int i in Count(RandomNumber(3, 6)))
             {
                 CallingRat();
@@ -730,7 +730,7 @@ public class Enemy : EnemyBase
                 yield return WaitForSeconds(0.1f);
                 yield return waitForFixedUpdate;
             }
-            EraseSpeachbubble();
+            Manager.Speech.EraseSpeachbubble(transform);
             yield return WaitForSeconds(5f);
         }
     }

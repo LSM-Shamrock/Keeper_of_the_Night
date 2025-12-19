@@ -1,6 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using static Utile;
+using static Utility;
 
 public class DreamGhost_Phantom : EnemyBase
 {

@@ -70,7 +70,7 @@ public abstract class EnemyBase : PlaySceneObjectBase
             }
             if (IsContactBossDinoSkill)
             {
-                if (wave == 7) healthInDream += 2;
+                if (Manager.Game.wave == 7) healthInDream += 2;
                 else remainingHealth += 2;
                 yield return WhenTakingDamage(3);
             }

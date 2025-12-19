@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static Utile;
+using static Utility;
 
 public class Text_UntilTheNextWave : PlaySceneObjectBase
 {
@@ -25,7 +25,7 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
             _text.text = "카메라의 빛으로 처치하세요!";
             _text.color = StringToColor("#ebfad1");
         }
-        else if (wave == 15)
+        else if (Manager.Game.wave == 15)
         {
             _text.text = "공룡을 처치하세요!";
             _text.color = StringToColor("#ff0000");
@@ -66,28 +66,28 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
 
     IEnumerator SetWaveClearCondition()
     {
-        if (wave == 0)
+        if (Manager.Game.wave == 0)
         {
             remainingWaveSecond = 0;
             remainingWaveKill = 2;
         }
-        else if (wave == 1)
+        else if (Manager.Game.wave == 1)
         {
             remainingWaveSecond = 0;
             remainingWaveKill = 0;
             shadowState = ShadowState.None;
             yield return WaitUntil(() => shadowState == ShadowState.Killed);
         }
-        else if (wave == 7)
+        else if (Manager.Game.wave == 7)
         {
             remainingWaveSecond = 60;
             remainingWaveKill = 0;
         }
         else
         {
-            if (wave > 4)
+            if (Manager.Game.wave > 4)
             {
-                if (wave > 10)
+                if (Manager.Game.wave > 10)
                 {
                     remainingWaveSecond = 30;
                     remainingWaveKill = 10;
@@ -110,7 +110,7 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
         yield return SetWaveClearCondition();
         while (true)
         {
-            if (wave == 15)
+            if (Manager.Game.wave == 15)
             {
                 yield return WaitUntil(() => isBossDinoKilled);
                 yield return WaitForSeconds(1f);
@@ -119,7 +119,7 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
             }
             else if (remainingWaveSecond <= 0 && remainingWaveKill <= 0)
             {
-                wave++;
+                Manager.Game.wave++;
                 onWaveClear.Call();
                 yield return SetWaveClearCondition();
             }
@@ -129,7 +129,7 @@ public class Text_UntilTheNextWave : PlaySceneObjectBase
 
     void Update_HideAndShow()
     {
-        if (wave == 1)
+        if (Manager.Game.wave == 1)
         {
             if (shadowState == ShadowState.EndOfGiantization)
                 _text.enabled = true;
