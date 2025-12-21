@@ -24,8 +24,8 @@ public class UI_TrailerScene : UI_Scene
     {
         _audioSource = GetComponent<AudioSource>();
 
-        Bind<Image, Images>();
-        Bind<Text, Texts>();
+        BindChildren<Image, Images>();
+        BindChildren<Text, Texts>();
 
         // 트레일러씬 시작시 커서 모양 설정
         Texture2D texture2D = Utility.LoadResource<Texture2D>(Sprites.Cursor.Moonlightsword);
@@ -41,10 +41,10 @@ public class UI_TrailerScene : UI_Scene
     {
         foreach (Sprite sprite in _trailerSprites)
         {
-            Get<Image>(Images.Trailer).sprite = sprite;
+            GetChild<Image>(Images.Trailer).sprite = sprite;
             yield return new WaitForSeconds(44f / 107);
         }
-        Get<Image>(Images.Trailer).color = Color.black;
+        GetChild<Image>(Images.Trailer).color = Color.black;
     }
     private IEnumerator PlayTrailerSound()
     {
@@ -59,7 +59,7 @@ public class UI_TrailerScene : UI_Scene
     private IEnumerator TextSizeUpdate()
     {
         float size = 2f;
-        Transform textTransform = Get<Text>(Texts.ClickToStart).transform;
+        Transform textTransform = GetChild<Text>(Texts.ClickToStart).transform;
         while (true)
         {
             for (int i = 50; i > 0; i--)
@@ -78,7 +78,7 @@ public class UI_TrailerScene : UI_Scene
     }
     private IEnumerator ClickCheck()
     {
-        Text text = Get<Text>(Texts.ClickToStart);
+        Text text = GetChild<Text>(Texts.ClickToStart);
         Color color = text.color;
 
         color.a = 0f;

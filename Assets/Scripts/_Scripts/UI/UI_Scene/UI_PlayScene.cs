@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_PlayScene : UI_Scene
@@ -6,10 +7,16 @@ public class UI_PlayScene : UI_Scene
     private enum Texts
     {
         Text_SpecialSkill,
-
         Text_HP,
         Text_Wave,
         Text_WaveProgress,
+    }
+
+    private enum Images
+    {
+        Image_DeathThumbnail,
+        Image_WaveClear,
+        Image_GameOver,
     }
 
     private void Start()
@@ -26,25 +33,29 @@ public class UI_PlayScene : UI_Scene
 
     private void Init()
     {
-        Bind<Text, Texts>();
-
+        BindChildren<Text, Texts>();
+        BindChildren<Image, Images>();
 
         Manager.Game.onPlayerDie.Add(this, () =>
         {
-            Get<Text>(Texts.Text_HP).transform.localScale += Vector3.one * 0.25f;
-            Get<Text>(Texts.Text_Wave).transform.localScale += Vector3.one * 0.4f;
+            GetText(Texts.Text_HP).transform.localScale += Vector3.one * 0.25f;
+            GetText(Texts.Text_Wave).transform.localScale += Vector3.one * 0.4f;
+            GetImage(Images.Image_DeathThumbnail).enabled = true;
+            StartCoroutine(ShowGameOver());
         });
+
+
+        Manager.Game.onWaveClear.Add(this, () =>
+        {
+            StartCoroutine(OnWaveClear());
+        });
+        StartCoroutine(UpdateWaveClearImageEffect());
     }
-
-
-
-
-
 
 
     private void UpdateHPText()
     {
-        Text hpText = Get<Text>(Texts.Text_HP);
+        Text hpText = GetText(Texts.Text_HP);
         if (Manager.Game.isNightmare)
         {
             hpText.text = $"꿈에서의 HP:{Manager.Game.healthInDream}/{Manager.Game.characterMaxHealth / 2}";
@@ -69,7 +80,7 @@ public class UI_PlayScene : UI_Scene
         const float defaultScale = 0.75f;
         const float increaseScale = 0.18f;
 
-        Text waveText = Get<Text>(Texts.Text_Wave);
+        Text waveText = GetText(Texts.Text_Wave);
 
         if (Manager.Game.isNightmare)
         {
@@ -87,7 +98,7 @@ public class UI_PlayScene : UI_Scene
 
     private void UpdateWaveProgressText()
     {
-        Text waveProgressText = Get<Text>(Texts.Text_WaveProgress);
+        Text waveProgressText = GetText(Texts.Text_WaveProgress);
 
         if (Manager.Game.currentCharacter == Sprites.Characters.Suhyen)
         {
@@ -133,7 +144,7 @@ public class UI_PlayScene : UI_Scene
 
     private void UpdateSpecialSkillText()
     {
-        Text specialSkillText = Get<Text>(Texts.Text_SpecialSkill);
+        Text specialSkillText = GetText(Texts.Text_SpecialSkill);
         if (Manager.Game.isSpecialSkillInvoking)
         {
             if (Manager.Game.currentCharacter == Sprites.Characters.Sleepground)
@@ -159,6 +170,99 @@ public class UI_PlayScene : UI_Scene
         {
             specialSkillText.color = Utility.StringToColor("#918d10");
             specialSkillText.text = "S로 특수기술!";
+        }
+    }
+
+
+
+    private void StopCodeOfAnotherObject()
+    {
+        BaseController[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
+        foreach (var code in codes)
+        {
+            if (code == this)
+                continue;
+            code.enabled = false;
+            code.StopAllCoroutines();
+        }
+    }
+
+    private IEnumerator ShowGameOver()
+    {
+        yield return new WaitForSeconds(0.1f);
+        StopCodeOfAnotherObject();
+
+        Image gameOverImage = GetImage(Images.Image_GameOver);
+
+        Color color = gameOverImage.color;
+        color.a = 0.5f;
+        gameOverImage.color = color;
+        gameOverImage.enabled = true;
+
+        Vector3 position = gameOverImage.transform.position;
+        position.x = 300f;
+        gameOverImage.transform.position = position;
+        for (int i = 12; i > 0; i--)
+        {
+            gameOverImage.transform.position += Vector3.right * -25f;
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+
+
+
+    IEnumerator OnWaveClear()
+    {
+        Image waveClearImage = GetImage(Images.Image_WaveClear);
+
+        waveClearImage.SetAlpha(0.5f);
+
+        Vector3 position = waveClearImage.transform.position;
+        position.x = 300;
+        waveClearImage.transform.position = position;
+
+        for (int i = 12; i > 0; i--)
+        {
+            waveClearImage.transform.position += Vector3.right * -25f;
+
+            yield return new WaitForFixedUpdate();
+        }
+        Manager.Game.remainingHealth += 10;
+
+        yield return new WaitForSeconds(1f);
+
+        for (int i = 25; i > 0; i--)
+        {
+            waveClearImage.AddAlpha(-0.02f);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        waveClearImage.SetAlpha(0);
+    }
+
+    IEnumerator UpdateWaveClearImageEffect()
+    {
+        Image waveClearImage = GetImage(Images.Image_WaveClear);
+
+        while (true)
+        {
+            for (int i = 10; i > 0; i--)
+            {
+                waveClearImage.AddBrightness(0.05f / 2f);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            for (int i = 10; i > 0; i--)
+            {
+                waveClearImage.AddBrightness(-0.05f / 2f);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            yield return new WaitForFixedUpdate();
         }
     }
 

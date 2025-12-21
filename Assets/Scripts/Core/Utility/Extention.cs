@@ -73,19 +73,45 @@ public static class Extention
     public static void SetBrightness(this SpriteRenderer spriteRenderer, float value)
     {
         MaterialPropertyBlock block = new MaterialPropertyBlock();
+
         spriteRenderer?.GetPropertyBlock(block);
+
         block.SetFloat("_Brightness", Mathf.Clamp(value, -1f, 1f));
+
         spriteRenderer?.SetPropertyBlock(block);
     }
     public static void AddBrightness(this SpriteRenderer spriteRenderer, float value)
     {
         MaterialPropertyBlock block = new MaterialPropertyBlock();
+        
         spriteRenderer?.GetPropertyBlock(block);
+
         float current = block.GetFloat("_Brightness");
-        float next = Mathf.Clamp(current + value, -1f, 1f);
-        block.SetFloat("_Brightness", next);
+        block.SetFloat("_Brightness", Mathf.Clamp(current + value, -1f, 1f));
+        
         spriteRenderer?.SetPropertyBlock(block);
     }
+
+    public static void SetBrightness(this Image image, float value)
+    {
+        if (image == null) 
+            return;
+
+        // 머터리얼 인스턴스 보장
+        if (image.material == null || image.material == image.defaultMaterial)
+            image.material = new Material(image.defaultMaterial);
+
+        image.material.SetFloat("_Brightness", Mathf.Clamp(value, -1f, 1f));
+    }
+    public static void AddBrightness(this Image image, float value)
+    {
+        if (image == null || image.material == null) 
+            return;
+
+        float current = image.material.GetFloat("_Brightness");
+        image.material.SetFloat("_Brightness", Mathf.Clamp(current + value, -1f, 1f));
+    }
+
     public static void SetAlpha(this SpriteRenderer spriteRenderer, float value)
     {
         Color color = spriteRenderer.color;
@@ -109,16 +135,6 @@ public static class Extention
         AddAlpha(spriteRenderer, -value);
     }
 
-    public static void SetBrightness(this Image image, float value)
-    {
-        image?.material.SetFloat("_Brightness", Mathf.Clamp(value, -1f, 1f));
-    }
-    public static void AddBrightness(this Image image, float value)
-    {
-        float current = image.material.GetFloat("_Brightness");
-        float next = Mathf.Clamp(current + value, -1f, 1f);
-        image.material.SetFloat("_Brightness", next);
-    }
     public static void SetAlpha(this Image image, float value)
     {
         Color color = image.color;

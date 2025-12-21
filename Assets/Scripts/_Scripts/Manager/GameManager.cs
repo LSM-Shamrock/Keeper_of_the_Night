@@ -86,10 +86,7 @@ public class GameManager
         get { return _remainingHealth; }
         set
         {
-            if (value > characterMaxHealth)
-                _remainingHealth = characterMaxHealth;
-            else 
-                _remainingHealth = value;
+            _remainingHealth = Mathf.Clamp(value, 0, characterMaxHealth);
 
             if (value <= 0)
                 onPlayerDie.Call();
@@ -103,7 +100,7 @@ public class GameManager
         get { return _suhyenHealth; }
         set
         {
-            _suhyenHealth = value;
+            _suhyenHealth = Mathf.Max(value, 0);
 
             if (value <= 0)
                 onPlayerDie.Call();
@@ -116,10 +113,7 @@ public class GameManager
         get { return _healthInDream; }
         set
         {
-            if (value > characterMaxHealth / 2)
-                _healthInDream = characterMaxHealth / 2;
-            else
-                _healthInDream = value;
+            _healthInDream = Mathf.Clamp(value, 0, characterMaxHealth / 2);
 
             if (value <= 0)
                 onPlayerDie.Call();

@@ -1,4 +1,4 @@
-Shader "Custom/UIBrightness"
+ÔªøShader "Custom/UIBrightness"
 {
     Properties
     {
@@ -55,14 +55,16 @@ Shader "Custom/UIBrightness"
             {
                 fixed4 texColor = tex2D(_MainTex, i.uv);
 
-                // π‡±‚ ∫∏∞£ ªˆªÛ ∞·¡§
-                fixed3 targetColor = _Brightness > 0 ? fixed3(1,1,1) : fixed3(0,0,0);
-                float strength = abs(_Brightness);
+                // UI Color Tint Ï†ÅÏö©
+                texColor *= i.color;
 
-                fixed3 finalRGB = lerp(texColor.rgb, targetColor, strength);
-                float finalAlpha = texColor.a * i.color.a;
+                // Î∞ùÍ∏∞ Ï°∞Ï†à (Í∞ÄÏÇ∞ Î∞©Ïãù)
+                texColor.rgb += _Brightness;
 
-                return fixed4(finalRGB, finalAlpha);
+                // ÌÅ¥Îû®ÌîÑ
+                texColor.rgb = saturate(texColor.rgb);
+
+                return texColor;
             }
             ENDCG
         }
