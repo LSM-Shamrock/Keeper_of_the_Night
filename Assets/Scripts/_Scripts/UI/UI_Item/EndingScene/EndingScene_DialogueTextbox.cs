@@ -9,7 +9,6 @@ using System.Collections.Generic;
 public class EndingScene_DialogueTextbox : EndingSceneObjectBase
 {
     Text _text;
-    Image _image;
 
     protected override void Start()
     {
@@ -24,7 +23,6 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
 
     void Init()
     {
-        _image = GetComponent<Image>();
         _text = GetComponentInChildren<Text>();
 
         EndingProgress = 1;
@@ -38,12 +36,10 @@ public class EndingScene_DialogueTextbox : EndingSceneObjectBase
         if (!matchDialogue.Success)
         {
             _text.enabled = false;
-            _image.enabled = false;
         }
         else
         {
             _text.enabled = true;
-            _image.enabled = true;
 
             string speaker = matchDialogue.Groups["speaker"].Value;
             string line = matchDialogue.Groups["line"].Value;
