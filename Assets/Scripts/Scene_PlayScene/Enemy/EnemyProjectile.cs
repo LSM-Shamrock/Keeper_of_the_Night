@@ -1,7 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-public abstract class EnemyProjectile : PlaySceneObjectBase
+public abstract class EnemyProjectile : BaseController
 {
     protected bool IsContactCharacter => _col.IsContact(PlaySceneObjects.Character);
     protected bool IsContactMoonlightswordShield => _col.IsContact(PlaySceneObjects.MoonlightswordShield);

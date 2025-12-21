@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterSkill_WaterPrison : PlaySceneObjectBase
+public class CharacterSkill_WaterPrison : BaseController
 {
     protected override void Start()
     {
@@ -20,7 +20,7 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
         _sr = _child.Component<SpriteRenderer>();
         _col = _child.GetComponent<Collider2D>();
 
-        onDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
+        Manager.Game.onDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
 
         StartCoroutine(Loop_Invoking());
         StartCoroutine(Loop_BrightnessEffect());
@@ -31,7 +31,7 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
     {
         if (Manager.Game.selectedCharacter == Sprites.Characters.Rather)
         {
-            isSpecialSkillInvoking = false;
+            Manager.Game.isSpecialSkillInvoking = false;
             _child.SetActive(false);
         }
     }
@@ -78,17 +78,17 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
 
     IEnumerator Loop_Invoking()
     {
-        if (currentCharacter == Sprites.Characters.Rather)
-            specialSkillCooltime = 15f;
+        if (Manager.Game.currentCharacter == Sprites.Characters.Rather)
+            Manager.Game.specialSkillCooltime = 15f;
         
         while (true)
         {
-            yield return WaitUntil(() => currentCharacter == Sprites.Characters.Rather);
+            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
 
-            if (specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
+            if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
             {
-                specialSkillCooltime = 20f;
-                isSpecialSkillInvoking = true;
+                Manager.Game.specialSkillCooltime = 20f;
+                Manager.Game.isSpecialSkillInvoking = true;
 
                 transform.SetY(-70);
                 transform.SetX(Utility.MouseX);
@@ -102,7 +102,7 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
                     _child.transform.localScale = Vector3.one * size;
                     yield return waitForFixedUpdate;
                 }
-                isSpecialSkillInvoking = false;
+                Manager.Game.isSpecialSkillInvoking = false;
                 foreach (int i in Count(10))
                 {
                     if (IsContactEnemy)
@@ -110,7 +110,7 @@ public class CharacterSkill_WaterPrison : PlaySceneObjectBase
 
                     yield return waitForFixedUpdate;
                 }
-                onDisarmSpecialSkill.Call();
+                Manager.Game.onDisarmSpecialSkill.Call();
             }
 
             yield return waitForFixedUpdate;

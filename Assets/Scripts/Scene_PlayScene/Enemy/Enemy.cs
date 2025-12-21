@@ -31,8 +31,8 @@ public class Enemy : EnemyBase
 
             default:
                 _hiddenName = "";
-                _hiddenName += Utility.RandomElement(hiddenSurnames);
-                _hiddenName += Utility.RandomElement(hiddenMainames);
+                _hiddenName += Utility.RandomElement(Manager.Game.hiddenSurnames);
+                _hiddenName += Utility.RandomElement(Manager.Game.hiddenMainames);
                 break;
         }
         StartCoroutine(Loop_HiddenNameLogic());
@@ -76,7 +76,7 @@ public class Enemy : EnemyBase
                 continue;
             }
 
-            if (shoutedEnemyName == _hiddenName)
+            if (Manager.Game.shoutedEnemyName == _hiddenName)
             {
                 Debug.Log("야괴 이름 적중 : " + _hiddenName + " : " + _type.ToString());
                 yield return WaitForSeconds(0.25f);
@@ -99,9 +99,9 @@ public class Enemy : EnemyBase
                         yield return waitForFixedUpdate;
                     }
 
-                    remainingWaveKill--;
+                    Manager.Game.remainingWaveKill--;
                     if (_type == Sprites.Enemys.Shadow)
-                        shadowState = ShadowState.Killed;
+                        Manager.Game.shadowState = ShadowState.Killed;
 
                     DeleteThisClone();
                 }
@@ -116,7 +116,7 @@ public class Enemy : EnemyBase
     {
         base.Init();
         _type = type;
-        onNightmareEvent.Add(this, DeleteThisClone);
+        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
         Init_HpAndSprite();
         StartCoroutine(Loop_Move());
         StartCoroutine(Loop_Attack());
@@ -164,9 +164,9 @@ public class Enemy : EnemyBase
         {
             if (_type == Sprites.Enemys.BossDino)
             {
-                isBossDinoKilled = true;
+                Manager.Game.isBossDinoKilled = true;
             }
-            remainingWaveKill -= 1;
+            Manager.Game.remainingWaveKill -= 1;
             DeleteThisClone();
         }
     }
@@ -258,7 +258,7 @@ public class Enemy : EnemyBase
             else
             {
                 giantization = 1f;
-                shadowState = ShadowState.EndOfGiantization;
+                Manager.Game.shadowState = ShadowState.EndOfGiantization;
                 _sr.SetBrightness(0f);
             }
 
@@ -273,7 +273,7 @@ public class Enemy : EnemyBase
                 // 죽음
                 if (_hp <= 0)
                 {
-                    shadowState = ShadowState.Killed;
+                    Manager.Game.shadowState = ShadowState.Killed;
                     DeleteThisClone();
                 }
             }
@@ -281,7 +281,7 @@ public class Enemy : EnemyBase
             // 특수기술 캔슬링
             if (IsContactMoonlightswordShield ||
                 IsContactBossDinoSkill ||
-                IsContactWaterPrison) onDisarmSpecialSkill.Call();
+                IsContactWaterPrison) Manager.Game.onDisarmSpecialSkill.Call();
 
             yield return waitForFixedUpdate;
         }
@@ -317,8 +317,8 @@ public class Enemy : EnemyBase
         while (true)
         {
             if (IsContactWall || 
-                DistanceTo(Character) > 200 ||
-                DistanceTo(Character) < 150)
+                DistanceTo(Manager.Game.Character) > 200 ||
+                DistanceTo(Manager.Game.Character) < 150)
             {
                 for (int _ = 10; _ > 0; _--)
                 {
@@ -383,11 +383,11 @@ public class Enemy : EnemyBase
 
         if (IsContactGround) transform.position += Vector3.up * 0.1f;
         else transform.position += Vector3.up * -2f;
-        LookAtTheTarget(Character);
-        if (DistanceTo(Character) > 25 || IsContactWall)
+        LookAtTheTarget(Manager.Game.Character);
+        if (DistanceTo(Manager.Game.Character) > 25 || IsContactWall)
         {
-            if (Character.position.x > transform.position.x) transform.position += Vector3.right * 0.5f;
-            if (Character.position.x < transform.position.x) transform.position += Vector3.right * -0.5f;
+            if (Manager.Game.Character.position.x > transform.position.x) transform.position += Vector3.right * 0.5f;
+            if (Manager.Game.Character.position.x < transform.position.x) transform.position += Vector3.right * -0.5f;
         }
     }
     IEnumerator Move_Crazylaughmask_And_Sadeyes()
@@ -395,14 +395,14 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.CrazyLaughMask && _type != Sprites.Enemys.SadEyes)
             yield break;
 
-        LookAtTheTarget(Character);
+        LookAtTheTarget(Manager.Game.Character);
         MoveToMoveDirection(1f);
         if (_type == Sprites.Enemys.CrazyLaughMask)
         {
             if (RandomNumber(1, 500) == 1)
                 yield return Manager.Speech.SpeechForSeconds(transform, "ㅋ흐하하하하핳ㅋ흫흐하핳", 1f);
         }
-        if (DistanceTo(Character) < 50f)
+        if (DistanceTo(Manager.Game.Character) < 50f)
         {
             for (int _ = 15; _ > 0; _--)
             {
@@ -422,11 +422,11 @@ public class Enemy : EnemyBase
 
         if (IsContactGround) transform.position += Vector3.up * 0.1f;
         else transform.position += Vector3.up * -2;
-        LookAtTheTarget(Character);
-        if (DistanceTo(Character) > 100 || IsContactWall)
+        LookAtTheTarget(Manager.Game.Character);
+        if (DistanceTo(Manager.Game.Character) > 100 || IsContactWall)
         {
-            if (Character.position.x > transform.position.x) transform.position += Vector3.right * 1f;
-            if (Character.position.x < transform.position.x) transform.position += Vector3.right * -1f;
+            if (Manager.Game.Character.position.x > transform.position.x) transform.position += Vector3.right * 1f;
+            if (Manager.Game.Character.position.x < transform.position.x) transform.position += Vector3.right * -1f;
         }
 
         yield break;
@@ -436,10 +436,10 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.Bird)
             yield break;
 
-        if (Math.Abs(Character.position.x - transform.position.x) > 50)
+        if (Math.Abs(Manager.Game.Character.position.x - transform.position.x) > 50)
         {
-            if (Character.position.x > transform.position.x) transform.position += Vector3.right * 1f;
-            if (Character.position.x < transform.position.x) transform.position += Vector3.right * -1f;
+            if (Manager.Game.Character.position.x > transform.position.x) transform.position += Vector3.right * 1f;
+            if (Manager.Game.Character.position.x < transform.position.x) transform.position += Vector3.right * -1f;
         }
 
         yield break;
@@ -454,23 +454,23 @@ public class Enemy : EnemyBase
         else 
             transform.AddY(-2f);
 
-        LookAtTheTarget(Character);
+        LookAtTheTarget(Manager.Game.Character);
         if (IsContactWall)
         {
-            if (Character.position.x > transform.position.x) transform.AddX(0.5f);
-            if (Character.position.x < transform.position.x) transform.AddX(-0.5f);
+            if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(0.5f);
+            if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-0.5f);
         }
         else
         {
-            if (DistanceTo(Character) > 200)
+            if (DistanceTo(Manager.Game.Character) > 200)
             {
-                if (Character.position.x > transform.position.x) transform.AddX(0.5f);
-                if (Character.position.x < transform.position.x) transform.AddX(-0.5f);
+                if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(0.5f);
+                if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-0.5f);
             }
-            if (DistanceTo(Character) < 150)
+            if (DistanceTo(Manager.Game.Character) < 150)
             {
-                if (Character.position.x > transform.position.x) transform.AddX(-0.5f);
-                if (Character.position.x < transform.position.x) transform.AddX(0.5f);
+                if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(-0.5f);
+                if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(0.5f);
             }
         }
     }
@@ -484,11 +484,11 @@ public class Enemy : EnemyBase
         else
             transform.AddY(-2f);
 
-        LookAtTheTarget(Character);
-        if (DistanceTo(Character) > 150 || IsContactWall)
+        LookAtTheTarget(Manager.Game.Character);
+        if (DistanceTo(Manager.Game.Character) > 150 || IsContactWall)
         {
-            if (Character.position.x > transform.position.x) transform.AddX(1.2f);
-            if (Character.position.x < transform.position.x) transform.AddX(-1.2f);
+            if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(1.2f);
+            if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-1.2f);
         }
     }
     IEnumerator Move_Red()
@@ -500,12 +500,12 @@ public class Enemy : EnemyBase
             transform.position += Vector3.up * 0.1f;
         else
             transform.position += Vector3.up * -2f;
-        LookAtTheTarget(Character);
-        if (DistanceTo(Character) > 35 || IsContactWall)
+        LookAtTheTarget(Manager.Game.Character);
+        if (DistanceTo(Manager.Game.Character) > 35 || IsContactWall)
         {
-            if (Character.position.x > transform.position.x)
+            if (Manager.Game.Character.position.x > transform.position.x)
                 transform.position += Vector3.right;
-            if (Character.position.x < transform.position.x)
+            if (Manager.Game.Character.position.x < transform.position.x)
                 transform.position += Vector3.left;
         }
 
@@ -521,23 +521,23 @@ public class Enemy : EnemyBase
         else 
             transform.AddY(-1f);
 
-        LookAtTheTarget(Character);
+        LookAtTheTarget(Manager.Game.Character);
         if (IsContactWall)
         {
-            if (Character.position.x > transform.position.x) transform.AddX(0.5f);
-            if (Character.position.x < transform.position.x) transform.AddX(-0.5f);
+            if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(0.5f);
+            if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-0.5f);
         }
         else
         {
-            if (DistanceTo(Character) > 200f)
+            if (DistanceTo(Manager.Game.Character) > 200f)
             {
-                if (Character.position.x > transform.position.x) transform.AddX(0.5f);
-                if (Character.position.x < transform.position.x) transform.AddX(-0.5f);
+                if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(0.5f);
+                if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-0.5f);
             }
-            if (DistanceTo(Character) < 150f)
+            if (DistanceTo(Manager.Game.Character) < 150f)
             {
-                if (Character.position.x > transform.position.x) transform.AddX(-0.5f);
-                if (Character.position.x < transform.position.x) transform.AddX(0.5f);
+                if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(-0.5f);
+                if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(0.5f);
             }
         }
     }
@@ -546,23 +546,23 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.BossDino)
             yield break;
 
-        LookAtTheTarget(Character);
+        LookAtTheTarget(Manager.Game.Character);
         if (IsContactWall)
         {
-            if (Character.position.x > transform.position.x) transform.AddX(1f);
-            if (Character.position.x < transform.position.x) transform.AddX(-1f);
+            if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(1f);
+            if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-1f);
         }
         else
         {
-            if (DistanceTo(Character) > 150f)
+            if (DistanceTo(Manager.Game.Character) > 150f)
             {
-                if (Character.position.x > transform.position.x) transform.AddX(1f);
-                if (Character.position.x < transform.position.x) transform.AddX(-1f);
+                if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(1f);
+                if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-1f);
             }
-            if (DistanceTo(Character) < 175f)
+            if (DistanceTo(Manager.Game.Character) < 175f)
             {
-                if (Character.position.x > transform.position.x) transform.AddX(-1f);
-                if (Character.position.x < transform.position.x) transform.AddX(1f);
+                if (Manager.Game.Character.position.x > transform.position.x) transform.AddX(-1f);
+                if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(1f);
             }
         }
     }
@@ -597,7 +597,7 @@ public class Enemy : EnemyBase
         if (IsContactCharacter == false) 
             yield break;
 
-        TakeDamageToPlayer(12);
+        Manager.Game.TakeDamageToPlayer(12);
         yield return WaitForSeconds(0.5f);
     }
     IEnumerator Attack_Voidcavity()
@@ -605,7 +605,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.VoidCavity)
             yield break;
 
-        if (Math.Abs(transform.position.x - Character.position.x) < 30 == false) 
+        if (Math.Abs(transform.position.x - Manager.Game.Character.position.x) < 30 == false) 
             yield break;
         if (IsContactGround == false) 
             yield break; 
@@ -615,7 +615,7 @@ public class Enemy : EnemyBase
             transform.position += Vector3.up * 5f;
             yield return waitForFixedUpdate;
         }
-        if (IsContactCharacter) TakeDamageToPlayer(9);
+        if (IsContactCharacter) Manager.Game.TakeDamageToPlayer(9);
         yield return WaitForSeconds(0.5f);
     }
     IEnumerator Attack_Crazylaughmask()
@@ -626,7 +626,7 @@ public class Enemy : EnemyBase
         if (IsContactCharacter == false) 
             yield break;
 
-        TakeDamageToPlayer(13);
+        Manager.Game.TakeDamageToPlayer(13);
         for (int i = 10; i > 0; i--)
         {
             MoveToMoveDirection(-2f);
@@ -639,7 +639,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.MotherSpiritSnake)
             yield break;
 
-        if (DistanceTo(Character) < 250f)
+        if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(-0.5f);
             yield return WaitForSeconds(1f);
@@ -653,7 +653,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.Bird)
             yield break;
 
-        LookAtTheTarget(Character);
+        LookAtTheTarget(Manager.Game.Character);
         if (transform.position.y <= 50) 
             yield break;
 
@@ -662,19 +662,19 @@ public class Enemy : EnemyBase
             _sr.SetBrightness(-0.75f);
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
             {
-                LookAtTheTarget(Character);
+                LookAtTheTarget(Manager.Game.Character);
                 yield return waitForFixedUpdate;
             }
             _sr.SetBrightness(0);
             CreateWhirlwind();
         }
 
-        else if (Math.Abs(Character.position.x - transform.position.x) < 100) 
+        else if (Math.Abs(Manager.Game.Character.position.x - transform.position.x) < 100) 
         {
             _sr.SetBrightness(0.75f);
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
             {
-                LookAtTheTarget(Character);
+                LookAtTheTarget(Manager.Game.Character);
                 yield return waitForFixedUpdate;
             }
             _sr.SetBrightness(0f);
@@ -683,7 +683,7 @@ public class Enemy : EnemyBase
                 MoveToMoveDirection(8f);
                 if (IsContactCharacter)
                 {
-                    TakeDamageToPlayer(12);
+                    Manager.Game.TakeDamageToPlayer(12);
                     break;
                 }
                 if (IsContactGround || IsContactMoonlightswordShield) 
@@ -695,7 +695,7 @@ public class Enemy : EnemyBase
 
         for (float timer = 2f; timer > 0; timer -= Time.fixedDeltaTime)
         {
-            LookAtTheTarget(Character);
+            LookAtTheTarget(Manager.Game.Character);
             yield return waitForFixedUpdate;
         }
     }
@@ -707,7 +707,7 @@ public class Enemy : EnemyBase
         if (!IsContactCharacter) 
             yield break;
 
-        TakeDamageToPlayer(12);
+        Manager.Game.TakeDamageToPlayer(12);
         for (int i = 10; i > 0; i--)
         {
             MoveToMoveDirection(-2f);
@@ -720,7 +720,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.ThePiedPiper)
             yield break;
 
-        if (DistanceTo(Character) < 200)
+        if (DistanceTo(Manager.Game.Character) < 200)
         {
             Manager.Speech.Speech(transform, "♪");
             foreach (int i in Count(RandomNumber(3, 6)))
@@ -742,7 +742,7 @@ public class Enemy : EnemyBase
         if (IsContactWaterPrison) 
             yield break;
 
-        if (DistanceTo(Character) < 250f)
+        if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(-0.5f);
             yield return WaitForSeconds(1f);
@@ -756,7 +756,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.Red)
             yield break;
 
-        if (Mathf.Abs(transform.position.x - Character.position.x) < 40)
+        if (Mathf.Abs(transform.position.x - Manager.Game.Character.position.x) < 40)
         {
             if (IsContactGround)
             {
@@ -765,7 +765,7 @@ public class Enemy : EnemyBase
                     transform.Translate(Vector3.up * 5f);
                     yield return waitForFixedUpdate;
                 }
-                if (IsContactCharacter) TakeDamageToPlayer(13);
+                if (IsContactCharacter) Manager.Game.TakeDamageToPlayer(13);
                 yield return WaitForSeconds(0.5f);
             }
         }
@@ -775,7 +775,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.SnowLady)
             yield break;
 
-        if (DistanceTo(Character) < 250f)
+        if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(0.5f);
             yield return WaitForSeconds(0.5f);
@@ -789,7 +789,7 @@ public class Enemy : EnemyBase
         if (_type != Sprites.Enemys.BossDino)
             yield break;
 
-        if (DistanceTo(Character) < 250f)
+        if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(-0.5f);
             yield return WaitForSeconds(0.5f);

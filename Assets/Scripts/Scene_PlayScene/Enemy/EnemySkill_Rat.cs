@@ -8,7 +8,7 @@ public class EnemySkill_Rat : EnemyBase
     public void OnCreate()
     {
         base.Init();
-        onNightmareEvent.Add(this, DeleteThisClone);
+        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
         transform.SetX(Utility.RandomNumber(1, 2) == 1 ? 300f : -300f);
         StartCoroutine(Routine_Move());
         StartCoroutine(Routine_Attack());
@@ -23,11 +23,11 @@ public class EnemySkill_Rat : EnemyBase
             else
                 transform.AddY(-2f);
 
-            _sr.flipX = Character.GetX() < transform.GetX();
+            _sr.flipX = Manager.Game.Character.GetX() < transform.GetX();
 
-            if (DistanceTo(Character) > 25f || IsContactWall)
+            if (DistanceTo(Manager.Game.Character) > 25f || IsContactWall)
             {
-                if (Character.GetX() > transform.GetX())
+                if (Manager.Game.Character.GetX() > transform.GetX())
                     transform.AddX(1.5f);
                 else
                     transform.AddX(-1.5f);
@@ -41,7 +41,7 @@ public class EnemySkill_Rat : EnemyBase
     {
         while (true)
         {
-            if (Mathf.Abs(transform.GetX() - Character.GetX()) < 30 && IsContactGround)
+            if (Mathf.Abs(transform.GetX() - Manager.Game.Character.GetX()) < 30 && IsContactGround)
             {
                 foreach (var i in Count(5))
                 {
@@ -49,7 +49,7 @@ public class EnemySkill_Rat : EnemyBase
                     yield return waitForFixedUpdate;
                 }
                 if (IsContactCharacter)
-                    TakeDamageToPlayer(2);
+                    Manager.Game.TakeDamageToPlayer(2);
                 yield return WaitForSeconds(0.5f);
             }
             yield return waitForFixedUpdate;

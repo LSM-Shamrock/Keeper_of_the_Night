@@ -1,14 +1,14 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WaveClear : PlaySceneObjectBase
+public class WaveClear : BaseController
 {
     CanvasGroup _group;
     protected override void Start()
     {
         _group = GetComponent<CanvasGroup>();
-        onWaveClear.Add(this, () => StartCoroutine(OnWaveClear()));
+        Manager.Game.onWaveClear.Add(this, () => StartCoroutine(OnWaveClear()));
         StartCoroutine(Start_Effect());
     }
 
@@ -25,7 +25,7 @@ public class WaveClear : PlaySceneObjectBase
             transform.position += Vector3.right * -25f;
             yield return waitForFixedUpdate;
         }
-        remainingHealth += 10;
+        Manager.Game.remainingHealth += 10;
         yield return WaitForSeconds(1f);
         for (int i = 25; i > 0; i--)
         {

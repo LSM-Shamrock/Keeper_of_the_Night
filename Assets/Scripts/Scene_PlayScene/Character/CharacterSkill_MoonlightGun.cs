@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterSkill_MoonlightGun : PlaySceneObjectBase
+public class CharacterSkill_MoonlightGun : BaseController
 {
     GameObject _child;
     Vector3 _direction;
@@ -37,9 +37,9 @@ public class CharacterSkill_MoonlightGun : PlaySceneObjectBase
     {
         while (true)
         {
-            yield return WaitUntil(() => currentCharacter == Sprites.Characters.Dino);
+            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Dino);
 
-            if (!isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
+            if (!Manager.Game.isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
             {
                 Shoot();
                 yield return WaitForSeconds(0.5f);
@@ -53,10 +53,10 @@ public class CharacterSkill_MoonlightGun : PlaySceneObjectBase
     {
         while (true)
         {
-            if (currentCharacter == Sprites.Characters.Dino && !isSpecialSkillInvoking)
+            if (Manager.Game.currentCharacter == Sprites.Characters.Dino && !Manager.Game.isSpecialSkillInvoking)
             { 
                 _child.SetActive(true);
-                transform.position = Character.position;
+                transform.position = Manager.Game.Character.position;
                 transform.position += Vector3.up * -10f;
 
                 bool flip = Utility.MouseX < transform.GetX();

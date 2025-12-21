@@ -1,7 +1,7 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterSkill_CameraFlash : PlaySceneObjectBase
+public class CharacterSkill_CameraFlash : BaseController
 {
     SpriteRenderer _sr;
     Vector3 _direction;

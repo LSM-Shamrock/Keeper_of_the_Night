@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOver : PlaySceneObjectBase
+public class GameOver : BaseController
 {
     protected override void Start()
     {
@@ -15,7 +15,7 @@ public class GameOver : PlaySceneObjectBase
 
     void StopCodeOfAnotherObject()
     {
-        PlaySceneObjectBase[] codes = FindObjectsByType<PlaySceneObjectBase>(FindObjectsSortMode.None);
+        BaseController[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
         foreach (var code in codes)
         {
             if (code == this) 
@@ -27,8 +27,8 @@ public class GameOver : PlaySceneObjectBase
 
     IEnumerator ShowWhenPlayerDie()
     {
-        yield return WaitUntil(() => remainingHealth > 0 && suhyenHealth > 0 && healthInDream > 0);
-        yield return WaitUntil(() => remainingHealth <= 0 || suhyenHealth <= 0 || healthInDream <= 0);
+        yield return WaitUntil(() => Manager.Game.remainingHealth > 0 && Manager.Game.suhyenHealth > 0 && Manager.Game.healthInDream > 0);
+        yield return WaitUntil(() => Manager.Game.remainingHealth <= 0 || Manager.Game.suhyenHealth <= 0 || Manager.Game.healthInDream <= 0);
         yield return WaitForSeconds(0.1f); 
         StopCodeOfAnotherObject();
 
@@ -50,11 +50,11 @@ public class GameOver : PlaySceneObjectBase
 
     void Update_HealthMin()
     {
-        if (remainingHealth < 0) 
-            remainingHealth = 0;
-        if (suhyenHealth < 0)
-            suhyenHealth = 0;
-        if (healthInDream < 0)
-            healthInDream = 0;
+        if (Manager.Game.remainingHealth < 0) 
+            Manager.Game.remainingHealth = 0;
+        if (Manager.Game.suhyenHealth < 0)
+            Manager.Game.suhyenHealth = 0;
+        if (Manager.Game.healthInDream < 0)
+            Manager.Game.healthInDream = 0;
     }
 }

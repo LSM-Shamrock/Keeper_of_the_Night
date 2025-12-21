@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkill_MoonlightgunBullet : PlaySceneObjectBase
+public class CharacterSkill_MoonlightgunBullet : BaseController
 {
     Collider2D _col;
     Vector3 _direction;

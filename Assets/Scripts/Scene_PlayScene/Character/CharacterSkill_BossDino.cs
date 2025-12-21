@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterSkill_BossDino : PlaySceneObjectBase
+public class CharacterSkill_BossDino : BaseController
 {
     GameObject _child;
     GameObject _black;
@@ -21,7 +21,7 @@ public class CharacterSkill_BossDino : PlaySceneObjectBase
         _child = transform.GetChild(0).gameObject;
         _black = transform.GetChild(1).gameObject;
 
-        onDisarmSpecialSkill.Add(this, OnSignal_SpecialSkillDisarm);
+        Manager.Game.onDisarmSpecialSkill.Add(this, OnSignal_SpecialSkillDisarm);
 
         StartCoroutine(Loop_Routine());
         StartCoroutine(Loop_BlackBrightnessEftect());
@@ -31,24 +31,24 @@ public class CharacterSkill_BossDino : PlaySceneObjectBase
     {
         if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
         {
-            isSpecialSkillInvoking = false;
+            Manager.Game.isSpecialSkillInvoking = false;
         }
     }
 
     void Update_Visual()
     {
-        bool b = Manager.Game.selectedCharacter == Sprites.Characters.Dino && isSpecialSkillInvoking;
+        bool b = Manager.Game.selectedCharacter == Sprites.Characters.Dino && Manager.Game.isSpecialSkillInvoking;
         _child.SetActive(b);
         _black.SetActive(b);
 
-        transform.position = Character.position;
+        transform.position = Manager.Game.Character.position;
 
-        bool flip = characterMoveDirection.x < 0;
+        bool flip = Manager.Game.characterMoveDirection.x < 0;
         transform.rotation = Quaternion.Euler(Vector3.up * (flip ? 180 : 0));
 
         _black.transform.position = transform.position;
         _black.transform.position += Vector3.up * -20f;
-        _black.transform.position += characterMoveDirection * 15f;
+        _black.transform.position += Manager.Game.characterMoveDirection * 15f;
     }
 
     IEnumerator Loop_BlackBrightnessEftect()
@@ -73,18 +73,18 @@ public class CharacterSkill_BossDino : PlaySceneObjectBase
     IEnumerator Loop_Routine()
     {
         if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
-            specialSkillCooltime = 35f;
+            Manager.Game.specialSkillCooltime = 35f;
 
         while (true)
         {
-            yield return WaitUntil(() => currentCharacter == Sprites.Characters.Dino);
+            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Dino);
 
-            if (specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
+            if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
             {
-                specialSkillCooltime = 45f;
-                isSpecialSkillInvoking = true;
+                Manager.Game.specialSkillCooltime = 45f;
+                Manager.Game.isSpecialSkillInvoking = true;
                 yield return WaitForSeconds(10f);
-                onDisarmSpecialSkill.Call();
+                Manager.Game.onDisarmSpecialSkill.Call();
             }
 
             yield return waitForFixedUpdate;

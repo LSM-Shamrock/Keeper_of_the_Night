@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
+public class CharacterSkill_MoonlightswordShield : BaseController
 {
     GameObject _child;
     SpriteRenderer _blue;
@@ -11,7 +11,7 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
 
     bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
 
-    bool IsSleepground => currentCharacter == Sprites.Characters.Sleepground;
+    bool IsSleepground => Manager.Game.currentCharacter == Sprites.Characters.Sleepground;
 
     protected override void Start()
     {
@@ -24,7 +24,7 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
         _blue = transform.GetChild(1).GetComponent<SpriteRenderer>();
         _yellow = transform.GetChild(2).GetComponent<SpriteRenderer>();
         _white = transform.GetChild(3).GetComponent<SpriteRenderer>();
-        onDisarmSpecialSkill.Add(this, () => StartCoroutine(OnDisarmSpecialSkill()));
+        Manager.Game.onDisarmSpecialSkill.Add(this, () => StartCoroutine(OnDisarmSpecialSkill()));
         StartCoroutine(Loop_Release());
         StartCoroutine(Loop_OnSkill());
     }
@@ -74,8 +74,8 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
             HideShield();
             _child.SetActive(false);
             yield return WaitForSeconds(0.1f);
-            isSpecialSkillInvoking = false;
-            specialSkillCooltime = 0.5f;
+            Manager.Game.isSpecialSkillInvoking = false;
+            Manager.Game.specialSkillCooltime = 0.5f;
         }
     }
 
@@ -84,16 +84,16 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
         while (true)
         {
             yield return WaitUntil(() => IsSleepground);
-            if (isSpecialSkillInvoking)
+            if (Manager.Game.isSpecialSkillInvoking)
             {
                 foreach (int i in Count(150))
                 {
                     yield return WaitForSeconds(0.1f);
-                    if (!isSpecialSkillInvoking) break;
+                    if (!Manager.Game.isSpecialSkillInvoking) break;
                 }
 
-                if (isSpecialSkillInvoking)
-                    onDisarmSpecialSkill.Call();
+                if (Manager.Game.isSpecialSkillInvoking)
+                    Manager.Game.onDisarmSpecialSkill.Call();
             }
             yield return waitForFixedUpdate;
         }
@@ -106,20 +106,20 @@ public class CharacterSkill_MoonlightswordShield : PlaySceneObjectBase
         {
             yield return WaitUntil(() => IsSleepground);
 
-            if (isSpecialSkillInvoking)
+            if (Manager.Game.isSpecialSkillInvoking)
             {
                 if (Manager.Input.IsPressedS || Manager.Input.IsMouseClicked)
                 {
-                    onDisarmSpecialSkill.Call();
+                    Manager.Game.onDisarmSpecialSkill.Call();
                     yield return WaitUntil(() => !Manager.Input.IsPressedS);
                 }
             }
-            else if (Manager.Input.IsPressedS && specialSkillCooltime <= 0f)
+            else if (Manager.Input.IsPressedS && Manager.Game.specialSkillCooltime <= 0f)
             {
-                isSpecialSkillInvoking = true;
+                Manager.Game.isSpecialSkillInvoking = true;
                 _child.SetSpriteAndPolygon(sprite_Droping);
                 _child.SetActive(true);
-                transform.position = Character.position + Vector3.up * 30f;
+                transform.position = Manager.Game.Character.position + Vector3.up * 30f;
                 yield return WaitUntil(() => !IsContactGround);
                 while (!IsContactGround)
                 {

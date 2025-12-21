@@ -11,8 +11,8 @@ public class DreamGhost : EnemyBase
     public override void Init()
     {
         base.Init();
-        onDreamghostAppearance.Add(this, () => StartCoroutine(OnAppearance()));
-        onNightmareEvent.Add(this, () => StartCoroutine(OnNightmareEvent()));
+        Manager.Game.onDreamghostAppearance.Add(this, () => StartCoroutine(OnAppearance()));
+        Manager.Game.onNightmareEvent.Add(this, () => StartCoroutine(OnNightmareEvent()));
     }
 
     void CreateButterflyParticle()
@@ -41,8 +41,8 @@ public class DreamGhost : EnemyBase
             sr.AddTransparency(-0.05f);
             yield return waitForFixedUpdate;
         }
-        isNightmare = Manager.Game.wave == 7;
-        onNightmareEvent.Call();
+        Manager.Game.isNightmare = Manager.Game.wave == 7;
+        Manager.Game.onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
@@ -55,8 +55,8 @@ public class DreamGhost : EnemyBase
             sr.AddTransparency(-0.05f);
             yield return waitForFixedUpdate;
         }
-        isNightmare = Manager.Game.wave == 7;
-        onNightmareEvent.Call();
+        Manager.Game.isNightmare = Manager.Game.wave == 7;
+        Manager.Game.onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
@@ -78,8 +78,8 @@ public class DreamGhost : EnemyBase
     IEnumerator OnAppearance()
     {
         transform.SetY(100f);
-        transform.SetX(Character.position.x > 0 ? -250f : 250f);
-        int moveX = Character.position.x > 0 ? 1 : -1;
+        transform.SetX(Manager.Game.Character.position.x > 0 ? -250f : 250f);
+        int moveX = Manager.Game.Character.position.x > 0 ? 1 : -1;
         foreach (int i in Count(60))
         {
             transform.AddX(2f * moveX);
@@ -92,16 +92,16 @@ public class DreamGhost : EnemyBase
         Hide();
         StartCoroutine(WhiteoutEffect());
         yield return WaitUntil(() => Manager.Game.wave == 8);
-        transform.SetX(Character.position.x > 0 ? -200f : 200f);
+        transform.SetX(Manager.Game.Character.position.x > 0 ? -200f : 200f);
         Show();
         while (true)
         {
-            Vector3 direction = (Character.transform.position - transform.position).normalized;
+            Vector3 direction = (Manager.Game.Character.transform.position - transform.position).normalized;
             transform.rotation = Quaternion.Euler(Vector3.up * (direction.x > 0 ? 0 : 180));
             transform.position += direction * 1f;
             if (IsContactGround)
             {
-                if (Mathf.Abs(transform.GetX() - Character.GetX()) < 30)
+                if (Mathf.Abs(transform.GetX() - Manager.Game.Character.GetX()) < 30)
                 {
                     foreach (int i in Count(5))
                     {
@@ -109,7 +109,7 @@ public class DreamGhost : EnemyBase
                         yield return waitForFixedUpdate;
                     }
                     if (IsContactCharacter)
-                        TakeDamageToPlayer(9);
+                        Manager.Game.TakeDamageToPlayer(9);
 
                     while (!IsContactGround)
                     {

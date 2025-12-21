@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class EnemyBase : PlaySceneObjectBase
+public abstract class EnemyBase : BaseController
 {
     protected SpriteRenderer _sr;
     protected Collider2D _col;
@@ -65,19 +65,19 @@ public abstract class EnemyBase : PlaySceneObjectBase
             if (IsContactMoonlightgunBullet)
             {
                 yield return WhenTakingDamage(4);
-                LookAtTheTarget(Character);
+                LookAtTheTarget(Manager.Game.Character);
                 MoveToMoveDirection(-5);
             }
             if (IsContactBossDinoSkill)
             {
-                if (Manager.Game.wave == 7) healthInDream += 2;
-                else remainingHealth += 2;
+                if (Manager.Game.wave == 7) Manager.Game.healthInDream += 2;
+                else Manager.Game.remainingHealth += 2;
                 yield return WhenTakingDamage(3);
             }
             if (IsContactWater)
             {
                 yield return WhenTakingDamage(2);
-                LookAtTheTarget(Character);
+                LookAtTheTarget(Manager.Game.Character);
                 MoveToMoveDirection(-4);
             }
             yield return waitForFixedUpdate;
@@ -89,7 +89,7 @@ public abstract class EnemyBase : PlaySceneObjectBase
         {
             if (IsContactMoonlightswordShield)
             {
-                if (transform.GetX() < MoonlightswordShield.GetX())
+                if (transform.GetX() < Manager.Game.MoonlightswordShield.GetX())
                 {
                     foreach (int i in Count(10))
                     {
@@ -97,7 +97,7 @@ public abstract class EnemyBase : PlaySceneObjectBase
                         yield return waitForFixedUpdate;
                     }
                 }
-                if (transform.GetX() > MoonlightswordShield.GetX())
+                if (transform.GetX() > Manager.Game.MoonlightswordShield.GetX())
                 {
                     foreach (int i in Count(10))
                     {
@@ -113,11 +113,11 @@ public abstract class EnemyBase : PlaySceneObjectBase
     {
         while (true)
         {
-            if (IsContactWaterPrison && isSpecialSkillInvoking)
+            if (IsContactWaterPrison && Manager.Game.isSpecialSkillInvoking)
             {
                 while (IsContactWaterPrison)
                 {
-                    yield return transform.MoveToPositionOverTime(0.1f, WaterPrison.position);
+                    yield return transform.MoveToPositionOverTime(0.1f, Manager.Game.WaterPrison.position);
                     yield return waitForFixedUpdate;
                 }
             }

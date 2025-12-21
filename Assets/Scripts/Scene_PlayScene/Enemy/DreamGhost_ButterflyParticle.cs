@@ -2,7 +2,7 @@
 using UnityEngine;
 using static Utility;
 
-public class DreamGhost_ButterflyParticle : PlaySceneObjectBase
+public class DreamGhost_ButterflyParticle : BaseController
 {
     public void OnCreated()
     {

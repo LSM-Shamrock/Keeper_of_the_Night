@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
+public class CharacterSkill_BossDinoSkill : BaseController
 {
     LineRenderer _line;
     GameObject _child;
@@ -37,7 +37,7 @@ public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
         sr.SetAlpha(0.5f);
         sr.SetBrightness(0f);
 
-        transform.position = BossDinoBlackBall.position;
+        transform.position = Manager.Game.BossDinoBlackBall.position;
         Vector3 direction = (Utility.MousePosition - transform.position).normalized;
         float randomDistance = Utility.RandomNumber(1, 250);
         transform.position += direction * randomDistance;
@@ -86,8 +86,8 @@ public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
     {
         while (true)
         {
-            bool characterCheck = currentCharacter == Sprites.Characters.Dino;
-            if (characterCheck && isSpecialSkillInvoking)
+            bool characterCheck = Manager.Game.currentCharacter == Sprites.Characters.Dino;
+            if (characterCheck && Manager.Game.isSpecialSkillInvoking)
             {
                 CreateClone();
             }
@@ -99,12 +99,12 @@ public class CharacterSkill_BossDinoSkill : PlaySceneObjectBase
     {
         while (true)
         {
-            bool characterCheck = currentCharacter == Sprites.Characters.Dino;
-            if (characterCheck && isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
+            bool characterCheck = Manager.Game.currentCharacter == Sprites.Characters.Dino;
+            if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
             {
                 _child.SetActive(true);
                 _line.positionCount = 2;
-                transform.position = BossDinoBlackBall.position;
+                transform.position = Manager.Game.BossDinoBlackBall.position;
                 Vector3 direction = (Utility.MousePosition - transform.position).normalized;
                 _line.SetPosition(0, transform.position);
                 transform.position += direction * 250f;

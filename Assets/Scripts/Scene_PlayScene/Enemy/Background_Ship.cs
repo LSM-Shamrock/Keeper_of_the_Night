@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Background_Ship : PlaySceneObjectBase
+public class Background_Ship : BaseController
 {
     SpriteRenderer _sr;
     protected override void Start()

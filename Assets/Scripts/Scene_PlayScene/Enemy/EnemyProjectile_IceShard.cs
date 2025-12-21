@@ -6,11 +6,11 @@ public class EnemyProjectile_IceShard : EnemyProjectile
     protected override IEnumerator Routine_ContactCharacter()
     {
         yield return WaitUntil(() => IsContactCharacter);
-        TakeDamageToPlayer(11);
+        Manager.Game.TakeDamageToPlayer(11);
         _sr.sprite = Utility.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 50f;
-        ice += 4;
+        Manager.Game.ice += 4;
         yield return WaitForSeconds(0.3f);
         foreach (int i in Count(10))
         {
@@ -34,7 +34,7 @@ public class EnemyProjectile_IceShard : EnemyProjectile
             {
                 while (true)
                 {
-                    transform.position = Character.position;
+                    transform.position = Manager.Game.Character.position;
                     yield return waitForFixedUpdate;
                 }
             }

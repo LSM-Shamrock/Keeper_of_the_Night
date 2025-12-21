@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemyProjectile_DinoProjectile : EnemyProjectile
@@ -9,7 +9,7 @@ public class EnemyProjectile_DinoProjectile : EnemyProjectile
         {
             if (IsContactCharacter)
             {
-                TakeDamageToPlayer(2);
+                Manager.Game.TakeDamageToPlayer(2);
                 yield return WaitForSeconds(0.01f);
                 yield return waitForFixedUpdate;
             }

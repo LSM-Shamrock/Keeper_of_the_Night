@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class EnemyHiddenNameParticle : PlaySceneObjectBase
+public class EnemyHiddenNameParticle : BaseController
 {
     public void Init(Vector3 position)
     {

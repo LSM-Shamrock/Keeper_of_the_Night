@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Utility;
 
-public class EnemyGenerator : PlaySceneObjectBase
+public class EnemyGenerator : BaseController
 {
     protected override void Start()
     {
@@ -58,7 +58,7 @@ public class EnemyGenerator : PlaySceneObjectBase
         if (enemyChoice == 13)
             CreateEnemy(Sprites.Enemys.SnowLady);
 
-        if (isNightmare)
+        if (Manager.Game.isNightmare)
             yield return WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
         else
             yield return WaitForSeconds(Utility.RandomNumber(2.5f, 5f));
@@ -81,7 +81,7 @@ public class EnemyGenerator : PlaySceneObjectBase
             {
                 if (Manager.Game.wave == 7)
                 {
-                    onDreamghostAppearance.Call();
+                    Manager.Game.onDreamghostAppearance.Call();
                 }
                 if (Manager.Game.wave == 15)
                 {

@@ -7,8 +7,8 @@ public class DreamGhost_Phantom : EnemyBase
     public override void Init()
     {
         base.Init();
-        onNightmareEvent.Add(this, DeleteThisClone);
-        gameObject.SetSpriteAndPolygon(LoadResource<Sprite>(currentCharacter));
+        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
+        gameObject.SetSpriteAndPolygon(LoadResource<Sprite>(Manager.Game.currentCharacter));
         transform.SetX(RandomNumber(1, 2) == 1 ? 300 : -300);
         StartCoroutine(Loop());
     }
@@ -23,12 +23,12 @@ public class DreamGhost_Phantom : EnemyBase
     {
         while (true)
         {
-            Vector3 direction = (Character.position - transform.position).normalized;
+            Vector3 direction = (Manager.Game.Character.position - transform.position).normalized;
             transform.position += direction * 0.7f;
 
             if (IsContactGround)
             {
-                if (Mathf.Abs(transform.GetX() - Character.GetX()) < 30f)
+                if (Mathf.Abs(transform.GetX() - Manager.Game.Character.GetX()) < 30f)
                 {
                     foreach (int i in Count(5))
                     {
@@ -36,7 +36,7 @@ public class DreamGhost_Phantom : EnemyBase
                         yield return waitForFixedUpdate;
                     }
                     if (IsContactCharacter)
-                        TakeDamageToPlayer(9);
+                        Manager.Game.TakeDamageToPlayer(9);
 
                     while (!IsContactGround)
                     {

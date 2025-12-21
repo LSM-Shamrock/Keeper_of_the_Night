@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemyProjectile_Fire : EnemyProjectile
@@ -19,7 +19,7 @@ public class EnemyProjectile_Fire : EnemyProjectile
             {
                 while (true)
                 {
-                    transform.position = Character.position;
+                    transform.position = Manager.Game.Character.position;
                     yield return waitForFixedUpdate;
                 }
             }
@@ -35,7 +35,7 @@ public class EnemyProjectile_Fire : EnemyProjectile
         transform.localScale = Vector3.one * 50f;
         foreach (int i in Count(10))
         {
-            TakeDamageToPlayer(1);
+            Manager.Game.TakeDamageToPlayer(1);
             _sr.AddTransparency(0.04f);
             yield return WaitForSeconds(0.2f);
             yield return waitForFixedUpdate;

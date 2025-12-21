@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterSkill_Water : PlaySceneObjectBase
+public class CharacterSkill_Water : BaseController
 {
     protected override void Start()
     {
@@ -20,7 +20,7 @@ public class CharacterSkill_Water : PlaySceneObjectBase
     {
         while (true)
         {
-            yield return WaitUntil(() => currentCharacter == Sprites.Characters.Rather);
+            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
             if (Manager.Input.IsMouseClicked)
             {
                 StartCoroutine(Throw());
@@ -39,7 +39,7 @@ public class CharacterSkill_Water : PlaySceneObjectBase
         float size = 20f;
         transform.localScale = Vector3.one * size;
 
-        transform.position = Character.position;
+        transform.position = Manager.Game.Character.position;
 
         Vector3 direction = (Utility.MousePosition - transform.position).normalized;
         transform.rotation = Utility.Direction2Rotation(direction);

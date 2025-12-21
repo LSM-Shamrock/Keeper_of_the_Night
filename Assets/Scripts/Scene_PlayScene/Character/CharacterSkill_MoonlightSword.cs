@@ -2,7 +2,7 @@
 using UnityEngine;
 using static Utility;
 
-public class CharacterSkill_MoonlightSword : PlaySceneObjectBase
+public class CharacterSkill_MoonlightSword : BaseController
 {
     GameObject _child;
 
@@ -42,20 +42,20 @@ public class CharacterSkill_MoonlightSword : PlaySceneObjectBase
     {
         while (true)
         {
-            yield return WaitUntil(() => currentCharacter == Sprites.Characters.Sleepground);
+            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Sleepground);
             
-            if (isSpecialSkillInvoking) 
+            if (Manager.Game.isSpecialSkillInvoking) 
                 goto Return;
 
             if (!Manager.Input.IsMouseClicked) 
                 goto Return;
 
             _child.SetActive(true);
-            int rotateDirection = (MouseX > Character.GetX()) ? -1 : 1;
+            int rotateDirection = (MouseX > Manager.Game.Character.GetX()) ? -1 : 1;
             transform.rotation = Quaternion.Euler(0, 0, rotateDirection * 45);
             foreach (int i in Count(9))
             {
-                transform.position = Character.position;
+                transform.position = Manager.Game.Character.position;
                 transform.Translate(Vector3.up * 50f);
                 CreateClone();
                 transform.Rotate(Vector3.forward * 10f * rotateDirection);

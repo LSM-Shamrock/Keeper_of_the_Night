@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Character : PlaySceneObjectBase
+public class Character : BaseController
 {
     Collider2D _col;
     SpriteRenderer _sr;
@@ -29,9 +29,9 @@ public class Character : PlaySceneObjectBase
         foreach (Sprites.Characters character in Enum.GetValues(typeof(Sprites.Characters)))
             _sprites[character] = Utility.LoadResource<Sprite>(character);
 
-        currentCharacter = Manager.Game.selectedCharacter;
-        _sr.sprite = _sprites[currentCharacter];
-        onNightmareEvent.Add(this, OnNightmareEvent);
+        Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
+        _sr.sprite = _sprites[Manager.Game.currentCharacter];
+        Manager.Game.onNightmareEvent.Add(this, OnNightmareEvent);
         StartCoroutine(Loop_Jump());
         StartCoroutine(Loop_Move());
         StartCoroutine(Loop_IceDown());
@@ -42,7 +42,7 @@ public class Character : PlaySceneObjectBase
     {
         while (true)
         {
-            if (ice > 0) { yield return waitForFixedUpdate; continue; }
+            if (Manager.Game.ice > 0) { yield return waitForFixedUpdate; continue; }
             if (IsOnGround)
             {
                 _jumpGauge = 15;
@@ -62,17 +62,17 @@ public class Character : PlaySceneObjectBase
     {
         while(true)
         {   
-            if (ice <= 0)
+            if (Manager.Game.ice <= 0)
             {
                 if (Manager.Input.IsPressedA && transform.position.x > -240)
                 {
-                    characterMoveDirection = Vector3.left;
-                    transform.position += characterMoveDirection * 3;
+                    Manager.Game.characterMoveDirection = Vector3.left;
+                    transform.position += Manager.Game.characterMoveDirection * 3;
                 }
                 if (Manager.Input.IsPressedD && transform.position.x < 240)
                 {
-                    characterMoveDirection = Vector3.right;
-                    transform.position += characterMoveDirection * 3;
+                    Manager.Game.characterMoveDirection = Vector3.right;
+                    transform.position += Manager.Game.characterMoveDirection * 3;
                 }
             }
 
@@ -83,16 +83,16 @@ public class Character : PlaySceneObjectBase
     {
         while (true)
         {
-            if (shadowState != ShadowState.EndOfGiantization)
+            if (Manager.Game.shadowState != ShadowState.EndOfGiantization)
             {
                 yield return waitForFixedUpdate;
                 continue;
             }
-            currentCharacter = Sprites.Characters.Suhyen;
+            Manager.Game.currentCharacter = Sprites.Characters.Suhyen;
             _sr.sprite = _sprites[Sprites.Characters.Suhyen];
-            yield return WaitUntil(() => shadowState == ShadowState.Killed);
-            currentCharacter = Manager.Game.selectedCharacter;
-            _sr.sprite = _sprites[currentCharacter];
+            yield return WaitUntil(() => Manager.Game.shadowState == ShadowState.Killed);
+            Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
+            _sr.sprite = _sprites[Manager.Game.currentCharacter];
             yield return waitForFixedUpdate;
         }
     }
@@ -100,10 +100,10 @@ public class Character : PlaySceneObjectBase
     {
         while (true)
         {
-            if (ice > 0)
+            if (Manager.Game.ice > 0)
             {
                 yield return WaitForSeconds(0.1f);
-                ice--;
+                Manager.Game.ice--;
             }
             else yield return waitForFixedUpdate;
         }
@@ -111,7 +111,7 @@ public class Character : PlaySceneObjectBase
     void Update_DinoSpecial()
     {
         if (Manager.Game.selectedCharacter != Sprites.Characters.Dino) return;
-        if (!isSpecialSkillInvoking)
+        if (!Manager.Game.isSpecialSkillInvoking)
         {
             _sr.color = Color.white;
             transform.localScale = Vector3.one * 50;
@@ -135,10 +135,10 @@ public class Character : PlaySceneObjectBase
         {
             if (Manager.Input.IsPressedT)
             {
-                yield return Manager.Speech.SpeechAndWaitInput(transform, "야괴 이름 외치기:", inpuut => shoutedEnemyName = inpuut);
+                yield return Manager.Speech.SpeechAndWaitInput(transform, "야괴 이름 외치기:", inpuut => Manager.Game.shoutedEnemyName = inpuut);
                 foreach (int i in Count(3))
                 {
-                    yield return Manager.Speech.SpeechForSeconds(transform, shoutedEnemyName + "!", 0.5f);
+                    yield return Manager.Speech.SpeechForSeconds(transform, Manager.Game.shoutedEnemyName + "!", 0.5f);
                     yield return WaitForSeconds(0.25f);
                     yield return waitForFixedUpdate;
                 }

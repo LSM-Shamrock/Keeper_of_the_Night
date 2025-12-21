@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using static Utility;
 
-public class CharacterSkill_Camera : PlaySceneObjectBase
+public class CharacterSkill_Camera : BaseController
 {
     GameObject _child;
     Vector3 _direction;
@@ -44,7 +44,7 @@ public class CharacterSkill_Camera : PlaySceneObjectBase
         while (true)
         {
             _child.SetActive(false);
-            yield return WaitUntil(() => currentCharacter == Sprites.Characters.Suhyen);
+            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Suhyen);
             
             _child.SetActive(true);
             if (Manager.Input.IsMouseClicked)
@@ -60,7 +60,7 @@ public class CharacterSkill_Camera : PlaySceneObjectBase
 
     void Update_PositionAndDircetion()
     {
-        transform.position = Character.position;
+        transform.position = Manager.Game.Character.position;
         transform.position += Vector3.up * -10f;
 
         bool flip = MouseX < transform.GetX();
