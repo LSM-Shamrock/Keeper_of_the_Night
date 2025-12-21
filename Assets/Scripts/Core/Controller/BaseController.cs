@@ -51,47 +51,4 @@ public class BaseController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
 
 
-    private Transform FindChild(Transform root, string name)
-    {
-        if (root == null)
-            return null;
-
-        foreach (Transform child in root)
-        {
-            if (child.name == name) 
-                return child;
-
-            Transform rec = FindChild(child, name);
-            if (rec != null) 
-                return rec;
-        }
-        return null;
-    }
-
-    public void BindChild<TComponent, TEnum>(Transform root) where TComponent : Component where TEnum : Enum
-    {
-        TEnum[] values = (TEnum[])Enum.GetValues(typeof(TEnum));
-        
-        foreach (TEnum value in values)
-        {
-            Transform t = FindChild(root, value.ToString());
-            if (t != null)
-            {
-                TComponent component = t.GetComponent<TComponent>();
-                if (component != null)
-                {
-
-                }
-                else
-                {
-                    Debug.Log($"바인딩 실패!\n{root}의 자식{value}에서 {typeof(TComponent).Name} 컴포넌트를 찾을 수 없음");
-                }
-            }
-            else
-            {
-                Debug.Log($"바인딩 실패!\n{root}의 자식에서 {value}을 찾을 수 없음");
-            }
-        }
-    }
-
 }

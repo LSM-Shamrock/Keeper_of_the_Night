@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,7 +86,6 @@ public static class Extention
         block.SetFloat("_Brightness", next);
         spriteRenderer?.SetPropertyBlock(block);
     }
-
     public static void SetAlpha(this SpriteRenderer spriteRenderer, float value)
     {
         Color color = spriteRenderer.color;
@@ -110,6 +109,16 @@ public static class Extention
         AddAlpha(spriteRenderer, -value);
     }
 
+    public static void SetBrightness(this Image image, float value)
+    {
+        image?.material.SetFloat("_Brightness", Mathf.Clamp(value, -1f, 1f));
+    }
+    public static void AddBrightness(this Image image, float value)
+    {
+        float current = image.material.GetFloat("_Brightness");
+        float next = Mathf.Clamp(current + value, -1f, 1f);
+        image.material.SetFloat("_Brightness", next);
+    }
     public static void SetAlpha(this Image image, float value)
     {
         Color color = image.color;

@@ -21,17 +21,11 @@ public class PlaySceneObjectBase : BaseController
     protected static void TakeDamageToPlayer(int damage)
     {
         if (currentCharacter == Sprites.Characters.Suhyen)
-        {
             suhyenHealth -= damage;
-        }
         else if (isNightmare)
-        {
             healthInDream -= damage;
-        }
         else
-        {
             remainingHealth -= damage;
-        }
     }
 
 

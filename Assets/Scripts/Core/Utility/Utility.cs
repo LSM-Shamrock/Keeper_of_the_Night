@@ -77,5 +77,25 @@ public static class Utility
         return result;
     }
 
+
+
+    public static Transform FindChild(Transform root, string name)
+    {
+        if (root == null)
+            return null;
+
+        foreach (Transform child in root)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform rec = FindChild(child, name);
+            if (rec != null)
+                return rec;
+        }
+        return null;
+    }
+
+
 }
 
