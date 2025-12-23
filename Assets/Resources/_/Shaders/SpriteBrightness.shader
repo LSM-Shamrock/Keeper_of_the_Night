@@ -24,6 +24,32 @@
             sampler2D _MainTex;
             float _Brightness;
 
+
+            
+            float ApplyBrightnessChannel(float base, float brightness)
+            {
+                float blend = brightness * 0.5 + 0.5;
+
+                float g1 = base - base * base;
+                float g2 = sqrt(base) - base;
+                float g  = lerp(g1, g2, step(0.5, blend));
+
+                float soft = base + brightness * g;
+
+                return lerp(base, soft, 1.65);
+            }
+
+            float4 ApplyBrightness(float4 base, float brightness) 
+            {
+                return float4(
+                    ApplyBrightnessChannel(base.r, brightness),
+                    ApplyBrightnessChannel(base.g, brightness),
+                    ApplyBrightnessChannel(base.b, brightness),
+                    base.a
+                );
+            }
+
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -51,18 +77,7 @@
             {
                 fixed4 texColor = tex2D(_MainTex, i.uv);
 
-                // 밝기에 따라 색 보간 대상 설정
-                fixed3 bw = _Brightness > 0 ? fixed3(1,1,1) : fixed3(0,0,0);
-                float strength = abs(_Brightness);
-
-                // RGB는 밝기에 따라 검정 또는 흰색으로 보간
-                fixed3 rgb = texColor.rgb * i.color.rgb;
-                rgb = lerp(rgb, bw, strength);
-
-                // 알파는 원본 알파 × SpriteRenderer.color.a
-                float alpha = texColor.a * i.color.a;
-
-                return fixed4(rgb, alpha);
+                return ApplyBrightness(texColor * i.color, _Brightness);
             }
             ENDCG
         }

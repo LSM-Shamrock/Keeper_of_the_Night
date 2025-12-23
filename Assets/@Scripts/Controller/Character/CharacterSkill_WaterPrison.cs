@@ -12,7 +12,7 @@ public class CharacterSkill_WaterPrison : BaseController
     SpriteRenderer _sr;
     Collider2D _col;
 
-    bool IsContactEnemy => _col.IsContact(Prefabs.Scene_PlayScene.Enemy);
+    bool IsContactEnemy => _col.IsContact(Prefabs.Scene_Play.Enemy);
 
     void Init()
     {

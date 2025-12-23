@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_PlayScene : UI_Scene
+public class U2I_PlayScene : UI_Scene
 {
     private enum Texts
     {
@@ -23,6 +23,7 @@ public class UI_PlayScene : UI_Scene
     {
         Init();
     }
+    
     private void Update()
     {
         UpdateHPText();
@@ -180,8 +181,9 @@ public class UI_PlayScene : UI_Scene
         BaseController[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
         foreach (var code in codes)
         {
-            if (code == this)
-                continue;
+            // if (code == this)
+            //     continue;
+            
             code.enabled = false;
             code.StopAllCoroutines();
         }

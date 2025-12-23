@@ -33,10 +33,35 @@
             float4 _MainTex_ST;
 
             
-            float getV(float3 c) 
+            float GetV(float3 c) 
             {
                 return max(c.r, max(c.g, c.b));
             }
+
+
+            float ApplyBrightnessChannel(float base, float brightness)
+            {
+                float blend = brightness * 0.5 + 0.5;
+
+                float g1 = base - base * base;
+                float g2 = sqrt(base) - base;
+                float g  = lerp(g1, g2, step(0.5, blend));
+
+                float soft = base + brightness * g;
+
+                return lerp(base, soft, 1.65);
+            }
+
+            float4 ApplyBrightness(float4 base, float brightness) 
+            {
+                return float4(
+                    ApplyBrightnessChannel(base.r, brightness),
+                    ApplyBrightnessChannel(base.g, brightness),
+                    ApplyBrightnessChannel(base.b, brightness),
+                    base.a
+                );
+            }
+
 
 
             struct appdata_t
@@ -67,15 +92,9 @@
                 fixed4 color0 = tex2D(_MainTex, i.uv);
                 fixed4 color1 = i.color;
 
-                float alpha = color0.a * color1.a;
-
-                fixed value = getV(color1.rgb) * 2 - 1;
-                fixed3 bw = value > 0 ? fixed3(1,1,1) : fixed3(0,0,0);
+                fixed brightness = GetV(color1.rgb) * 2 - 1;
                 
-                fixed3 rgb = lerp(color0.rgb, bw, abs(value));
-
-
-                return fixed4(rgb, alpha);
+                return ApplyBrightness(color0, brightness);
             }
             ENDCG
         }

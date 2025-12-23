@@ -20,7 +20,7 @@ public class EnemyGenerator : BaseController
     
     void CreateEnemy(Sprites.Enemys type)
     {
-        GameObject prefab = LoadResource<GameObject>(Prefabs.Scene_PlayScene.Enemy);
+        GameObject prefab = LoadResource<GameObject>(Prefabs.Scene_Play.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
         enemy.transform.position = position;

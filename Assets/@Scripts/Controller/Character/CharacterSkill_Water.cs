@@ -54,7 +54,7 @@ public class CharacterSkill_Water : BaseController
             transform.AddY(-fallAndSlowdown);
             fallAndSlowdown += 0.05f;
 
-            if (col.IsContact(Prefabs.Scene_PlayScene.Enemy))
+            if (col.IsContact(Prefabs.Scene_Play.Enemy))
             {
                 if (size > 10f)
                 {

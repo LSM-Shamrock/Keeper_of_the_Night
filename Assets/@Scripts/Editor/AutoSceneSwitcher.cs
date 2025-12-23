@@ -1,27 +1,48 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [InitializeOnLoad]
 public static class AutoSceneSwitcher
 {
-    static Scenes startScene = Scenes.TrailerScene;
+    const string MENU_PATH = "Tools/Always Start From The First Scene";
+
+    static bool IsUse
+    {
+        get => Menu.GetChecked(MENU_PATH);
+        set => Menu.SetChecked(MENU_PATH, value);
+    }
 
     static AutoSceneSwitcher()
     {
         EditorApplication.playModeStateChanged += OnPlayModeChanged;
     }
 
+    [MenuItem(MENU_PATH)]
+    static void Toggle() => IsUse = !IsUse;
+
+    [MenuItem(MENU_PATH, true)]
+    static bool Validate()
+    {
+        Menu.SetChecked(MENU_PATH, IsUse);
+        return true;
+    }
+
     static void OnPlayModeChanged(PlayModeStateChange state)
     {
-        string StartScenePath = "Assets/Scenes/" + startScene.ToString() + ".unity";
-        string PrefsKey = "Exited_Scene_Path";
+        if (!IsUse)
+            return;
+
+        const string PREFS_KEY = "Exited_Scene_Path";
 
         if (state == PlayModeStateChange.ExitingEditMode)
         {
+            string StartScenePath = SceneUtility.GetScenePathByBuildIndex(0);
+
             string exitingScenePath = EditorSceneManager.GetActiveScene().path;
-            EditorPrefs.SetString(PrefsKey, exitingScenePath);
+            EditorPrefs.SetString(PREFS_KEY, exitingScenePath);
             if (exitingScenePath != StartScenePath)
             {
                 if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
@@ -32,7 +53,7 @@ public static class AutoSceneSwitcher
         }
         if (state == PlayModeStateChange.EnteredEditMode)
         {
-            string exitedScenePath = EditorPrefs.GetString(PrefsKey);
+            string exitedScenePath = EditorPrefs.GetString(PREFS_KEY);
             EditorSceneManager.OpenScene(exitedScenePath);
         }
     }

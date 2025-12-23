@@ -9,7 +9,7 @@ public class Prefabs
         InputboxCanvas,
     }
 
-    public enum Scene_PlayScene
+    public enum Scene_Play
     {
         CharacterSkill_CameraFlash,
         CharacterSkill_MoonlightgunBullet,
@@ -29,7 +29,7 @@ public class Prefabs
         EnemyHiddenNameParticle,
     }
 
-    public enum Scene_EndingScene
+    public enum Scene_Ending
     {
         Ending_Particle,
     }
