@@ -2768,7 +2768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1073055057}
   m_Layer: 5
-  m_Name: ControlTexts
+  m_Name: Texts_Control
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3261,7 +3261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1352772834}
   m_Layer: 5
-  m_Name: StateTexts
+  m_Name: Texts_State
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4239,7 +4239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: c6edb6b6e71d479419eef52f67ed04ec, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

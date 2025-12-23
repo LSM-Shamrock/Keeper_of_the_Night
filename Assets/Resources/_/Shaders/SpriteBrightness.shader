@@ -1,4 +1,4 @@
-Shader "Custom/SpriteBrightness"
+ï»¿Shader "Custom/SpriteBrightness"
 {
     Properties
     {
@@ -51,17 +51,18 @@ Shader "Custom/SpriteBrightness"
             {
                 fixed4 texColor = tex2D(_MainTex, i.uv);
 
-                // ¹à±â¿¡ µû¶ó »ö º¸°£ ´ë»ó ¼³Á¤
-                fixed3 targetColor = _Brightness > 0 ? fixed3(1,1,1) : fixed3(0,0,0);
+                // ë°ê¸°ì— ë”°ë¼ ìƒ‰ ë³´ê°„ ëŒ€ìƒ ì„¤ì •
+                fixed3 bw = _Brightness > 0 ? fixed3(1,1,1) : fixed3(0,0,0);
                 float strength = abs(_Brightness);
 
-                // RGB´Â ¹à±â¿¡ µû¶ó °ËÁ¤ ¶Ç´Â Èò»öÀ¸·Î º¸°£
-                fixed3 finalRGB = lerp(texColor.rgb, targetColor, strength);
+                // RGBëŠ” ë°ê¸°ì— ë”°ë¼ ê²€ì • ë˜ëŠ” í°ìƒ‰ìœ¼ë¡œ ë³´ê°„
+                fixed3 rgb = texColor.rgb * i.color.rgb;
+                rgb = lerp(rgb, bw, strength);
 
-                // ¾ËÆÄ´Â ¿øº» ¾ËÆÄ ¡¿ SpriteRenderer.color.a
-                float finalAlpha = texColor.a * i.color.a;
+                // ì•ŒíŒŒëŠ” ì›ë³¸ ì•ŒíŒŒ Ã— SpriteRenderer.color.a
+                float alpha = texColor.a * i.color.a;
 
-                return fixed4(finalRGB, finalAlpha);
+                return fixed4(rgb, alpha);
             }
             ENDCG
         }

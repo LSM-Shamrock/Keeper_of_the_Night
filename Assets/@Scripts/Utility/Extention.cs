@@ -80,37 +80,47 @@ public static class Extention
 
         spriteRenderer?.SetPropertyBlock(block);
     }
-    public static void AddBrightness(this SpriteRenderer spriteRenderer, float value)
+    public static float GetBrightness(this SpriteRenderer spriteRenderer)
     {
         MaterialPropertyBlock block = new MaterialPropertyBlock();
-        
-        spriteRenderer?.GetPropertyBlock(block);
 
-        float current = block.GetFloat("_Brightness");
-        block.SetFloat("_Brightness", Mathf.Clamp(current + value, -1f, 1f));
+        spriteRenderer?.GetPropertyBlock(block);
         
-        spriteRenderer?.SetPropertyBlock(block);
+        return block.GetFloat("_Brightness");
     }
+    public static void AddBrightness(this SpriteRenderer spriteRenderer, float value)
+    {
+        if (spriteRenderer == null) 
+            return;
+
+        spriteRenderer.SetBrightness(spriteRenderer.GetBrightness() + value);
+    }
+
 
     public static void SetBrightness(this Image image, float value)
     {
         if (image == null) 
             return;
 
-        // 머터리얼 인스턴스 보장
-        if (image.material == null || image.material == image.defaultMaterial)
-            image.material = new Material(image.defaultMaterial);
+        Color.RGBToHSV(image.color, out float h, out float s, out _);
+        Color color = Color.HSVToRGB(h, s, (value + 1) / 2);
+        color.a = image.color.a;
+        image.color = color;
+    }
+    public static float GetBrightness(this Image image)
+    {
+        Color.RGBToHSV(image.color, out _, out _, out float v);
 
-        image.material.SetFloat("_Brightness", Mathf.Clamp(value, -1f, 1f));
+        return v * 2 - 1;
     }
     public static void AddBrightness(this Image image, float value)
     {
-        if (image == null || image.material == null) 
+        if (image == null)
             return;
 
-        float current = image.material.GetFloat("_Brightness");
-        image.material.SetFloat("_Brightness", Mathf.Clamp(current + value, -1f, 1f));
+        image.SetBrightness(image.GetBrightness() + value);
     }
+
 
     public static void SetAlpha(this SpriteRenderer spriteRenderer, float value)
     {
@@ -134,6 +144,7 @@ public static class Extention
     {
         AddAlpha(spriteRenderer, -value);
     }
+
 
     public static void SetAlpha(this Image image, float value)
     {
