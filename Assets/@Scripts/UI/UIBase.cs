@@ -29,7 +29,7 @@ public class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Dictionary<ChildKey, UnityEngine.Object> _childs = new();
 
-    protected void Bind(ChildKey key) 
+    protected void BindChild(ChildKey key) 
     {
         Transform child = Utility.FindChild(transform, key.name);
         if (child == null)
@@ -55,7 +55,7 @@ public class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     protected void BindChild(params ChildKey[] keys)
     {
         foreach (ChildKey key in keys) 
-            Bind(key);
+            BindChild(key);
     }
     protected T GetChild<T>(ChildKey<T> key) where T : UnityEngine.Object
     {

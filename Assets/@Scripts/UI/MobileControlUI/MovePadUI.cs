@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 {
-    ChildKey<Transform> MovePadBoddy = new(nameof(MovePadBoddy));
+    ChildKey<Transform> Boddy = new(nameof(Boddy));
     
     private Camera _mainCamera;
     private Vector3 _defaultPosition;
@@ -21,10 +21,10 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
     private void Init()
     {
         BindChild(
-        MovePadBoddy);
+        Boddy);
 
         _mainCamera = Camera.main;
-        _defaultPosition = GetChild(MovePadBoddy).position;
+        _defaultPosition = GetChild(Boddy).position;
 
         _movePadButtons = GetComponentsInChildren<MovePadButton>();
 
@@ -51,11 +51,11 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(eventData.position);
-        GetChild(MovePadBoddy).position = worldPosition;
+        GetChild(Boddy).position = worldPosition;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GetChild(MovePadBoddy).position = _defaultPosition;
+        GetChild(Boddy).position = _defaultPosition;
     }
 }
