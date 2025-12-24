@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 
-public class LobbyCharacter : BaseUI, IPointerClickHandler
+public class LobbyCharacter : UIBase, IPointerClickHandler
 {
     private Sprites.Characters _character;
 

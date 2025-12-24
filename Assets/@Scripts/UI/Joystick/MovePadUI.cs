@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class MovePadUI : BaseUI, IPointerDownHandler, IPointerUpHandler
+public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 {
     ChildKey<Transform> MovePadBoddy = new(nameof(MovePadBoddy));
     ChildKey<Transform> JumpButton = new(nameof(JumpButton));

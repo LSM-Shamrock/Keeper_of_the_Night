@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class LobbyThubnail : BaseUI
+public class LobbyThubnail : UIBase
 {
     [SerializeField]
     Sprite[] _sprites;

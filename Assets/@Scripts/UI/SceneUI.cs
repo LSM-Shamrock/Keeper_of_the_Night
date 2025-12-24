@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SceneUI : BaseUI
+public class SceneUI : UIBase
 {
 
 }

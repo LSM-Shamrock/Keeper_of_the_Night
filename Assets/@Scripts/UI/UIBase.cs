@@ -25,7 +25,7 @@ public class ChildKey<T> : ChildKey where T : UnityEngine.Object
 }
 
 
-public class BaseUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Dictionary<ChildKey, UnityEngine.Object> _childs = new();
 

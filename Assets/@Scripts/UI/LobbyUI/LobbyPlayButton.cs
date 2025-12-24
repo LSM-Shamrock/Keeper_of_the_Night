@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class LobbyPlayButton : BaseUI
+public class LobbyPlayButton : UIBase
 {
     [SerializeField] int _wave;
     [SerializeField] float _size1;
