@@ -67,10 +67,10 @@ public class GameManager
 
 
     // 신호, 변수
-    public readonly SignalOfMonoBehaviour onWaveClear = new SignalOfMonoBehaviour();
-    public readonly SignalOfMonoBehaviour onDisarmSpecialSkill = new SignalOfMonoBehaviour();
-    public readonly SignalOfMonoBehaviour onDreamghostAppearance = new SignalOfMonoBehaviour();
-    public readonly SignalOfMonoBehaviour onNightmareEvent = new SignalOfMonoBehaviour();
+    public readonly ActionEx onWaveClear = new ActionEx();
+    public readonly ActionEx onDisarmSpecialSkill = new ActionEx();
+    public readonly ActionEx onDreamghostAppearance = new ActionEx();
+    public readonly ActionEx onNightmareEvent = new ActionEx();
 
 
     public Sprites.Characters currentCharacter;
@@ -78,7 +78,7 @@ public class GameManager
     public float specialSkillCooltime;
 
 
-    public SignalOfMonoBehaviour onPlayerDie { get; private set; } = new SignalOfMonoBehaviour();
+    public ActionEx onPlayerDie { get; private set; } = new ActionEx();
 
     private int _remainingHealth;
     public int remainingHealth
@@ -129,7 +129,7 @@ public class GameManager
 
 
     
-    public SignalOfMonoBehaviour onNightMareChange { get; private set; } = new SignalOfMonoBehaviour();
+    public ActionEx onNightMareChange { get; private set; } = new ActionEx();
     private bool _isNightmare;
     public bool isNightmare
     {

@@ -7,9 +7,6 @@ using UnityEngine.UI;
 
 public static class Extention
 {
-
-    #region Transform Extentions
-
     public static float GetX(this Transform transform) => transform.position.x;
     public static float GetY(this Transform transform) => transform.position.y;
     public static void AddX(this Transform transform, float value) => transform.position += Vector3.right * value;
@@ -65,112 +62,6 @@ public static class Extention
         }
     }
 
-    #endregion
-
-
-    #region SpriteRenderer And Image Extentions
-
-    public static void SetBrightness(this SpriteRenderer spriteRenderer, float value)
-    {
-        MaterialPropertyBlock block = new MaterialPropertyBlock();
-
-        spriteRenderer?.GetPropertyBlock(block);
-
-        block.SetFloat("_Brightness", Mathf.Clamp(value, -1f, 1f));
-
-        spriteRenderer?.SetPropertyBlock(block);
-    }
-    public static float GetBrightness(this SpriteRenderer spriteRenderer)
-    {
-        MaterialPropertyBlock block = new MaterialPropertyBlock();
-
-        spriteRenderer?.GetPropertyBlock(block);
-        
-        return block.GetFloat("_Brightness");
-    }
-    public static void AddBrightness(this SpriteRenderer spriteRenderer, float value)
-    {
-        if (spriteRenderer == null) 
-            return;
-
-        spriteRenderer.SetBrightness(spriteRenderer.GetBrightness() + value);
-    }
-
-
-    public static void SetBrightness(this Image image, float value)
-    {
-        if (image == null) 
-            return;
-
-        Color.RGBToHSV(image.color, out float h, out float s, out _);
-        Color color = Color.HSVToRGB(h, s, (value + 1) / 2);
-        color.a = image.color.a;
-        image.color = color;
-    }
-    public static float GetBrightness(this Image image)
-    {
-        Color.RGBToHSV(image.color, out _, out _, out float v);
-
-        return v * 2 - 1;
-    }
-    public static void AddBrightness(this Image image, float value)
-    {
-        if (image == null)
-            return;
-
-        image.SetBrightness(image.GetBrightness() + value);
-    }
-
-
-    public static void SetAlpha(this SpriteRenderer spriteRenderer, float value)
-    {
-        Color color = spriteRenderer.color;
-        color.a = value;
-        color.a = Mathf.Clamp01(color.a);
-        spriteRenderer.color = color;
-    }
-    public static void AddAlpha(this SpriteRenderer spriteRenderer, float value)
-    {
-        Color color = spriteRenderer.color;
-        color.a += value;
-        color.a = Mathf.Clamp01(color.a);
-        spriteRenderer.color = color;
-    }
-    public static void SetTransparency(this SpriteRenderer spriteRenderer, float value)
-    {
-        SetAlpha(spriteRenderer, 1f - value);
-    }
-    public static void AddTransparency(this SpriteRenderer spriteRenderer, float value)
-    {
-        AddAlpha(spriteRenderer, -value);
-    }
-
-
-    public static void SetAlpha(this Image image, float value)
-    {
-        Color color = image.color;
-        color.a = value;
-        color.a = Mathf.Clamp01(color.a);
-        image.color = color;
-    }
-    public static void AddAlpha(this Image image, float value)
-    {
-        Color color = image.color;
-        color.a += value;
-        color.a = Mathf.Clamp01(color.a);
-        image.color = color;
-    }
-    public static void SetTransparency(this Image image, float value)
-    {
-        SetAlpha(image, 1f - value);
-    }
-    public static void AddTransparency(this Image image, float value)
-    {
-        AddAlpha(image, -value);
-    }
-
-    #endregion
-
 
     public static bool IsContact<T>(this Collider2D collider, T checkRigidbodyName) where T : Enum
     {
@@ -202,15 +93,15 @@ public static class Extention
 
 
     static readonly Dictionary<(GameObject, Type), Component> s_components = new();
-    public static TComponent Component<TComponent>(this GameObject gameObject) where TComponent : Component
+    public static T Component<T>(this GameObject gameObject) where T : Component
     {
-        Type type = typeof(TComponent);
+        Type type = typeof(T);
         if (s_components.TryGetValue((gameObject, type), out Component saved))
         {
-            return saved as TComponent;
+            return saved as T;
         }
 
-        TComponent component = gameObject.GetComponent<TComponent>();
+        T component = gameObject.GetComponent<T>();
         if (component == null)
         {
             return null;
@@ -226,4 +117,17 @@ public static class Extention
         return go;
     }
 
+
+    public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
+    {
+        T get = obj.GetComponent<T>();
+        if (get == null)
+            return obj.AddComponent<T>();
+        else 
+            return get;
+    }
+    public static T GetOrAddComponent<T>(this Component com) where T : Component
+    {
+        return GetOrAddComponent<T>(com.gameObject);
+    }
 }
