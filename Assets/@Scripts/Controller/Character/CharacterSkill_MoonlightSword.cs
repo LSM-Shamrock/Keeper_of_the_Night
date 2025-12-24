@@ -47,7 +47,7 @@ public class CharacterSkill_MoonlightSword : BaseController
             if (Manager.Game.isSpecialSkillInvoking) 
                 goto Return;
 
-            if (!Manager.Input.IsMouseClicked) 
+            if (!Manager.Input.isMouseClicked) 
                 goto Return;
 
             _child.SetActive(true);

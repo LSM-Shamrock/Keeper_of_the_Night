@@ -7,15 +7,11 @@ using UnityEngine.UI;
 public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 {
     ChildKey<Transform> MovePadBoddy = new(nameof(MovePadBoddy));
-    ChildKey<Transform> JumpButton = new(nameof(JumpButton));
-    ChildKey<Transform> LeftButton = new(nameof(LeftButton));
-    ChildKey<Transform> RightButton = new(nameof(RightButton));
-
-
-
+    
+    private Camera _mainCamera;
     private Vector3 _defaultPosition;
 
-    private Camera _mainCamera;
+    private MovePadButton[] _movePadButtons;
 
     private void Start()
     {
@@ -24,30 +20,42 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 
     private void Init()
     {
-        Bind(
-        MovePadBoddy,
-        JumpButton,
-        LeftButton,
-        RightButton);
+        BindChild(
+        MovePadBoddy);
 
         _mainCamera = Camera.main;
+        _defaultPosition = GetChild(MovePadBoddy).position;
 
-        _defaultPosition = Get(MovePadBoddy).position;
+        _movePadButtons = GetComponentsInChildren<MovePadButton>();
 
-        
-
-
+        foreach (var button in _movePadButtons)
+        {
+            button.image.alphaHitTestMinimumThreshold = 0.1f;
+            BindEvent(button.image, EventType.PointerEnter, () =>
+            {
+                button.image.transform.localScale *= 1.5f;
+                if (button.isJump) Manager.Input.isPressedJumpButton = true;
+                if (button.isLeft) Manager.Input.isPressedLeftButton = true;
+                if (button.isRight) Manager.Input.isPressedRightButton = true;
+            });
+            BindEvent(button.image, EventType.PointerExit, () =>
+            {
+                button.image.transform.localScale /= 1.5f;
+                if (button.isJump) Manager.Input.isPressedJumpButton = false;
+                if (button.isLeft) Manager.Input.isPressedLeftButton = false;
+                if (button.isRight) Manager.Input.isPressedRightButton = false;
+            });
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(eventData.position);
-
-        Get(MovePadBoddy).position = worldPosition;
+        GetChild(MovePadBoddy).position = worldPosition;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Get(MovePadBoddy).position = _defaultPosition;
+        GetChild(MovePadBoddy).position = _defaultPosition;
     }
 }

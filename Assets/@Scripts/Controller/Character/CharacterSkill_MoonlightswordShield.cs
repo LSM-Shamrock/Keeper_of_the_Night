@@ -108,13 +108,13 @@ public class CharacterSkill_MoonlightswordShield : BaseController
 
             if (Manager.Game.isSpecialSkillInvoking)
             {
-                if (Manager.Input.IsPressedS || Manager.Input.IsMouseClicked)
+                if (Manager.Input.isPressedS || Manager.Input.isMouseClicked)
                 {
                     Manager.Game.onDisarmSpecialSkill.Call();
-                    yield return WaitUntil(() => !Manager.Input.IsPressedS);
+                    yield return WaitUntil(() => !Manager.Input.isPressedS);
                 }
             }
-            else if (Manager.Input.IsPressedS && Manager.Game.specialSkillCooltime <= 0f)
+            else if (Manager.Input.isPressedS && Manager.Game.specialSkillCooltime <= 0f)
             {
                 Manager.Game.isSpecialSkillInvoking = true;
                 _child.SetSpriteAndPolygon(sprite_Droping);
@@ -130,7 +130,7 @@ public class CharacterSkill_MoonlightswordShield : BaseController
                 ShowShield();
                 _child.SetSpriteAndPolygon(sprite_StuckInTheGround);
                 yield return WaitForSeconds(0.5f);
-                yield return WaitUntil(() => !Manager.Input.IsPressedS);
+                yield return WaitUntil(() => !Manager.Input.isPressedS);
             }
 
             yield return waitForFixedUpdate;

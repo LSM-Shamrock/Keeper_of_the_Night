@@ -96,7 +96,7 @@ public class EndingDialogueTextbox : EndingBase
 
     IEnumerator Loop_AddProgress()
     {
-        yield return new WaitUntil(() => !Manager.Input.IsMouseClicked);
+        yield return new WaitUntil(() => !Manager.Input.isMouseClicked);
         yield return new WaitForSeconds(0.5f);
         while (EndingProgress < EndingScript.Length - 1)
         {
@@ -106,10 +106,10 @@ public class EndingDialogueTextbox : EndingBase
                 yield return new WaitForSeconds(0.1f);
             }
 
-            if (Manager.Input.IsMouseClicked)
+            if (Manager.Input.isMouseClicked)
             {
                 EndingProgress++;
-                yield return new WaitUntil(() => !Manager.Input.IsMouseClicked);
+                yield return new WaitUntil(() => !Manager.Input.isMouseClicked);
                 yield return new WaitForSeconds(0.1f);
             }
 

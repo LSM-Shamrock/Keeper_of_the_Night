@@ -11,7 +11,7 @@ public class LobbySceneUI : SceneUI
 
     private void Start()
     {
-        Bind(
+        BindChild(
         CharacterNameText,
         CharacterNormalText,
         CharacterSpecialText,
@@ -20,9 +20,9 @@ public class LobbySceneUI : SceneUI
 
     private void Update()
     {
-        Get(CharacterNameText).text = Manager.Game.selectedCharacter.ToString();
-        Get(CharacterNormalText).text = Manager.Game.characterDescription;
-        Get(CharacterSpecialText).text = "특수기술:" + Manager.Game.specialDescription;
-        Get(CharacterHPText).text = "HP:" + Manager.Game.characterMaxHealth;
+        GetChild(CharacterNameText).text = Manager.Game.selectedCharacter.ToString();
+        GetChild(CharacterNormalText).text = Manager.Game.characterDescription;
+        GetChild(CharacterSpecialText).text = "특수기술:" + Manager.Game.specialDescription;
+        GetChild(CharacterHPText).text = "HP:" + Manager.Game.characterMaxHealth;
     }
 }

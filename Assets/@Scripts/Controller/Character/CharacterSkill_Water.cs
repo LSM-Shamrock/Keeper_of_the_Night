@@ -21,7 +21,7 @@ public class CharacterSkill_Water : BaseController
         while (true)
         {
             yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
-            if (Manager.Input.IsMouseClicked)
+            if (Manager.Input.isMouseClicked)
             {
                 StartCoroutine(Throw());
                 yield return WaitForSeconds(0.3f);

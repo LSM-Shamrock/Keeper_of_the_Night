@@ -47,11 +47,11 @@ public class CharacterSkill_Camera : BaseController
             yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Suhyen);
             
             _child.SetActive(true);
-            if (Manager.Input.IsMouseClicked)
+            if (Manager.Input.isMouseClicked)
             {
                 Flash();
                 yield return WaitForSeconds(0.1f);
-                yield return WaitUntil(() => !Manager.Input.IsMouseClicked);
+                yield return WaitUntil(() => !Manager.Input.isMouseClicked);
             }
 
             yield return waitForFixedUpdate;

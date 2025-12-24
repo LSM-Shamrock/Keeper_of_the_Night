@@ -17,7 +17,7 @@ public class TrailerSceneUI : SceneUI
     {
         _audioSource = GetComponent<AudioSource>();
 
-        Bind(
+        BindChild(
         Trailer,
         ClickToStart);
 
@@ -35,10 +35,10 @@ public class TrailerSceneUI : SceneUI
     {
         foreach (Sprite sprite in _trailerSprites)
         {
-            Get(Trailer).sprite = sprite;
+            GetChild(Trailer).sprite = sprite;
             yield return new WaitForSeconds(44f / 107);
         }
-        Get(Trailer).color = Color.black;
+        GetChild(Trailer).color = Color.black;
     }
     private IEnumerator PlayTrailerSound()
     {
@@ -53,7 +53,7 @@ public class TrailerSceneUI : SceneUI
     private IEnumerator TextSizeUpdate()
     {
         float size = 2f;
-        Transform textTransform = Get(ClickToStart).transform;
+        Transform textTransform = GetChild(ClickToStart).transform;
         while (true)
         {
             for (int i = 50; i > 0; i--)
@@ -72,7 +72,7 @@ public class TrailerSceneUI : SceneUI
     }
     private IEnumerator ClickCheck()
     {
-        Text text = Get(ClickToStart);
+        Text text = GetChild(ClickToStart);
         Color color = text.color;
 
         color.a = 0f;

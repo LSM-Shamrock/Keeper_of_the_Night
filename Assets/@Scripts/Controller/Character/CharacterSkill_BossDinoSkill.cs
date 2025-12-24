@@ -100,7 +100,7 @@ public class CharacterSkill_BossDinoSkill : BaseController
         while (true)
         {
             bool characterCheck = Manager.Game.currentCharacter == Sprites.Characters.Dino;
-            if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
+            if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isMouseClicked)
             {
                 _child.SetActive(true);
                 _line.positionCount = 2;

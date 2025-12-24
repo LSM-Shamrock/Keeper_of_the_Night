@@ -70,7 +70,7 @@ public class Enemy : EnemyBase
     {
         while (true)
         {
-            if (Manager.Input.IsPressedN)
+            if (Manager.Input.isPressedN)
             {
                 yield return Manager.Speech.SpeechForSeconds(transform, _hiddenName, 0.01f);
                 continue;

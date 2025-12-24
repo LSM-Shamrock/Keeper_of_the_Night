@@ -39,7 +39,7 @@ public class CharacterSkill_MoonlightGun : BaseController
         {
             yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Dino);
 
-            if (!Manager.Game.isSpecialSkillInvoking && Manager.Input.IsMouseClicked)
+            if (!Manager.Game.isSpecialSkillInvoking && Manager.Input.isMouseClicked)
             {
                 Shoot();
                 yield return WaitForSeconds(0.5f);

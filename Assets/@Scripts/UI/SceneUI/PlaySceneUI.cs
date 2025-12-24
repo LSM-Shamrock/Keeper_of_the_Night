@@ -30,7 +30,7 @@ public class PlaySceneUI : SceneUI
 
     private void Init()
     {
-        Bind(
+        BindChild(
         Text_SpecialSkill,
         Text_HP,
         Text_Wave,
@@ -41,9 +41,9 @@ public class PlaySceneUI : SceneUI
 
         Manager.Game.onPlayerDie.Add(this, () =>
         {
-            Get(Text_HP).transform.localScale += Vector3.one * 0.25f;
-            Get(Text_Wave).transform.localScale += Vector3.one * 0.4f;
-            Get(DeathThumbnail).enabled = true;
+            GetChild(Text_HP).transform.localScale += Vector3.one * 0.25f;
+            GetChild(Text_Wave).transform.localScale += Vector3.one * 0.4f;
+            GetChild(DeathThumbnail).enabled = true;
             StartCoroutine(ShowGameOver());
         });
 
@@ -58,7 +58,7 @@ public class PlaySceneUI : SceneUI
 
     private void UpdateHPText()
     {
-        Text hpText = Get(Text_HP);
+        Text hpText = GetChild(Text_HP);
         if (Manager.Game.isNightmare)
         {
             hpText.text = $"꿈에서의 HP:{Manager.Game.healthInDream}/{Manager.Game.characterMaxHealth / 2}";
@@ -83,7 +83,7 @@ public class PlaySceneUI : SceneUI
         const float defaultScale = 0.75f;
         const float increaseScale = 0.18f;
 
-        Text waveText = Get(Text_Wave);
+        Text waveText = GetChild(Text_Wave);
 
         if (Manager.Game.isNightmare)
         {
@@ -101,7 +101,7 @@ public class PlaySceneUI : SceneUI
 
     private void UpdateWaveProgressText()
     {
-        Text waveProgressText = Get(Text_WaveProgress);
+        Text waveProgressText = GetChild(Text_WaveProgress);
 
         if (Manager.Game.currentCharacter == Sprites.Characters.Suhyen)
         {
@@ -147,7 +147,7 @@ public class PlaySceneUI : SceneUI
 
     private void UpdateSpecialSkillText()
     {
-        Text specialSkillText = Get(Text_SpecialSkill);
+        Text specialSkillText = GetChild(Text_SpecialSkill);
         if (Manager.Game.isSpecialSkillInvoking)
         {
             if (Manager.Game.currentCharacter == Sprites.Characters.Sleepground)
@@ -196,7 +196,7 @@ public class PlaySceneUI : SceneUI
         yield return new WaitForSeconds(0.1f);
         StopCodeOfAnotherObject();
 
-        Image gameOverImage = Get(GameOver);
+        Image gameOverImage = GetChild(GameOver);
 
         Color color = gameOverImage.color;
         color.a = 0.5f;
@@ -218,7 +218,7 @@ public class PlaySceneUI : SceneUI
 
     IEnumerator OnWaveClear()
     {
-        Image waveClearImage = Get(WaveClear);
+        Image waveClearImage = GetChild(WaveClear);
 
         waveClearImage.SetAlpha(0.5f);
 
@@ -248,7 +248,7 @@ public class PlaySceneUI : SceneUI
 
     IEnumerator UpdateWaveClearImageEffect()
     {
-        Image waveClearImage = Get(WaveClear);
+        Image waveClearImage = GetChild(WaveClear);
 
         while (true)
         {

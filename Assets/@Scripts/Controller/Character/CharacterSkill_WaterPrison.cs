@@ -85,7 +85,7 @@ public class CharacterSkill_WaterPrison : BaseController
         {
             yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
 
-            if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.IsPressedS)
+            if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
                 Manager.Game.specialSkillCooltime = 20f;
                 Manager.Game.isSpecialSkillInvoking = true;

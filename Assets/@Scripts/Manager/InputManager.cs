@@ -2,12 +2,23 @@
 
 public class InputManager 
 {
-    public bool IsMouseClicked => Input.GetMouseButton(0);
-    public bool IsPressedW => Input.GetKey(KeyCode.W);
-    public bool IsPressedA => Input.GetKey(KeyCode.A);
-    public bool IsPressedS => Input.GetKey(KeyCode.S);
-    public bool IsPressedD => Input.GetKey(KeyCode.D);
-    public bool IsPressedN => Input.GetKey(KeyCode.N);
-    public bool IsPressedT => Input.GetKey(KeyCode.T);
-    public bool IsPressedEnter => Input.GetKey(KeyCode.Return);
+    public bool isMouseClicked => Input.GetMouseButton(0);
+    
+    public bool isPressedS => Input.GetKey(KeyCode.S);
+
+    public bool isPressedJumpButton;
+    public bool isPressedJumpKey => Input.GetKey(KeyCode.W);
+    public bool isPressedJump => isPressedJumpButton || isPressedJumpKey;
+
+    public bool isPressedLeftButton;
+    public bool isPressedLeftKey => Input.GetKey(KeyCode.A);
+    public bool isPressedLeft => isPressedLeftButton || isPressedLeftKey;
+    
+    public bool isPressedRightButton;
+    public bool isPressedRightKey => Input.GetKey(KeyCode.D);
+    public bool isPressedRight => isPressedRightButton || isPressedRightKey;
+    
+    public bool isPressedN => Input.GetKey(KeyCode.N);
+    public bool isPressedT => Input.GetKey(KeyCode.T);
+    public bool isPressedEnter => Input.GetKey(KeyCode.Return);
 }

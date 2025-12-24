@@ -46,7 +46,7 @@ public class Character : BaseController
             if (IsOnGround)
             {
                 _jumpGauge = 15;
-                while (Manager.Input.IsPressedW && _jumpGauge > 0)
+                while (Manager.Input.isPressedJump && _jumpGauge > 0)
                 {   
                     transform.position += Vector3.up * (_jumpGauge * _jumpGauge / 10);
                     _jumpGauge--;
@@ -64,12 +64,12 @@ public class Character : BaseController
         {   
             if (Manager.Game.ice <= 0)
             {
-                if (Manager.Input.IsPressedA && transform.position.x > -240)
+                if (Manager.Input.isPressedLeft && transform.position.x > -240)
                 {
                     Manager.Game.characterMoveDirection = Vector3.left;
                     transform.position += Manager.Game.characterMoveDirection * 3;
                 }
-                if (Manager.Input.IsPressedD && transform.position.x < 240)
+                if (Manager.Input.isPressedRight && transform.position.x < 240)
                 {
                     Manager.Game.characterMoveDirection = Vector3.right;
                     transform.position += Manager.Game.characterMoveDirection * 3;
@@ -133,7 +133,7 @@ public class Character : BaseController
     {
         while (true)
         {
-            if (Manager.Input.IsPressedT)
+            if (Manager.Input.isPressedT)
             {
                 yield return Manager.Speech.SpeechAndWaitInput(transform, "야괴 이름 외치기:", inpuut => Manager.Game.shoutedEnemyName = inpuut);
                 foreach (int i in Count(3))

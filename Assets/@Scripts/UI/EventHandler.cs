@@ -8,9 +8,11 @@ public enum EventType
     PointerClick,
     PointerDown, 
     PointerUp,
+    PointerEnter,
+    PointerExit,
 }
 
-public class EventHandler : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class EventHandler : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private Dictionary<EventType, ActionEx> events = new();
 
@@ -32,12 +34,24 @@ public class EventHandler : MonoBehaviour, IPointerClickHandler, IPointerDownHan
     {
         Call(EventType.PointerClick);
     }
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Call(EventType.PointerDown);
     }
+
     public void OnPointerUp(PointerEventData eventData)
     {
         Call(EventType.PointerUp);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Call(EventType.PointerEnter);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Call(EventType.PointerExit);
     }
 }

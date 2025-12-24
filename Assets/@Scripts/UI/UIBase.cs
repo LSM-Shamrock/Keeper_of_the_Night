@@ -52,12 +52,12 @@ public class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
         _childs.Add(key, component);
     }
-    protected void Bind(params ChildKey[] keys)
+    protected void BindChild(params ChildKey[] keys)
     {
         foreach (ChildKey key in keys) 
             Bind(key);
     }
-    protected T Get<T>(ChildKey<T> key) where T : UnityEngine.Object
+    protected T GetChild<T>(ChildKey<T> key) where T : UnityEngine.Object
     {
         if (_childs.TryGetValue(key, out var obj))
         {
@@ -75,6 +75,25 @@ public class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         EventHandler handler = go.GetOrAddComponent<EventHandler>();
         handler.GetEvent(eventType).Add(this, action);
     }
+    protected void BindEvent(Component component, EventType eventType, Action action)
+    {
+        BindEvent(component.gameObject, eventType, action);
+    }
+    protected void BindEvents(GameObject go, Action<EventType> action)
+    {
+        EventHandler handler = go.GetOrAddComponent<EventHandler>();
+        EventType[] eventTypes = (EventType[])Enum.GetValues(typeof(EventType));
+        foreach (EventType eventType in eventTypes)
+        {
+            EventType type = eventType;
+            handler.GetEvent(type).Add(this, () => action?.Invoke(type));
+        }
+    }
+    protected void BindEvents(Component component, Action<EventType> action)
+    {
+        BindEvents(component.gameObject, action);
+    }
+
 
     protected bool IsContactMousePointer { get; private set; }
     public virtual void OnPointerEnter(PointerEventData eventData)
