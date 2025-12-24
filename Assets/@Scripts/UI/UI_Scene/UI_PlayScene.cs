@@ -14,9 +14,9 @@ public class U2I_PlayScene : UI_Scene
 
     private enum Images
     {
-        Image_DeathThumbnail,
-        Image_WaveClear,
-        Image_GameOver,
+        DeathThumbnail,
+        WaveClear,
+        GameOver,
     }
 
     private void Start()
@@ -41,7 +41,7 @@ public class U2I_PlayScene : UI_Scene
         {
             GetText(Texts.Text_HP).transform.localScale += Vector3.one * 0.25f;
             GetText(Texts.Text_Wave).transform.localScale += Vector3.one * 0.4f;
-            GetImage(Images.Image_DeathThumbnail).enabled = true;
+            GetImage(Images.DeathThumbnail).enabled = true;
             StartCoroutine(ShowGameOver());
         });
 
@@ -194,7 +194,7 @@ public class U2I_PlayScene : UI_Scene
         yield return new WaitForSeconds(0.1f);
         StopCodeOfAnotherObject();
 
-        Image gameOverImage = GetImage(Images.Image_GameOver);
+        Image gameOverImage = GetImage(Images.GameOver);
 
         Color color = gameOverImage.color;
         color.a = 0.5f;
@@ -216,7 +216,7 @@ public class U2I_PlayScene : UI_Scene
 
     IEnumerator OnWaveClear()
     {
-        Image waveClearImage = GetImage(Images.Image_WaveClear);
+        Image waveClearImage = GetImage(Images.WaveClear);
 
         waveClearImage.SetAlpha(0.5f);
 
@@ -246,7 +246,7 @@ public class U2I_PlayScene : UI_Scene
 
     IEnumerator UpdateWaveClearImageEffect()
     {
-        Image waveClearImage = GetImage(Images.Image_WaveClear);
+        Image waveClearImage = GetImage(Images.WaveClear);
 
         while (true)
         {
