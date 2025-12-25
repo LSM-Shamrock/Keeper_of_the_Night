@@ -1,4 +1,4 @@
-public enum PlaySceneObjects
+﻿public enum PlaySceneObjects
 {
     Wall,
     Ground,
@@ -10,7 +10,6 @@ public enum PlaySceneObjects
     Water,
     WaterPrison,
     MoonlightGun,
-    BossDinoBlackBall,
-    BossDinoSkill,
+    BossDinoSkillParticle,
 }
 

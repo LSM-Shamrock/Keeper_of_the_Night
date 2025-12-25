@@ -16,7 +16,7 @@ public abstract class EnemyBase : BaseController
     protected bool IsContactWater => _col.IsContact(PlaySceneObjects.Water);
     protected bool IsContactWaterPrison => _col.IsContact(PlaySceneObjects.WaterPrison);
     protected bool IsContactMoonlightgunBullet => _col.IsContact(Prefabs.Scene_Play.CharacterSkill_MoonlightgunBullet);
-    protected bool IsContactBossDinoSkill => _col.IsContact(PlaySceneObjects.BossDinoSkill);
+    protected bool IsContactBossDinoSkill => _col.IsContact(PlaySceneObjects.BossDinoSkillParticle);
     protected bool IsContactCameraLight => _col.IsContact(Prefabs.Scene_Play.CharacterSkill_CameraFlash);
 
     protected void Show()

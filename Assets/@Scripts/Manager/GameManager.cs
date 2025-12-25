@@ -43,15 +43,7 @@ public class GameManager
             return _waterPrison;
         }
     }
-    public Transform BossDinoBlackBall
-    {
-        get
-        {
-            if (_bossDinoBlackBall == null)
-                _bossDinoBlackBall = Utility.FindGameObject(PlaySceneObjects.BossDinoBlackBall).transform;
-            return _bossDinoBlackBall;
-        }
-    }
+
     public Vector3 characterMoveDirection;
     public void TakeDamageToPlayer(int damage)
     {

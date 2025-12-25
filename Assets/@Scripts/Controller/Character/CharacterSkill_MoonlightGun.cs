@@ -17,7 +17,7 @@ public class CharacterSkill_MoonlightGun : BaseController
     protected override void Update()
     {
         base.Update();
-        UpdateVisual();
+        UpdateGun();
     }
 
     private void Init()
@@ -52,17 +52,19 @@ public class CharacterSkill_MoonlightGun : BaseController
         }
     }
 
-    private void UpdateVisual()
+    private void UpdateGun()
     {
         if (Manager.Game.currentCharacter == Sprites.Characters.Dino && !Manager.Game.isSpecialSkillInvoking)
         { 
             _child.SetActive(true);
-            transform.position = Manager.Game.Character.position;
-            transform.position += Vector3.up * -10f;
 
-            bool flip = Utility.MouseX < transform.GetX();
-            _sr.sprite = flip ? _spriteL : _spriteR;
-            _direction = (Utility.MousePosition - transform.position).normalized;
+            Vector3 characterPos = Manager.Game.Character.position;
+            transform.position = characterPos + Vector3.up * -10f;
+
+            _direction = Manager.Input.attackDirection;
+
+            _sr.sprite = _direction.x < 0 ? _spriteL : _spriteR;
+
             transform.rotation = Utility.Direction2Rotation(_direction);
             transform.position += _direction * 25f;
         }
