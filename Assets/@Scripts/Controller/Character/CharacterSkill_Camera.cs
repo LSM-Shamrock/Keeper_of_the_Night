@@ -61,10 +61,11 @@ public class CharacterSkill_Camera : BaseController
         transform.position = Manager.Game.Character.position;
         transform.position += Vector3.up * -10f;
 
-        bool flip = MouseX < transform.GetX();
+        _direction = Manager.Input.attackDirection;
+
+        bool flip = _direction.x < 0;
         _sr.sprite = flip ? _sprite_left : _sprite_right;
 
-        _direction = (MousePosition - transform.position).normalized;
         transform.rotation = Utility.Direction2Rotation(_direction);
         transform.position += _direction * 25f;
     }

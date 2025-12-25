@@ -106,7 +106,7 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
 
             if (Manager.Game.isSpecialSkillInvoking)
             {
-                if (Manager.Input.isPressedS || Manager.Input.isPressedAttack)
+                if (Manager.Input.isPressedS || Manager.Input.isDragAttack)
                 {
                     Manager.Game.onDisarmSpecialSkill.Call();
                     yield return new WaitUntil(() => !Manager.Input.isPressedS);

@@ -24,5 +24,6 @@ public class InputManager
     public Vector3 attackDirection;
     public bool isPressedAttackJoystick;
     public bool isPressedMouse => Input.GetMouseButton(1);
-    public bool isPressedAttack => (isPressedAttackJoystick || isPressedMouse) && attackDirection != Vector3.zero;
+    public bool isPressedAttack => isPressedAttackJoystick || isPressedMouse;
+    public bool isDragAttack => isPressedAttack && attackDirection != Vector3.zero;
 }

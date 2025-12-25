@@ -30,6 +30,8 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
     {
         Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(eventData.position);
         GetChild(Boddy).position = worldPosition;
+
+        Manager.Input.isPressedAttackJoystick = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -50,6 +52,5 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
         GetChild(Handle).localPosition = dir * dist;
 
         Manager.Input.attackDirection = dir;
-        if (dist > 0) Manager.Input.isPressedAttackJoystick = true;
     }
 }

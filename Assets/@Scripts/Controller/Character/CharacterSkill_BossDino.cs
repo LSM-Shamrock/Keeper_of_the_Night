@@ -56,7 +56,7 @@ public class CharacterSkill_BossDino : BaseController
     private void UpdateDrawLine()
     {
         bool characterCheck = Manager.Game.currentCharacter == Characters.Dino;
-        if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isPressedAttack)
+        if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isDragAttack)
         {
             _ballEnd.gameObject.SetActive(true);
 
