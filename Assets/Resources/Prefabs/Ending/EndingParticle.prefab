@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1259109854665172042}
   - component: {fileID: -8207089290001069676}
   m_Layer: 5
-  m_Name: Ending_Particle
+  m_Name: EndingParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

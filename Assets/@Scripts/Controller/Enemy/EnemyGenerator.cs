@@ -17,7 +17,7 @@ public class EnemyGenerator : BaseController
 
     private void CreateEnemy(Enemys type)
     {
-        GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.Enemy);
+        GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
         enemy.transform.position = _createPosition;

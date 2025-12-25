@@ -7,7 +7,7 @@ public class CharacterSkill_MoonlightGunBullet : BaseController
     private Collider2D _col;
     private Vector3 _direction;
 
-    private bool IsContactEnemy => _col.IsContact(Prefabs.Scene_Play.Enemy);
+    private bool IsContactEnemy => _col.IsContact(Prefabs.Play.Enemy);
     private bool IsContactGround => _col.IsContact(PlaySceneObjects.Ground);
 
     public void Shoot(Vector3 position, Vector3 direction)

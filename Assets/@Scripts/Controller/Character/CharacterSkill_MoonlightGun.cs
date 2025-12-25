@@ -31,7 +31,7 @@ public class CharacterSkill_MoonlightGun : BaseController
 
     private void Shoot()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_MoonlightgunBullet);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.CharacterSkill_MoonlightgunBullet);
         var go = prefab.CreateClone();
         go.transform.position = transform.position;
         var bullet = go.Component<CharacterSkill_MoonlightGunBullet>();

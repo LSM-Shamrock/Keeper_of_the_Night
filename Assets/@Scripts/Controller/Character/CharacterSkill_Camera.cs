@@ -33,7 +33,7 @@ public class CharacterSkill_Camera : BaseController
 
     private void Flash()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_CameraFlash);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.CharacterSkill_CameraFlash);
         var go = prefab.CreateClone();
         var flash = go.GetComponent<CharacterSkill_CameraFlash>();
         flash.Init(transform.position, _direction);

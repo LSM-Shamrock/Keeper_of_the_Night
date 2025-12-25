@@ -59,7 +59,7 @@ public class Enemy : EnemyBase
         }
         void Create()
         {
-            var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyHiddenNameParticle);
+            var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyHiddenNameParticle);
             var go = prefab.CreateClone();
             var particle = go.Component<EnemyHiddenNameParticle>();
             particle.Init(transform.position);
@@ -171,21 +171,21 @@ public class Enemy : EnemyBase
 
     private void CreatePoison()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Poison);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyProjectile_Poison);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_Poison>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
     private void CreateWhirlwind()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Whirlwind);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyProjectile_Whirlwind);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_Whirlwind>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
     private void CallingRat()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemySkill_Rat);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemySkill_Rat);
         var go = Instantiate(prefab);
         var rat = go.GetComponent<EnemySkill_Rat>();
         rat.OnCreate();
@@ -198,21 +198,21 @@ public class Enemy : EnemyBase
     }
     private void CreateFire()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Fire);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyProjectile_Fire);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_Fire>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
     private void CreateIceShard()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_IceShard);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyProjectile_IceShard);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_IceShard>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
     private void CreateDinoProjectile()
     {
-        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_DinoProjectile);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyProjectile_DinoProjectile);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_DinoProjectile>();
         projectile.OnCreate(transform.position, _moveDirection);
