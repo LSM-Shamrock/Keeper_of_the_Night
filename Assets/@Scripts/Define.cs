@@ -8,7 +8,7 @@ public enum Scenes
     EndingScene,
 }
 
-public enum CharacterType
+public enum Characters
 {
     Sleepground,
     Rather,
@@ -17,7 +17,7 @@ public enum CharacterType
     Heptagram,
 }
 
-public enum EnemyType
+public enum Enemys
 {
     Shadow,
     VoidCavity,

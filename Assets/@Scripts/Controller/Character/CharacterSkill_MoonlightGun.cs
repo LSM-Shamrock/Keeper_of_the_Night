@@ -24,14 +24,14 @@ public class CharacterSkill_MoonlightGun : BaseController
     {
         _child = transform.GetChild(0).gameObject;
         _sr = _child.Component<SpriteRenderer>();
-        _spriteR = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Dino_MoonlightGun_Right);
-        _spriteL = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Dino_MoonlightGun_Left);
+        _spriteR = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Dino_MoonlightGun_Right);
+        _spriteL = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Dino_MoonlightGun_Left);
         StartCoroutine(LoopShot());
     }
 
     private void Shoot()
     {
-        var prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_MoonlightgunBullet);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_MoonlightgunBullet);
         var go = prefab.CreateClone();
         go.transform.position = transform.position;
         var bullet = go.Component<CharacterSkill_MoonlightGunBullet>();
@@ -42,7 +42,7 @@ public class CharacterSkill_MoonlightGun : BaseController
     {
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == CharacterType.Dino);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
 
             if (!Manager.Game.isSpecialSkillInvoking && Manager.Input.isPressedAttack)
             {
@@ -54,7 +54,7 @@ public class CharacterSkill_MoonlightGun : BaseController
 
     private void UpdateGun()
     {
-        if (Manager.Game.currentCharacter == CharacterType.Dino && !Manager.Game.isSpecialSkillInvoking)
+        if (Manager.Game.currentCharacter == Characters.Dino && !Manager.Game.isSpecialSkillInvoking)
         { 
             _child.SetActive(true);
 

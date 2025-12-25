@@ -7,7 +7,7 @@ public class EnemyProjectile_IceShard : EnemyProjectile
     {
         yield return new WaitUntil(() => IsContactCharacter);
         Manager.Game.TakeDamageToPlayer(11);
-        _sr.sprite = Utility.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
+        _sr.sprite = Manager.Resource.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 50f;
         Manager.Game.ice += 4;

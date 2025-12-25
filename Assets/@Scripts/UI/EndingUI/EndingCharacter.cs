@@ -7,7 +7,7 @@ public class EndingCharacter : EndingBase
 {
     Image _image;
 
-    CharacterType _character;
+    Characters _character;
 
 
     protected override void Start()
@@ -19,23 +19,23 @@ public class EndingCharacter : EndingBase
     {
         _image = GetComponent<Image>();
 
-        _character = Enum.Parse<CharacterType>(_image.sprite.name);
+        _character = Enum.Parse<Characters>(_image.sprite.name);
 
         Character[_character] = transform;
         IEnumerator coroutine = null;
         switch (_character)
         {
-            case CharacterType.Sleepground: coroutine = StartSleepground(); break;
-            case CharacterType.Dino: coroutine = StartDino(); break;
-            case CharacterType.Heptagram: coroutine = StartHeptagram(); break;
-            case CharacterType.Rather: coroutine = StartRather(); break;
+            case Characters.Sleepground: coroutine = StartSleepground(); break;
+            case Characters.Dino: coroutine = StartDino(); break;
+            case Characters.Heptagram: coroutine = StartHeptagram(); break;
+            case Characters.Rather: coroutine = StartRather(); break;
         }
         StartCoroutine(coroutine);
     }
 
     void CreatePurpleParticle()
     {
-        GameObject prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_Ending.Ending_Particle);
+        GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Ending.Ending_Particle);
         GameObject go = prefab.CreateClone();
         go.transform.SetParent(ParticleRoot);
         EndingParticle particle = go.Component<EndingParticle>();
@@ -44,7 +44,7 @@ public class EndingCharacter : EndingBase
 
     void CreateYellowParticle()
     {
-        GameObject prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_Ending.Ending_Particle);
+        GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Ending.Ending_Particle);
         GameObject go = prefab.CreateClone();
         go.transform.SetParent(ParticleRoot);
         EndingParticle particle = go.Component<EndingParticle>();
@@ -55,7 +55,7 @@ public class EndingCharacter : EndingBase
     {
         yield return new WaitUntil(() => EndingProgress == 20);
 
-        Transform heptagram = Character[CharacterType.Heptagram];
+        Transform heptagram = Character[Characters.Heptagram];
         yield return transform.MoveToTransformOverTime(0.2f, heptagram);
 
         yield return transform.MoveOverTime(0.3f, new Vector3(-200f, 100f));
@@ -81,7 +81,7 @@ public class EndingCharacter : EndingBase
         
         _image.enabled = false;
 
-        Transform sleepground = Character[CharacterType.Sleepground];
+        Transform sleepground = Character[Characters.Sleepground];
         yield return transform.MoveToTransformOverTime(0.2f, sleepground);
         transform.AddY(25f);
         

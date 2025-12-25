@@ -22,7 +22,7 @@ public class TrailerSceneUI : SceneUI
         ClickToStart);
 
         // 트레일러씬 시작시 커서 모양 설정
-        Texture2D texture2D = Utility.LoadResource<Texture2D>(Sprites.Cursor.Moonlightsword);
+        Texture2D texture2D = Manager.Resource.LoadResource<Texture2D>(Sprites.Cursor.Moonlightsword);
         Cursor.SetCursor(texture2D, Vector2.zero, CursorMode.Auto);
 
         StartCoroutine(PlayTrailerImage());

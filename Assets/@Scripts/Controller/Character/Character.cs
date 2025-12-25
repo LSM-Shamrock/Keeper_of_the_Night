@@ -21,7 +21,7 @@ public class Character : BaseController
         UpdateDinoSpecial();
     }
 
-    private void SetCurrentCharacter(CharacterType character)
+    private void SetCurrentCharacter(Characters character)
     {
         Manager.Game.currentCharacter = character;
         foreach (Transform child in transform)
@@ -48,7 +48,7 @@ public class Character : BaseController
         Manager.Game.onShadowStateChange.Add(this, () =>
         {
             if (Manager.Game.shadowState == ShadowState.EndOfGiantization) 
-                SetCurrentCharacter(CharacterType.Suhyen);
+                SetCurrentCharacter(Characters.Suhyen);
             if (Manager.Game.shadowState == ShadowState.Killed)
                 SetCurrentCharacter(Manager.Game.selectedCharacter);
         });
@@ -115,7 +115,7 @@ public class Character : BaseController
     }
     private void UpdateDinoSpecial()
     {
-        if (Manager.Game.selectedCharacter != CharacterType.Dino) return;
+        if (Manager.Game.selectedCharacter != Characters.Dino) return;
         if (!Manager.Game.isSpecialSkillInvoking)
         {
             _sr.color = Color.white;

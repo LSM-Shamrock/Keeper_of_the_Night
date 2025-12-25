@@ -11,7 +11,7 @@ public class EndingParticle : EndingBase
     public void Init(Sprites.Ending type)
     {
         _image = GetComponent<Image>();
-        _image.sprite = Utility.LoadResource<Sprite>(type);
+        _image.sprite = Manager.Resource.LoadResource<Sprite>(type);
 
         _type = type;
 
@@ -47,7 +47,7 @@ public class EndingParticle : EndingBase
             float brightness = Utility.RandomNumber(-0.25f, 0.1f);
             _image.SetBrightness(brightness);
       
-            Transform dino = Character[CharacterType.Dino];
+            Transform dino = Character[Characters.Dino];
 
             transform.position = dino.position;
             transform.AddX(Utility.RandomNumber(-50, 50));
@@ -68,9 +68,9 @@ public class EndingParticle : EndingBase
 
             Transform target;
             if (EndingProgress > 20)
-                target = Character[CharacterType.Sleepground];
+                target = Character[Characters.Sleepground];
             else 
-                target = Character[CharacterType.Heptagram];
+                target = Character[Characters.Heptagram];
 
             transform.position = target.position;
 

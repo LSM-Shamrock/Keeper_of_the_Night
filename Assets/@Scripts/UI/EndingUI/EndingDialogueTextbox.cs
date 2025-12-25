@@ -44,19 +44,19 @@ public class EndingDialogueTextbox : EndingBase
             string speaker = matchDialogue.Groups["speaker"].Value;
             string line = matchDialogue.Groups["line"].Value;
 
-            CharacterType speakerCharacter = Enum.Parse<CharacterType>(speaker);
+            Characters speakerCharacter = Enum.Parse<Characters>(speaker);
 
-            Transform sleepground = Character[CharacterType.Sleepground];
-            Transform dino = Character[CharacterType.Dino];
-            Transform heptagram = Character[CharacterType.Heptagram];
-            Transform rather = Character[CharacterType.Rather];
+            Transform sleepground = Character[Characters.Sleepground];
+            Transform dino = Character[Characters.Dino];
+            Transform heptagram = Character[Characters.Heptagram];
+            Transform rather = Character[Characters.Rather];
 
             float size = 0.75f;
             Color color = new();
             Vector3 position = new();
             switch (speakerCharacter)
             {
-                case CharacterType.Dino:
+                case Characters.Dino:
 
                     color = Utility.StringToColor("#16c72e");
                     position = (EndingProgress > 4 ? sleepground : dino).position;
@@ -68,7 +68,7 @@ public class EndingDialogueTextbox : EndingBase
                     }
                     break;
 
-                case CharacterType.Heptagram:
+                case Characters.Heptagram:
 
                     color = Utility.StringToColor("#e8e230");
                     position = heptagram.position;
@@ -80,7 +80,7 @@ public class EndingDialogueTextbox : EndingBase
                     }
                     break;
 
-                case CharacterType.Rather:
+                case Characters.Rather:
 
                     color = Utility.StringToColor("#2fc9e8");
                     position = rather.position;

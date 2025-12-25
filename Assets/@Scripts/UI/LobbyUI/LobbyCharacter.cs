@@ -6,11 +6,11 @@ using System;
 
 public class LobbyCharacter : UIBase, IPointerClickHandler
 {
-    private CharacterType _character;
+    private Characters _character;
 
     private void Start()
     {
-        _character = (CharacterType)Enum.Parse(typeof(CharacterType), gameObject.name);
+        _character = (Characters)Enum.Parse(typeof(Characters), gameObject.name);
     }
 
     private void Update()
@@ -38,17 +38,17 @@ public class LobbyCharacter : UIBase, IPointerClickHandler
         Manager.Game.selectedCharacter = _character;
         switch (Manager.Game.selectedCharacter)
         {
-            case CharacterType.Sleepground:
+            case Characters.Sleepground:
                 Manager.Game.characterDescription = "월광검으로 근거리 공격";
                 Manager.Game.specialDescription = "월광검 방어막";
                 Manager.Game.characterMaxHealth = 200;
                 break;
-            case CharacterType.Rather:
+            case Characters.Rather:
                 Manager.Game.characterDescription = "물로 곡선형 공격";
                 Manager.Game.specialDescription = "물감옥 생성";
                 Manager.Game.characterMaxHealth = 200;
                 break;
-            case CharacterType.Dino:
+            case Characters.Dino:
                 Manager.Game.characterDescription = "월광건으로 장거리공격";
                 Manager.Game.specialDescription = "야괴로 변신해 흡혈";
                 Manager.Game.characterMaxHealth = 100;

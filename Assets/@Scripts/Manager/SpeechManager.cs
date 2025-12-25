@@ -11,7 +11,7 @@ public class SpeechManager
         {
             if (s_speechbubbleRoot == null)
             {
-                var prefab = Utility.LoadResource<GameObject>(Prefabs.Core.SpeechbubbleCanvas);
+                var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Core.SpeechbubbleCanvas);
                 var go = prefab.CreateClone();
                 var canvas = go.Component<Canvas>();
                 canvas.worldCamera = Camera.main;
@@ -30,7 +30,7 @@ public class SpeechManager
         {
             if (s_inputbox == null)
             {
-                var prefab = Utility.LoadResource<GameObject>(Prefabs.Core.InputboxCanvas);
+                var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Core.InputboxCanvas);
                 var go = prefab.CreateClone();
                 var inputbox = go.Component<Inputbox>();
                 inputbox.Init();
@@ -48,7 +48,7 @@ public class SpeechManager
         }
         else
         {
-            var prefab = Utility.LoadResource<GameObject>(Prefabs.Core.Speechbubble);
+            var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Core.Speechbubble);
             var go = GameObject.Instantiate(prefab, SpeechbubbleRoot);
             speechbubble = go.Component<Speechbubble>();
             speechbubble.Init(transform);

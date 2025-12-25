@@ -14,46 +14,17 @@ public class Manager
     }
 
     private InputManager _input = new InputManager();
-    public static InputManager Input
-    {
-        get
-        {
-            if (Instance._input == null)
-                Instance._input = new InputManager();
-            return Instance._input;
-        }
-    }
+    public static InputManager Input => Instance._input;
 
     private SpeechManager _speech = new SpeechManager();
-    public static SpeechManager Speech
-    {
-        get
-        {
-            if (Instance._speech == null)
-                Instance._speech = new SpeechManager();
-            return Instance._speech;
-        }
-    }
+    public static SpeechManager Speech => Instance._speech;
 
     private GameManager _game = new GameManager();
-    public static GameManager Game
-    {
-        get
-        {
-            if (Instance._game == null)
-                Instance._game = new GameManager();
-            return Instance._game;
-        }
-    }
+    public static GameManager Game => Instance._game;
 
     private ObjectManager _object = new ObjectManager();
-    public static ObjectManager Object
-    {
-        get
-        {
-            if (Instance._object == null)
-                Instance._object = new ObjectManager();
-            return Instance._object;
-        }
-    }
+    public static ObjectManager Object => Instance._object;
+
+    private ResourceManager _resource = new ResourceManager();
+    public static ResourceManager Resource => Instance._resource;
 }

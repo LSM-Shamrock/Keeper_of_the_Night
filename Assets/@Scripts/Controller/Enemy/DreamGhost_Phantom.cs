@@ -8,7 +8,7 @@ public class DreamGhost_Phantom : EnemyBase
     {
         base.Init();
         Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
-        gameObject.SetSpriteAndPolygon(LoadResource<Sprite>(Manager.Game.currentCharacter));
+        gameObject.SetSpriteAndPolygon(Manager.Resource.LoadResource<Sprite>(Manager.Game.currentCharacter));
         transform.SetX(RandomNumber(1, 2) == 1 ? 300 : -300);
         StartCoroutine(Loop());
     }

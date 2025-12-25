@@ -2,13 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Utility;
 
 public class Enemy : EnemyBase
 {
-    float _hp;
+    private float _hp;
 
-    EnemyType _type;
+    private Enemys _type;
 
     protected override void DeleteThisClone()
     {
@@ -17,15 +16,15 @@ public class Enemy : EnemyBase
     }
 
     #region 야괴 이름 외치기
-    string _hiddenName;
-    void Init_HiddenNameLogic()
+    private string _hiddenName;
+    private void Init_HiddenNameLogic()
     {
         switch (_type)
         {
-            case EnemyType.ThePiedPiper:
+            case Enemys.ThePiedPiper:
                 _hiddenName = "하민우";
                 break;
-            case EnemyType.BossDino:
+            case Enemys.BossDino:
                 _hiddenName = "공룡";
                 break;
 
@@ -37,7 +36,7 @@ public class Enemy : EnemyBase
         }
         StartCoroutine(Loop_HiddenNameLogic());
     }
-    void CreateNameParticles()
+    private void CreateNameParticles()
     {
         var loop = StartCoroutine(Loop_Create());
         StartCoroutine(StopParticle());
@@ -60,13 +59,13 @@ public class Enemy : EnemyBase
         }
         void Create()
         {
-            var prefab = Utility.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyHiddenNameParticle);
+            var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyHiddenNameParticle);
             var go = prefab.CreateClone();
             var particle = go.Component<EnemyHiddenNameParticle>();
             particle.Init(transform.position);
         }
     }
-    IEnumerator Loop_HiddenNameLogic()
+    private IEnumerator Loop_HiddenNameLogic()
     {
         while (true)
         {
@@ -81,7 +80,7 @@ public class Enemy : EnemyBase
                 Debug.Log("야괴 이름 적중 : " + _hiddenName + " : " + _type.ToString());
                 yield return new WaitForSeconds(0.25f);
                 CreateNameParticles();
-                if (_type == EnemyType.BossDino)
+                if (_type == Enemys.BossDino)
                 {
                     yield return Manager.Speech.SpeechForSeconds(transform, "윽!", 0.75f);
                     yield return Manager.Speech.SpeechForSeconds(transform, "으아앗", 1f);
@@ -100,7 +99,7 @@ public class Enemy : EnemyBase
                     }
 
                     Manager.Game.remainingWaveKill--;
-                    if (_type == EnemyType.Shadow)
+                    if (_type == Enemys.Shadow)
                         Manager.Game.shadowState = ShadowState.Killed;
 
                     DeleteThisClone();
@@ -112,7 +111,7 @@ public class Enemy : EnemyBase
     }
     #endregion
 
-    public void Init(EnemyType type)
+    public void Init(Enemys type)
     {
         base.Init();
         _type = type;
@@ -128,31 +127,31 @@ public class Enemy : EnemyBase
         Init_HiddenNameLogic();
     }
 
-    void Init_HpAndSprite()
+    private void Init_HpAndSprite()
     {
-        Sprite sprite = LoadResource<Sprite>(_type);
+        Sprite sprite = Manager.Resource.LoadResource<Sprite>(_type);
         gameObject.SetSpriteAndPolygon(sprite);
         float size = 0;
         switch (_type)
         {
-            case EnemyType.Shadow: _hp = 100; break;
-            case EnemyType.VoidCavity: _hp = 12; size = 31.4f; break;
-            case EnemyType.CrazyLaughMask: _hp = 18; size = 31.9f; break;
-            case EnemyType.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
-            case EnemyType.Bird: _hp = 20; size = 31.0f; break;
-            case EnemyType.SadEyes: _hp = 20; size = 31.4f; break;
-            case EnemyType.ThePiedPiper: _hp = 18; size = 36.6f; break;
-            case EnemyType.Fire: _hp = 23; size = 40.5f; break;
-            case EnemyType.Red: _hp = 25; size = 54.9f; break;
-            case EnemyType.SnowLady: _hp = 23; size = 50.0f; break;
-            case EnemyType.BossDino: _hp = 100; size = 76.8f; break;
+            case Enemys.Shadow: _hp = 100; break;
+            case Enemys.VoidCavity: _hp = 12; size = 31.4f; break;
+            case Enemys.CrazyLaughMask: _hp = 18; size = 31.9f; break;
+            case Enemys.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
+            case Enemys.Bird: _hp = 20; size = 31.0f; break;
+            case Enemys.SadEyes: _hp = 20; size = 31.4f; break;
+            case Enemys.ThePiedPiper: _hp = 18; size = 36.6f; break;
+            case Enemys.Fire: _hp = 23; size = 40.5f; break;
+            case Enemys.Red: _hp = 25; size = 54.9f; break;
+            case Enemys.SnowLady: _hp = 23; size = 50.0f; break;
+            case Enemys.BossDino: _hp = 100; size = 76.8f; break;
         }
         transform.localScale = Vector3.one * size;
     }
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        if (_type == EnemyType.Shadow)
+        if (_type == Enemys.Shadow)
             yield break;
 
         _hp -= damage;
@@ -162,68 +161,67 @@ public class Enemy : EnemyBase
         }
         else
         {
-            if (_type == EnemyType.BossDino)
-            {
+            if (_type == Enemys.BossDino)
                 Manager.Game.isBossDinoKilled = true;
-            }
+
             Manager.Game.remainingWaveKill -= 1;
             DeleteThisClone();
         }
     }
 
-    void CreatePoison()
+    private void CreatePoison()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Poison);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Poison);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_Poison>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
-    void CreateWhirlwind()
+    private void CreateWhirlwind()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Whirlwind);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Whirlwind);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_Whirlwind>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
-    void CallingRat()
+    private void CallingRat()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.EnemySkill_Rat);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemySkill_Rat);
         var go = Instantiate(prefab);
         var rat = go.GetComponent<EnemySkill_Rat>();
         rat.OnCreate();
     }
-    IEnumerator PlayPipeSoundAndWaiting()
+    private IEnumerator PlayPipeSoundAndWaiting()
     {
-        var clip = LoadResource<AudioClip>(Audios.Pipe);
+        var clip = Manager.Resource.LoadResource<AudioClip>(Audios.Pipe);
         _audioSource?.PlayOneShot(clip);
         yield return new WaitForSeconds(clip.length);
     }
-    void CreateFire()
+    private void CreateFire()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Fire);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_Fire);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_Fire>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
-    void CreateIceShard()
+    private void CreateIceShard()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_IceShard);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_IceShard);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_IceShard>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
-    void CreateDinoProjectile()
+    private void CreateDinoProjectile()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_DinoProjectile);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.EnemyProjectile_DinoProjectile);
         var go = Instantiate(prefab);
         var projectile = go.GetComponent<EnemyProjectile_DinoProjectile>();
         projectile.OnCreate(transform.position, _moveDirection);
     }
 
-    IEnumerator Loop_Shadow_Logic()
+    private IEnumerator Loop_Shadow_Logic()
     {
         // 영도가 아닐 시 바로 종료
-        if (_type != EnemyType.Shadow)
+        if (_type != Enemys.Shadow)
             yield break;
 
         // 체력 변화: 100~0 
@@ -286,9 +284,9 @@ public class Enemy : EnemyBase
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_Flap_Bird()
+    private IEnumerator Loop_Flap_Bird()
     {
-        if (_type != EnemyType.Bird)
+        if (_type != Enemys.Bird)
             yield break;
 
         while (true)
@@ -309,9 +307,9 @@ public class Enemy : EnemyBase
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_Jump_Thepiedpiper()
+    private IEnumerator Loop_Jump_Thepiedpiper()
     {
-        if (_type != EnemyType.ThePiedPiper)
+        if (_type != Enemys.ThePiedPiper)
             yield break;
 
         while (true)
@@ -330,9 +328,9 @@ public class Enemy : EnemyBase
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_Jump_Dino()
+    private IEnumerator Loop_Jump_Dino()
     {
-        if (_type != EnemyType.BossDino)
+        if (_type != Enemys.BossDino)
             yield break;
 
         while (true)
@@ -353,32 +351,32 @@ public class Enemy : EnemyBase
         }
     }
 
-    IEnumerator Loop_Move()
+    private IEnumerator Loop_Move()
     {
         while (true)
         {
             IEnumerator enumerator = null;
             switch (_type)
             {
-                case EnemyType.Shadow: enumerator = Move_Shadow_And_Voidcavity(); break;
-                case EnemyType.VoidCavity: enumerator = Move_Shadow_And_Voidcavity(); break;
-                case EnemyType.CrazyLaughMask: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
-                case EnemyType.MotherSpiritSnake: enumerator = Move_Motherspiritsnake(); break;
-                case EnemyType.Bird: enumerator = Move_Bird(); break;
-                case EnemyType.SadEyes: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
-                case EnemyType.ThePiedPiper: enumerator = Move_Thepiedpiper(); break;
-                case EnemyType.Fire: enumerator = Move_Fire(); break;
-                case EnemyType.Red: enumerator = Move_Red(); break;
-                case EnemyType.SnowLady: enumerator = Move_Snowlady(); break;
-                case EnemyType.BossDino: enumerator = Move_Dino(); break;
+                case Enemys.Shadow: enumerator = Move_Shadow_And_Voidcavity(); break;
+                case Enemys.VoidCavity: enumerator = Move_Shadow_And_Voidcavity(); break;
+                case Enemys.CrazyLaughMask: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
+                case Enemys.MotherSpiritSnake: enumerator = Move_Motherspiritsnake(); break;
+                case Enemys.Bird: enumerator = Move_Bird(); break;
+                case Enemys.SadEyes: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
+                case Enemys.ThePiedPiper: enumerator = Move_Thepiedpiper(); break;
+                case Enemys.Fire: enumerator = Move_Fire(); break;
+                case Enemys.Red: enumerator = Move_Red(); break;
+                case Enemys.SnowLady: enumerator = Move_Snowlady(); break;
+                case Enemys.BossDino: enumerator = Move_Dino(); break;
             }
             yield return enumerator;
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Move_Shadow_And_Voidcavity()
+    private IEnumerator Move_Shadow_And_Voidcavity()
     {
-        if (_type != EnemyType.Shadow && _type != EnemyType.VoidCavity)
+        if (_type != Enemys.Shadow && _type != Enemys.VoidCavity)
             yield break;
 
         if (IsContactGround) transform.position += Vector3.up * 0.1f;
@@ -390,16 +388,16 @@ public class Enemy : EnemyBase
             if (Manager.Game.Character.position.x < transform.position.x) transform.position += Vector3.right * -0.5f;
         }
     }
-    IEnumerator Move_Crazylaughmask_And_Sadeyes()
+    private IEnumerator Move_Crazylaughmask_And_Sadeyes()
     {
-        if (_type != EnemyType.CrazyLaughMask && _type != EnemyType.SadEyes)
+        if (_type != Enemys.CrazyLaughMask && _type != Enemys.SadEyes)
             yield break;
 
         LookAtTheTarget(Manager.Game.Character);
         MoveToMoveDirection(1f);
-        if (_type == EnemyType.CrazyLaughMask)
+        if (_type == Enemys.CrazyLaughMask)
         {
-            if (RandomNumber(1, 500) == 1)
+            if (Utility.RandomNumber(1, 500) == 1)
                 yield return Manager.Speech.SpeechForSeconds(transform, "ㅋ흐하하하하핳ㅋ흫흐하핳", 1f);
         }
         if (DistanceTo(Manager.Game.Character) < 50f)
@@ -415,9 +413,9 @@ public class Enemy : EnemyBase
 
         yield break;
     }
-    IEnumerator Move_Motherspiritsnake()
+    private IEnumerator Move_Motherspiritsnake()
     {
-        if (_type != EnemyType.MotherSpiritSnake)
+        if (_type != Enemys.MotherSpiritSnake)
             yield break;
 
         if (IsContactGround) transform.position += Vector3.up * 0.1f;
@@ -431,9 +429,9 @@ public class Enemy : EnemyBase
 
         yield break;
     }
-    IEnumerator Move_Bird()
+    private IEnumerator Move_Bird()
     {
-        if (_type != EnemyType.Bird)
+        if (_type != Enemys.Bird)
             yield break;
 
         if (Math.Abs(Manager.Game.Character.position.x - transform.position.x) > 50)
@@ -444,9 +442,9 @@ public class Enemy : EnemyBase
 
         yield break;
     }
-    IEnumerator Move_Thepiedpiper()
+    private IEnumerator Move_Thepiedpiper()
     {
-        if (_type != EnemyType.ThePiedPiper)
+        if (_type != Enemys.ThePiedPiper)
             yield break;
 
         if (IsContactGround) 
@@ -474,9 +472,9 @@ public class Enemy : EnemyBase
             }
         }
     }
-    IEnumerator Move_Fire()
+    private IEnumerator Move_Fire()
     {
-        if (_type != EnemyType.Fire)
+        if (_type != Enemys.Fire)
             yield break;
 
         if (IsContactGround)
@@ -491,9 +489,9 @@ public class Enemy : EnemyBase
             if (Manager.Game.Character.position.x < transform.position.x) transform.AddX(-1.2f);
         }
     }
-    IEnumerator Move_Red()
+    private IEnumerator Move_Red()
     {
-        if (_type != EnemyType.Red)
+        if (_type != Enemys.Red)
             yield break;
 
         if (IsContactGround)
@@ -511,9 +509,9 @@ public class Enemy : EnemyBase
 
         yield break;
     }
-    IEnumerator Move_Snowlady()
+    private IEnumerator Move_Snowlady()
     {
-        if (_type != EnemyType.SnowLady)
+        if (_type != Enemys.SnowLady)
             yield break;
 
         if (IsContactGround) 
@@ -541,9 +539,9 @@ public class Enemy : EnemyBase
             }
         }
     }
-    IEnumerator Move_Dino()
+    private IEnumerator Move_Dino()
     {
-        if (_type != EnemyType.BossDino)
+        if (_type != Enemys.BossDino)
             yield break;
 
         LookAtTheTarget(Manager.Game.Character);
@@ -567,31 +565,31 @@ public class Enemy : EnemyBase
         }
     }
 
-    IEnumerator Loop_Attack()
+    private IEnumerator Loop_Attack()
     {
         while (true)
         {
             IEnumerator enumerator = null;
             switch (_type)
             {
-                case EnemyType.Shadow: enumerator = Attack_Shadow(); break;
-                case EnemyType.VoidCavity: enumerator = Attack_Voidcavity(); break;
-                case EnemyType.CrazyLaughMask: enumerator = Attack_Crazylaughmask(); break;
-                case EnemyType.MotherSpiritSnake: enumerator = Attack_Motherspiritsnake(); break;
-                case EnemyType.Bird: enumerator = Attack_Bird(); break;
-                case EnemyType.SadEyes: enumerator = Attack_Sadeyes(); break;
-                case EnemyType.ThePiedPiper: enumerator = Attack_Thepiedpiper(); break;
-                case EnemyType.Fire: enumerator = Attack_Fire(); break;
-                case EnemyType.Red: enumerator = Attack_Red(); break;
-                case EnemyType.SnowLady: enumerator = Attack_Snowlady(); break;
-                case EnemyType.BossDino: enumerator = Attack_Dino(); break;
+                case Enemys.Shadow: enumerator = Attack_Shadow(); break;
+                case Enemys.VoidCavity: enumerator = Attack_Voidcavity(); break;
+                case Enemys.CrazyLaughMask: enumerator = Attack_Crazylaughmask(); break;
+                case Enemys.MotherSpiritSnake: enumerator = Attack_Motherspiritsnake(); break;
+                case Enemys.Bird: enumerator = Attack_Bird(); break;
+                case Enemys.SadEyes: enumerator = Attack_Sadeyes(); break;
+                case Enemys.ThePiedPiper: enumerator = Attack_Thepiedpiper(); break;
+                case Enemys.Fire: enumerator = Attack_Fire(); break;
+                case Enemys.Red: enumerator = Attack_Red(); break;
+                case Enemys.SnowLady: enumerator = Attack_Snowlady(); break;
+                case Enemys.BossDino: enumerator = Attack_Dino(); break;
             }
             yield return enumerator;
         }
     }
-    IEnumerator Attack_Shadow()
+    private IEnumerator Attack_Shadow()
     {
-        if (_type != EnemyType.Shadow)
+        if (_type != Enemys.Shadow)
             yield break;
 
         if (IsContactCharacter == false) 
@@ -600,9 +598,9 @@ public class Enemy : EnemyBase
         Manager.Game.TakeDamageToPlayer(12);
         yield return new WaitForSeconds(0.5f);
     }
-    IEnumerator Attack_Voidcavity()
+    private IEnumerator Attack_Voidcavity()
     {
-        if (_type != EnemyType.VoidCavity)
+        if (_type != Enemys.VoidCavity)
             yield break;
 
         if (Math.Abs(transform.position.x - Manager.Game.Character.position.x) < 30 == false) 
@@ -618,9 +616,9 @@ public class Enemy : EnemyBase
         if (IsContactCharacter) Manager.Game.TakeDamageToPlayer(9);
         yield return new WaitForSeconds(0.5f);
     }
-    IEnumerator Attack_Crazylaughmask()
+    private IEnumerator Attack_Crazylaughmask()
     {
-        if (_type != EnemyType.CrazyLaughMask)
+        if (_type != Enemys.CrazyLaughMask)
             yield break;
 
         if (IsContactCharacter == false) 
@@ -634,9 +632,9 @@ public class Enemy : EnemyBase
         }
         yield return new WaitForSeconds(0.5f);
     }
-    IEnumerator Attack_Motherspiritsnake()
+    private IEnumerator Attack_Motherspiritsnake()
     {
-        if (_type != EnemyType.MotherSpiritSnake)
+        if (_type != Enemys.MotherSpiritSnake)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 250f)
@@ -648,16 +646,16 @@ public class Enemy : EnemyBase
             yield return new WaitForSeconds(2f);
         }
     }
-    IEnumerator Attack_Bird()
+    private IEnumerator Attack_Bird()
     {
-        if (_type != EnemyType.Bird)
+        if (_type != Enemys.Bird)
             yield break;
 
         LookAtTheTarget(Manager.Game.Character);
         if (transform.position.y <= 50) 
             yield break;
 
-        if (RandomNumber(1, 2) == 1)
+        if (Utility.RandomNumber(1, 2) == 1)
         {
             _sr.SetBrightness(-0.75f);
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
@@ -699,9 +697,9 @@ public class Enemy : EnemyBase
             yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Attack_Sadeyes()
+    private IEnumerator Attack_Sadeyes()
     {
-        if (_type != EnemyType.SadEyes)
+        if (_type != Enemys.SadEyes)
             yield break;
 
         if (!IsContactCharacter) 
@@ -715,15 +713,15 @@ public class Enemy : EnemyBase
         }
         yield return new WaitForSeconds(0.5f);
     }
-    IEnumerator Attack_Thepiedpiper()
+    private IEnumerator Attack_Thepiedpiper()
     {
-        if (_type != EnemyType.ThePiedPiper)
+        if (_type != Enemys.ThePiedPiper)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 200)
         {
             Manager.Speech.Speech(transform, "♪");
-            foreach (int i in Count(RandomNumber(3, 6)))
+            foreach (int i in Count(Utility.RandomNumber(3, 6)))
             {
                 CallingRat();
                 yield return PlayPipeSoundAndWaiting();
@@ -734,9 +732,9 @@ public class Enemy : EnemyBase
             yield return new WaitForSeconds(5f);
         }
     }
-    IEnumerator Attack_Fire()
+    private IEnumerator Attack_Fire()
     {
-        if (_type != EnemyType.Fire)
+        if (_type != Enemys.Fire)
             yield break;
 
         if (IsContactWaterPrison) 
@@ -751,9 +749,9 @@ public class Enemy : EnemyBase
             yield return new WaitForSeconds(2f);
         }
     }
-    IEnumerator Attack_Red()
+    private IEnumerator Attack_Red()
     {
-        if (_type != EnemyType.Red)
+        if (_type != Enemys.Red)
             yield break;
 
         if (Mathf.Abs(transform.position.x - Manager.Game.Character.position.x) < 40)
@@ -770,9 +768,9 @@ public class Enemy : EnemyBase
             }
         }
     }
-    IEnumerator Attack_Snowlady()
+    private IEnumerator Attack_Snowlady()
     {
-        if (_type != EnemyType.SnowLady)
+        if (_type != Enemys.SnowLady)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 250f)
@@ -784,9 +782,9 @@ public class Enemy : EnemyBase
             yield return new WaitForSeconds(1f);
         }
     }
-    IEnumerator Attack_Dino()
+    private IEnumerator Attack_Dino()
     {
-        if (_type != EnemyType.BossDino)
+        if (_type != Enemys.BossDino)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 250f)

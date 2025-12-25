@@ -6,6 +6,8 @@ using static Utility;
 
 public class EnemyGenerator : BaseController
 {
+    Vector3 position = new Vector3(250f, 0f);
+    
     protected override void Start()
     {
         Init();
@@ -16,11 +18,9 @@ public class EnemyGenerator : BaseController
         StartCoroutine(Loop());
     }
 
-    Vector3 position = new Vector3(250f, 0f);
-    
-    void CreateEnemy(EnemyType type)
+    void CreateEnemy(Enemys type)
     {
-        GameObject prefab = LoadResource<GameObject>(Prefabs.Scene_Play.Enemy);
+        GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
         enemy.transform.position = position;
@@ -40,23 +40,23 @@ public class EnemyGenerator : BaseController
             position.x = -300;
 
         if (enemyChoice == 2)
-            CreateEnemy(EnemyType.VoidCavity);
+            CreateEnemy(Enemys.VoidCavity);
         if (enemyChoice == 3)
-            CreateEnemy(EnemyType.CrazyLaughMask);
+            CreateEnemy(Enemys.CrazyLaughMask);
         if (enemyChoice == 4)
-            CreateEnemy(EnemyType.MotherSpiritSnake);
+            CreateEnemy(Enemys.MotherSpiritSnake);
         if (enemyChoice == 5)
-            CreateEnemy(EnemyType.Bird);
+            CreateEnemy(Enemys.Bird);
         if (enemyChoice == 6)
-            CreateEnemy(EnemyType.SadEyes);
+            CreateEnemy(Enemys.SadEyes);
         if (enemyChoice == 8)
-            CreateEnemy(EnemyType.ThePiedPiper);
+            CreateEnemy(Enemys.ThePiedPiper);
         if (enemyChoice == 11)
-            CreateEnemy(EnemyType.Fire);
+            CreateEnemy(Enemys.Fire);
         if (enemyChoice == 12)
-            CreateEnemy(EnemyType.Red);
+            CreateEnemy(Enemys.Red);
         if (enemyChoice == 13)
-            CreateEnemy(EnemyType.SnowLady);
+            CreateEnemy(Enemys.SnowLady);
 
         if (Manager.Game.isNightmare)
             yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
@@ -74,7 +74,7 @@ public class EnemyGenerator : BaseController
             }
             else if (Manager.Game.wave == 1)
             {
-                CreateEnemy(EnemyType.Shadow);
+                CreateEnemy(Enemys.Shadow);
                 yield return new WaitUntil(() => Manager.Game.wave != 1);
             }
             else
@@ -85,7 +85,7 @@ public class EnemyGenerator : BaseController
                 }
                 if (Manager.Game.wave == 15)
                 {
-                    CreateEnemy(EnemyType.BossDino);
+                    CreateEnemy(Enemys.BossDino);
                     while (Manager.Game.wave == 15)
                     {
                         yield return Logic_CreateEnemy(Utility.RandomNumber(2, 13));

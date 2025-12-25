@@ -17,21 +17,21 @@ public class DreamGhost : EnemyBase
 
     void CreateButterflyParticle()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.Enemy_Dreamghost_ButterflyParticle);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.Enemy_Dreamghost_ButterflyParticle);
         var go = Instantiate(prefab, transform.position, Quaternion.identity);
         var butterfly = go.GetComponent<DreamGhost_ButterflyParticle>();
         butterfly.OnCreated();
     }
     void CreatePhantom()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.Enemy_Dreamghost_Phantom);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.Enemy_Dreamghost_Phantom);
         var go = Instantiate(prefab);
         var phantom = go.GetComponent<DreamGhost_Phantom>();
         phantom.Init();
     }
     IEnumerator WhiteoutEffect()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.Enemy_Dreamghost_Whiteout);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.Enemy_Dreamghost_Whiteout);
         var go = Instantiate(prefab, Vector3.zero, Quaternion.identity);
         var sr = go.GetComponent<SpriteRenderer>();
 

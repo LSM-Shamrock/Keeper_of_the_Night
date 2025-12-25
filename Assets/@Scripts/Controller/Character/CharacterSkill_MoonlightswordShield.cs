@@ -11,7 +11,7 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
 
     private bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
 
-    private bool IsSleepground => Manager.Game.currentCharacter == CharacterType.Sleepground;
+    private bool IsSleepground => Manager.Game.currentCharacter == Characters.Sleepground;
 
     protected override void Start()
     {
@@ -98,8 +98,8 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
     }
     private IEnumerator LoopOnSkill()
     {
-        Sprite sprite_Droping = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
-        Sprite sprite_StuckInTheGround = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
+        Sprite sprite_Droping = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
+        Sprite sprite_StuckInTheGround = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
         while (true)
         {
             yield return new WaitUntil(() => IsSleepground);

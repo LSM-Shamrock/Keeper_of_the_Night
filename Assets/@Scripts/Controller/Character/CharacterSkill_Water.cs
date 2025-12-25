@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class CharacterSkill_Water : BaseController
 {
+    private GameObject _child;
+
     protected override void Start()
     {
         Init();
     }
-
-    private GameObject _child;
 
     private void Init()
     {
@@ -20,7 +20,7 @@ public class CharacterSkill_Water : BaseController
     {
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == CharacterType.Rather);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Rather);
             if (Manager.Input.isPressedAttack)
             {
                 StartCoroutine(Throw());
@@ -40,7 +40,7 @@ public class CharacterSkill_Water : BaseController
 
         transform.position = Manager.Game.Character.position;
 
-        Vector3 direction = (Utility.MousePosition - transform.position).normalized;
+        Vector3 direction = Manager.Input.attackDirection;
         transform.rotation = Utility.Direction2Rotation(direction);
 
         go.SetActive(true);

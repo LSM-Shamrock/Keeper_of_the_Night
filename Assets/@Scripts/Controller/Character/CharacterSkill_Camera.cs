@@ -26,14 +26,14 @@ public class CharacterSkill_Camera : BaseController
     {
         _child = transform.GetChild(0).gameObject;
         _sr = _child.Component<SpriteRenderer>();
-        _sprite_right = LoadResource<Sprite>(Sprites.CharacterSkill.Suhyen_Camera_Right);
-        _sprite_left = LoadResource<Sprite>(Sprites.CharacterSkill.Suhyen_Camera_Left);
+        _sprite_right = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Suhyen_Camera_Right);
+        _sprite_left = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Suhyen_Camera_Left);
         StartCoroutine(LoopRoutine());
     }
 
     private void Flash()
     {
-        var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_CameraFlash);
+        var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_CameraFlash);
         var go = prefab.CreateClone();
         var flash = go.GetComponent<CharacterSkill_CameraFlash>();
         flash.Init(transform.position, _direction);
@@ -44,7 +44,7 @@ public class CharacterSkill_Camera : BaseController
         while (true)
         {
             _child.SetActive(false);
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == CharacterType.Suhyen);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Suhyen);
             
             _child.SetActive(true);
             if (Manager.Input.isPressedAttack)

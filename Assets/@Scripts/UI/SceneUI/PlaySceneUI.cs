@@ -64,7 +64,7 @@ public class PlaySceneUI : SceneUI
             hpText.text = $"꿈에서의 HP:{Manager.Game.healthInDream}/{Manager.Game.characterMaxHealth / 2}";
             hpText.color = Utility.StringToColor("#7d6080");
         }
-        else if (Manager.Game.currentCharacter == CharacterType.Suhyen)
+        else if (Manager.Game.currentCharacter == Characters.Suhyen)
         {
             hpText.text = $"수현HP:{Manager.Game.suhyenHealth}/{60}";
             hpText.color = Utility.StringToColor("#8f40ff");
@@ -103,7 +103,7 @@ public class PlaySceneUI : SceneUI
     {
         Text waveProgressText = GetChild(Text_WaveProgress);
 
-        if (Manager.Game.currentCharacter == CharacterType.Suhyen)
+        if (Manager.Game.currentCharacter == Characters.Suhyen)
         {
             waveProgressText.text = "카메라의 빛으로 처치하세요!";
             waveProgressText.color = Utility.StringToColor("#ebfad1");
@@ -150,13 +150,13 @@ public class PlaySceneUI : SceneUI
         Text specialSkillText = GetChild(Text_SpecialSkill);
         if (Manager.Game.isSpecialSkillInvoking)
         {
-            if (Manager.Game.currentCharacter == CharacterType.Sleepground)
+            if (Manager.Game.currentCharacter == Characters.Sleepground)
             {
                 specialSkillText.color = Utility.StringToColor("#918d10");
                 specialSkillText.text = "S로 검뽑기";
                 return;
             }
-            if (Manager.Game.currentCharacter == CharacterType.Dino)
+            if (Manager.Game.currentCharacter == Characters.Dino)
             {
                 specialSkillText.color = Utility.StringToColor("#918d10");
                 specialSkillText.text = "마우스로 흡혈";

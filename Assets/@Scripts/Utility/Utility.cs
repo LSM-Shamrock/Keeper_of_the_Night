@@ -7,24 +7,6 @@ using System.Reflection;
 
 public static class Utility 
 {
-    static Dictionary<(Type, string), object> s_resources = new();
-    public static T LoadResource<T>(Enum pathEnumValue) where T : UnityEngine.Object
-    {
-        Type type = typeof(T);
-        string name = pathEnumValue.ToString();
-        string root = pathEnumValue.GetType().FullName;
-        root = root.Replace('.', '/');
-        root = root.Replace('+', '/');
-        string path = root + '/' + name;
-
-        if (s_resources.TryGetValue((type, path), out object saved))
-            return saved as T; 
-
-        T loaded = Resources.Load<T>(path);
-        s_resources.Add((type, path), loaded);
-        return loaded;
-    }
-
     public static GameObject FindGameObject(Enum findName)
     {
         return GameObject.Find(findName.ToString());

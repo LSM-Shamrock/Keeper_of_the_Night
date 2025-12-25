@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager 
 {
     public int wave;
-    public CharacterType selectedCharacter = CharacterType.Sleepground;
+    public Characters selectedCharacter = Characters.Sleepground;
     public string characterDescription = "월광검으로 근거리 공격";
     public string specialDescription = "월광검 방어막";
     public int characterMaxHealth = 200;
@@ -47,7 +47,7 @@ public class GameManager
     public Vector3 characterMoveDirection;
     public void TakeDamageToPlayer(int damage)
     {
-        if (currentCharacter == CharacterType.Suhyen)
+        if (currentCharacter == Characters.Suhyen)
             suhyenHealth -= damage;
         else if (isNightmare)
             healthInDream -= damage;
@@ -65,7 +65,7 @@ public class GameManager
     public readonly ActionEx onNightmareEvent = new ActionEx();
 
 
-    public CharacterType currentCharacter;
+    public Characters currentCharacter;
     public bool isSpecialSkillInvoking;
     public float specialSkillCooltime;
 

@@ -10,9 +10,9 @@ public class EndingEndCutscene : EndingBase
     Image _back;
     Image _front;
 
-    Sprite ThankYouForPlaying => Utility.LoadResource<Sprite>(Sprites.Ending.ThankYouForPlaying);
-    Sprite Endcard_1 => Utility.LoadResource<Sprite>(Sprites.Ending.Endcard_1);
-    Sprite Endcard_2 => Utility.LoadResource<Sprite>(Sprites.Ending.Endcard_2);
+    Sprite ThankYouForPlaying => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.ThankYouForPlaying);
+    Sprite Endcard_1 => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.Endcard_1);
+    Sprite Endcard_2 => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.Endcard_2);
 
 
     protected override void Start()
@@ -42,7 +42,7 @@ public class EndingEndCutscene : EndingBase
             if (match.Success)
             {
                 Sprites.Ending enumValue = Enum.Parse<Sprites.Ending>(match.Groups["sprite"].Value);
-                Sprite sprite = Utility.LoadResource<Sprite>(enumValue);
+                Sprite sprite = Manager.Resource.LoadResource<Sprite>(enumValue);
                 _front.sprite = sprite;
             }
 
