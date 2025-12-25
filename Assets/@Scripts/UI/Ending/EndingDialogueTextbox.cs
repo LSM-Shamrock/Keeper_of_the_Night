@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public class EndingDialogueTextbox : EndingBase
 {
-    Text _text;
+    private Text _text;
 
     protected override void Start()
     {
@@ -18,83 +18,60 @@ public class EndingDialogueTextbox : EndingBase
     protected override void Update()
     {
         base.Update();
-        Update_PositionAndText();
+        UpdatePositionAndText();
     }
 
-    void Init()
+    private void Init()
     {
         _text = GetComponentInChildren<Text>();
 
         EndingProgress = 1;
-        StartCoroutine(Loop_AddProgress());
+        StartCoroutine(LoopAddProgress());
     }
 
-    void Update_PositionAndText()
+    private void UpdatePositionAndText()
     {
         Match matchDialogue = Regex.Match(EndingCurrentLine, Pattern_Dialogue);
+        _text.enabled = matchDialogue.Success;
+        if (!matchDialogue.Success) 
+            return;
 
-        if (!matchDialogue.Success)
+        string line = matchDialogue.Groups["line"].Value;
+        string speaker = matchDialogue.Groups["speaker"].Value;
+        Characters speakerCharacter = Enum.Parse<Characters>(speaker);
+
+        _text.text = line;
+
+        transform.position = Character[speakerCharacter].position + Vector3.up * 30;
+        transform.localScale = Vector3.one * 0.75f;
+        _text.color = (speakerCharacter) switch
         {
-            _text.enabled = false;
-        }
-        else
+            Characters.Dino => Utility.StringToColor("#16c72e"),
+            Characters.Heptagram => Utility.StringToColor("#e8e230"),
+            Characters.Rather => Utility.StringToColor("#2fc9e8"),
+        };
+
+        if (speakerCharacter == Characters.Dino)
         {
-            _text.enabled = true;
-
-            string speaker = matchDialogue.Groups["speaker"].Value;
-            string line = matchDialogue.Groups["line"].Value;
-
-            Characters speakerCharacter = Enum.Parse<Characters>(speaker);
-
-            Transform sleepground = Character[Characters.Sleepground];
-            Transform dino = Character[Characters.Dino];
-            Transform heptagram = Character[Characters.Heptagram];
-            Transform rather = Character[Characters.Rather];
-
-            float size = 0.75f;
-            Color color = new();
-            Vector3 position = new();
-            switch (speakerCharacter)
+            if (EndingProgress > 4)
+                transform.position = Character[Characters.Sleepground].position + Vector3.up * 30;
+            if (EndingProgress == 28)
             {
-                case Characters.Dino:
-
-                    color = Utility.StringToColor("#16c72e");
-                    position = (EndingProgress > 4 ? sleepground : dino).position;
-                    position.y += 30;
-                    if (EndingProgress == 28)
-                    {
-                        position = new Vector3(30, 60);
-                        size = 1f;
-                    }
-                    break;
-
-                case Characters.Heptagram:
-
-                    color = Utility.StringToColor("#e8e230");
-                    position = heptagram.position;
-                    position.y += 30;
-                    if (EndingProgress == 25)
-                    {
-                        position = new Vector3(0, 20);
-                        size = 1f;
-                    }
-                    break;
-
-                case Characters.Rather:
-
-                    color = Utility.StringToColor("#2fc9e8");
-                    position = rather.position;
-                    position.y += 30;
-                    break;
+                transform.position = new Vector3(30, 60);
+                transform.localScale = Vector3.one * 1f;
             }
-            transform.position = position;
-            transform.localScale = Vector3.one * size;
-            _text.color = color;
-            _text.text = line;
+        }
+        if (speakerCharacter == Characters.Heptagram)
+        {
+            if (EndingProgress == 25)
+            {
+                transform.position = new Vector3(0, 20);
+                transform.localScale = Vector3.one * 1f;
+            }
         }
     }
 
-    IEnumerator Loop_AddProgress()
+    private IEnumerator LoopAddProgress()
     {
         yield return new WaitForSeconds(0.5f);
 
