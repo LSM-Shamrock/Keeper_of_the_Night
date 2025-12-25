@@ -10,7 +10,7 @@ public class Speechbubble : MonoBehaviour
     private void Update()
     {
         if (_master == null)
-            Destroy(gameObject);
+            Manager.Object.Despawn(gameObject);
 
         UpdatePosition();
     }

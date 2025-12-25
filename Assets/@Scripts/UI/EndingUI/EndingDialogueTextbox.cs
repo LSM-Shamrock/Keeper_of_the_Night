@@ -96,8 +96,8 @@ public class EndingDialogueTextbox : EndingBase
 
     IEnumerator Loop_AddProgress()
     {
-        yield return new WaitUntil(() => !Manager.Input.isDragAttack);
         yield return new WaitForSeconds(0.5f);
+
         while (EndingProgress < EndingScript.Length - 1)
         {
             if (EndingCurrentLine == string.Empty)
@@ -106,10 +106,9 @@ public class EndingDialogueTextbox : EndingBase
                 yield return new WaitForSeconds(0.1f);
             }
 
-            if (Manager.Input.isDragAttack)
+            if (Input.GetMouseButtonDown(0))
             {
                 EndingProgress++;
-                yield return new WaitUntil(() => !Manager.Input.isDragAttack);
                 yield return new WaitForSeconds(0.1f);
             }
 

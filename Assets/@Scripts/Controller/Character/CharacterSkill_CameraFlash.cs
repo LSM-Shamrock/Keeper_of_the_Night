@@ -24,7 +24,7 @@ public class CharacterSkill_CameraFlash : BaseController
             _sr.AddTransparency(-0.02f);
             yield return new WaitForFixedUpdate();
         }
-        Destroy(gameObject);
+        Manager.Object.Despawn(gameObject);
     }
 
 }

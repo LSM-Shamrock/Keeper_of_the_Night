@@ -37,7 +37,7 @@ public class EndingParticle : EndingBase
             _image.AddTransparency(0.1f);
             yield return new WaitForFixedUpdate();
         }
-        Destroy(gameObject);
+        Manager.Object.Despawn(gameObject);
     }
 
     IEnumerator Loop_Purple()

@@ -31,7 +31,7 @@ public abstract class EnemyBase : BaseController
     }
     protected virtual void DeleteThisClone()
     {
-        Destroy(gameObject);
+        Manager.Object.Despawn(gameObject);
     }
     protected void MoveToMoveDirection(float amount)
     {

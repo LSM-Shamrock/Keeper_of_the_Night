@@ -34,7 +34,7 @@ public class CharacterSkill_MoonlightSword : BaseController
                 sr.AddTransparency(0.025f);
                 yield return new WaitForFixedUpdate();
             }
-            Destroy(go);
+            Manager.Object.Despawn(go);
         }
     }
 

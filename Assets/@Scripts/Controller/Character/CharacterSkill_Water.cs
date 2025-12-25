@@ -62,13 +62,13 @@ public class CharacterSkill_Water : BaseController
                 }
                 else
                 {
-                    Destroy(go);
+                    Manager.Object.Despawn(go);
                     yield break;
                 }
             }
 
             yield return new WaitForFixedUpdate();
         }
-        Destroy(go);
+        Manager.Object.Despawn(go);
     }
 }

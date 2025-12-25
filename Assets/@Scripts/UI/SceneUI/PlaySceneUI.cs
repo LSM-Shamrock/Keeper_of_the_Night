@@ -158,13 +158,13 @@ public class PlaySceneUI : SceneUI
             if (Manager.Game.currentCharacter == Characters.Sleepground)
             {
                 specialSkillText.color = Utility.StringToColor("#918d10");
-                specialSkillText.text = "(S)로 검뽑기";
+                specialSkillText.text = "S: 검뽑기";
                 return;
             }
             if (Manager.Game.currentCharacter == Characters.Dino)
             {
                 specialSkillText.color = Utility.StringToColor("#918d10");
-                specialSkillText.text = "(공격)으로 흡혈";
+                specialSkillText.text = "공격: 흡혈";
                 return;
             }
         }
@@ -177,7 +177,7 @@ public class PlaySceneUI : SceneUI
         else
         {
             specialSkillText.color = Utility.StringToColor("#918d10");
-            specialSkillText.text = "(S)로 특수기술!";
+            specialSkillText.text = "S: 특수기술!";
         }
     }
 

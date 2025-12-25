@@ -10,7 +10,7 @@ public abstract class EnemyProjectile : BaseController
     protected Vector3 _direction;
     protected void DestroyThisClone()
     {
-        Destroy(gameObject);
+        Manager.Object.Despawn(gameObject);
     }
     public virtual void OnCreate(Vector3 position, Vector3 direction)
     {

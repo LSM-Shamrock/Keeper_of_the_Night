@@ -20,7 +20,7 @@ public class CharacterSkill_MoonlightGunBullet : BaseController
 
     private void DestroyThisClone()
     {
-        Destroy(gameObject);
+        Manager.Object.Despawn(gameObject);
     }
 
     private IEnumerator RoutineShoot()

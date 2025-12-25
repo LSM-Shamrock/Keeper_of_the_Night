@@ -154,28 +154,13 @@ public class CharacterSkill_BossDino : BaseController
         float dist = Utility.RandomNumber(1, 250);
         transform.position = startPos + dir * dist;
 
+        StartCoroutine(LoopEffect());
 
-        List<Coroutine> coroutines = new();
-        coroutines.Add(StartCoroutine(LoopEffect()));
-        coroutines.Add(StartCoroutine(WaitAndDestroy()));
-
-        void DestroyThisClone()
-        {
-            foreach (Coroutine coroutine in coroutines)
-                StopCoroutine(coroutine);
-
-            Destroy(go);
-        }
-
-        IEnumerator WaitAndDestroy()
-        {
-            yield return new WaitForSeconds(0.1f);
-            DestroyThisClone();
-        }
+        Manager.Object.DespawnAfterSec(go, 0.1f);
 
         IEnumerator LoopEffect()
         {
-            while (true)
+            while (go != null)
             {
                 foreach (int i in Count(10))
                 {

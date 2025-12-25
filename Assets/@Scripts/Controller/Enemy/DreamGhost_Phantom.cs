@@ -15,7 +15,7 @@ public class DreamGhost_Phantom : EnemyBase
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        Destroy(gameObject);
+        Manager.Object.Despawn(gameObject);
         yield break;
     }
 

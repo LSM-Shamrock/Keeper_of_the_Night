@@ -22,8 +22,20 @@ public class Manager
     private GameManager _game = new GameManager();
     public static GameManager Game => Instance._game;
 
-    private ObjectManager _object = new ObjectManager();
-    public static ObjectManager Object => Instance._object;
+    private ObjectManager _object;
+    public static ObjectManager Object
+    {
+        get
+        {
+            if (Instance._object == null)
+            {
+                GameObject go = new GameObject($"@{nameof(ObjectManager)}");
+                Instance._object = go.AddComponent<ObjectManager>();
+                GameObject.DontDestroyOnLoad(go);
+            }
+            return Instance._object;
+        }
+    }
 
     private ResourceManager _resource = new ResourceManager();
     public static ResourceManager Resource => Instance._resource;
