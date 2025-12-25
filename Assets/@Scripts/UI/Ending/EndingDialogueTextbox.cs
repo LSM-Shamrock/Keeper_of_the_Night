@@ -49,6 +49,7 @@ public class EndingDialogueTextbox : EndingBase
             Characters.Dino => Utility.StringToColor("#16c72e"),
             Characters.Heptagram => Utility.StringToColor("#e8e230"),
             Characters.Rather => Utility.StringToColor("#2fc9e8"),
+            _ => _text.color,
         };
 
         if (speakerCharacter == Characters.Dino)
