@@ -2,14 +2,7 @@
 
 public class InputManager 
 {
-    public bool isMobileControl
-    {
-        get
-        {
-            return Application.platform == RuntimePlatform.Android ||
-            Application.platform == RuntimePlatform.IPhonePlayer;
-        }
-    }
+    public bool isMobileControl => Application.isMobilePlatform;
 
     public bool isPressedS => Input.GetKey(KeyCode.S);
 
