@@ -46,7 +46,7 @@ public class CharacterSkill_BossDino : BaseController
         _body.SetActive(b);
         _ballStart.gameObject.SetActive(b);
 
-        transform.position = Manager.Game.Character.position;
+        transform.position = Manager.Object.Character.position;
 
         bool flip = Manager.Game.characterMoveDirection.x < 0;
         Vector3 scale = transform.localScale;
@@ -78,15 +78,15 @@ public class CharacterSkill_BossDino : BaseController
     private IEnumerator LoopRoutine()
     {
         if (Manager.Game.selectedCharacter == Characters.Dino)
-            Manager.Game.specialSkillCooltime = 35f;
+            Manager.Game.SpecialSkillCooltime = 35f;
 
         while (true)
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
 
-            if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
+            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
-                Manager.Game.specialSkillCooltime = 45f;
+                Manager.Game.SpecialSkillCooltime = 45f;
                 Manager.Game.isSpecialSkillInvoking = true;
 
                 yield return new WaitForSeconds(10f);

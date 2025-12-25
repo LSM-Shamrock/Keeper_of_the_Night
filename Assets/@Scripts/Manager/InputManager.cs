@@ -30,8 +30,8 @@ public class InputManager
     public bool isPressedEnter => Input.GetKey(KeyCode.Return);
 
     public Vector3 attackJoystickDirection;
-    public Vector3 mousePosition => Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    public Vector3 mouseDirection => (mousePosition - Manager.Game.Character.position).normalized;
+    public Vector3 mousePosition => Manager.Object.MainCamera.ScreenToWorldPoint(Input.mousePosition);
+    public Vector3 mouseDirection => (mousePosition - Manager.Object.Character.position).normalized;
     public Vector3 attackDirection => isMobileControl ? attackJoystickDirection : mouseDirection;
 
     public bool isPressedAttackJoystick;

@@ -58,7 +58,7 @@ public class CharacterSkill_MoonlightGun : BaseController
         { 
             _child.SetActive(true);
 
-            Vector3 characterPos = Manager.Game.Character.position;
+            Vector3 characterPos = Manager.Object.Character.position;
             transform.position = characterPos + Vector3.up * -10f;
 
             _direction = Manager.Input.attackDirection;

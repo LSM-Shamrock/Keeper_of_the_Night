@@ -23,11 +23,11 @@ public class EnemySkill_Rat : EnemyBase
             else
                 transform.AddY(-2f);
 
-            _sr.flipX = Manager.Game.Character.GetX() < transform.GetX();
+            _sr.flipX = Manager.Object.Character.GetX() < transform.GetX();
 
-            if (DistanceTo(Manager.Game.Character) > 25f || IsContactWall)
+            if (DistanceTo(Manager.Object.Character) > 25f || IsContactWall)
             {
-                if (Manager.Game.Character.GetX() > transform.GetX())
+                if (Manager.Object.Character.GetX() > transform.GetX())
                     transform.AddX(1.5f);
                 else
                     transform.AddX(-1.5f);
@@ -41,7 +41,7 @@ public class EnemySkill_Rat : EnemyBase
     {
         while (true)
         {
-            if (Mathf.Abs(transform.GetX() - Manager.Game.Character.GetX()) < 30 && IsContactGround)
+            if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30 && IsContactGround)
             {
                 foreach (var i in Count(5))
                 {

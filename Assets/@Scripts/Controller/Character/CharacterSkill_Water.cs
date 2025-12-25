@@ -38,7 +38,7 @@ public class CharacterSkill_Water : BaseController
         float size = 20f;
         transform.localScale = Vector3.one * size;
 
-        transform.position = Manager.Game.Character.position;
+        transform.position = Manager.Object.Character.position;
 
         Vector3 direction = Manager.Input.attackDirection;
         transform.rotation = Utility.Direction2Rotation(direction);

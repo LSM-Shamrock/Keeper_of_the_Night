@@ -41,17 +41,17 @@ public class LobbyCharacter : UIBase, IPointerClickHandler
             case Characters.Sleepground:
                 Manager.Game.characterDescription = "월광검으로 근거리 공격";
                 Manager.Game.specialDescription = "월광검 방어막";
-                Manager.Game.characterMaxHealth = 200;
+                Manager.Game.maxHealth = 200;
                 break;
             case Characters.Rather:
                 Manager.Game.characterDescription = "물로 곡선형 공격";
                 Manager.Game.specialDescription = "물감옥 생성";
-                Manager.Game.characterMaxHealth = 200;
+                Manager.Game.maxHealth = 200;
                 break;
             case Characters.Dino:
                 Manager.Game.characterDescription = "월광건으로 장거리공격";
                 Manager.Game.specialDescription = "야괴로 변신해 흡혈";
-                Manager.Game.characterMaxHealth = 100;
+                Manager.Game.maxHealth = 100;
                 break;
         }
     }

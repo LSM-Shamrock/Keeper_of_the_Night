@@ -14,7 +14,7 @@ public class Inputbox : MonoBehaviour
         _canvas = GetComponent<Canvas>();
         _inputField = GetComponentInChildren<InputField>();
 
-        _canvas.worldCamera = Camera.main;
+        _canvas.worldCamera = Manager.Object.MainCamera;
     }
 
     public IEnumerator ShowAndWaitInput(Action<string> action)

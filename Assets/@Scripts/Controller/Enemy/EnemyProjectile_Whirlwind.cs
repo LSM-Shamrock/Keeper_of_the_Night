@@ -8,7 +8,7 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
     {
         transform.localScale = Vector3.one * 5f;
         _sr.SetTransparency(0.25f);
-        Vector3 direction = (Manager.Game.Character.transform.position - transform.position).normalized;
+        Vector3 direction = (Manager.Object.Character.transform.position - transform.position).normalized;
         foreach (var i in Count(5))
         {
             foreach (var j in Count(6))

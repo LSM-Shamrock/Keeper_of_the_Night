@@ -23,12 +23,12 @@ public class DreamGhost_Phantom : EnemyBase
     {
         while (true)
         {
-            Vector3 direction = (Manager.Game.Character.position - transform.position).normalized;
+            Vector3 direction = (Manager.Object.Character.position - transform.position).normalized;
             transform.position += direction * 0.7f;
 
             if (IsContactGround)
             {
-                if (Mathf.Abs(transform.GetX() - Manager.Game.Character.GetX()) < 30f)
+                if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30f)
                 {
                     foreach (int i in Count(5))
                     {

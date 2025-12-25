@@ -46,9 +46,9 @@ public class Character : BaseController
 
         Manager.Game.onShadowStateChange.Add(this, () =>
         {
-            if (Manager.Game.shadowState == ShadowState.EndOfGiantization) 
+            if (Manager.Game.ShadowState == ShadowState.EndOfGiantization) 
                 SetCurrentCharacter(Characters.Suhyen);
-            if (Manager.Game.shadowState == ShadowState.Killed)
+            if (Manager.Game.ShadowState == ShadowState.Killed)
                 SetCurrentCharacter(Manager.Game.selectedCharacter);
         });
 

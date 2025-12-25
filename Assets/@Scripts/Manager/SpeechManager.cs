@@ -14,7 +14,7 @@ public class SpeechManager
                 var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Core.SpeechbubbleCanvas);
                 var go = prefab.CreateClone();
                 var canvas = go.Component<Canvas>();
-                canvas.worldCamera = Camera.main;
+                canvas.worldCamera = Manager.Object.MainCamera;
 
                 s_speechbubbleRoot = go.transform;
             }

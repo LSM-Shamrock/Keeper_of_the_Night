@@ -75,15 +75,15 @@ public class CharacterSkill_WaterPrison : BaseController
     private IEnumerator LoopInvoking()
     {
         if (Manager.Game.currentCharacter == Characters.Rather)
-            Manager.Game.specialSkillCooltime = 15f;
+            Manager.Game.SpecialSkillCooltime = 15f;
         
         while (true)
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Rather);
 
-            if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
+            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
-                Manager.Game.specialSkillCooltime = 20f;
+                Manager.Game.SpecialSkillCooltime = 20f;
                 Manager.Game.isSpecialSkillInvoking = true;
 
                 transform.SetY(-70);

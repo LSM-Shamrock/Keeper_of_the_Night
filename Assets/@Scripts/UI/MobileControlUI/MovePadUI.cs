@@ -8,7 +8,6 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 {
     ChildKey<Transform> Boddy = new(nameof(Boddy));
     
-    private Camera _mainCamera;
     private Vector3 _defaultPosition;
 
     private MovePadButton[] _movePadButtons;
@@ -23,7 +22,6 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
         BindChild(
         Boddy);
 
-        _mainCamera = Camera.main;
         _defaultPosition = GetChild(Boddy).position;
 
         _movePadButtons = GetComponentsInChildren<MovePadButton>();
@@ -50,7 +48,7 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Vector3 worldPosition = _mainCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 worldPosition = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);
         GetChild(Boddy).position = worldPosition;
     }
 

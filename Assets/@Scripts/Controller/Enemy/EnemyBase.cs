@@ -65,19 +65,19 @@ public abstract class EnemyBase : BaseController
             if (IsContactMoonlightgunBullet)
             {
                 yield return WhenTakingDamage(4);
-                LookAtTheTarget(Manager.Game.Character);
+                LookAtTheTarget(Manager.Object.Character);
                 MoveToMoveDirection(-5);
             }
             if (IsContactBossDinoSkill)
             {
-                if (Manager.Game.wave == 7) Manager.Game.healthInDream += 2;
-                else Manager.Game.remainingHealth += 2;
+                if (Manager.Game.wave == 7) Manager.Game.DreamHealth += 2;
+                else Manager.Game.Health += 2;
                 yield return WhenTakingDamage(3);
             }
             if (IsContactWater)
             {
                 yield return WhenTakingDamage(2);
-                LookAtTheTarget(Manager.Game.Character);
+                LookAtTheTarget(Manager.Object.Character);
                 MoveToMoveDirection(-4);
             }
             yield return new WaitForFixedUpdate();
@@ -89,7 +89,7 @@ public abstract class EnemyBase : BaseController
         {
             if (IsContactMoonlightswordShield)
             {
-                if (transform.GetX() < Manager.Game.MoonlightswordShield.GetX())
+                if (transform.GetX() < Manager.Object.MoonlightswordShield.GetX())
                 {
                     foreach (int i in Count(10))
                     {
@@ -97,7 +97,7 @@ public abstract class EnemyBase : BaseController
                         yield return new WaitForFixedUpdate();
                     }
                 }
-                if (transform.GetX() > Manager.Game.MoonlightswordShield.GetX())
+                if (transform.GetX() > Manager.Object.MoonlightswordShield.GetX())
                 {
                     foreach (int i in Count(10))
                     {
@@ -117,7 +117,7 @@ public abstract class EnemyBase : BaseController
             {
                 while (IsContactWaterPrison)
                 {
-                    yield return transform.MoveToPositionOverTime(0.1f, Manager.Game.WaterPrison.position);
+                    yield return transform.MoveToPositionOverTime(0.1f, Manager.Object.WaterPrison.position);
                     yield return new WaitForFixedUpdate();
                 }
             }

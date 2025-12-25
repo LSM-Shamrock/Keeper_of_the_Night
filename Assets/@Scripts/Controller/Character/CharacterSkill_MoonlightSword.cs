@@ -58,7 +58,7 @@ public class CharacterSkill_MoonlightSword : BaseController
 
             foreach (int i in Count(9))
             {
-                transform.position = Manager.Game.Character.position;
+                transform.position = Manager.Object.Character.position;
                 transform.Translate(Vector3.up * 50f);
                 CreateClone();
                 transform.Rotate(Vector3.forward * 10f * dir);

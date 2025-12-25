@@ -19,7 +19,7 @@ public class EnemyProjectile_Poison : EnemyProjectile
             {
                 while (true)
                 {
-                    transform.position = Manager.Game.Character.position;
+                    transform.position = Manager.Object.Character.position;
                     yield return new WaitForFixedUpdate();
                 }
             }

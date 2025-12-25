@@ -46,7 +46,7 @@ public class EnemyGenerator : BaseController
         if (enemyChoice == 12) CreateEnemy(Enemys.Red);
         if (enemyChoice == 13) CreateEnemy(Enemys.SnowLady);
 
-        if (Manager.Game.isNightmare)
+        if (Manager.Game.IsNightmare)
             yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
         else
             yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 5f));

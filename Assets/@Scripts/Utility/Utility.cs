@@ -34,7 +34,7 @@ public static class Utility
     {
         get
         {
-            return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return Manager.Object.MainCamera.ScreenToWorldPoint(Input.mousePosition);
         }
     }
     public static float MouseX => MousePosition.x;

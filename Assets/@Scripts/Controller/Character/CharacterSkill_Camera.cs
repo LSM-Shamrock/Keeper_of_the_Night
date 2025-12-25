@@ -58,7 +58,7 @@ public class CharacterSkill_Camera : BaseController
 
     private void UpdatePositionAndDircetion()
     {
-        transform.position = Manager.Game.Character.position;
+        transform.position = Manager.Object.Character.position;
         transform.position += Vector3.up * -10f;
 
         _direction = Manager.Input.attackDirection;

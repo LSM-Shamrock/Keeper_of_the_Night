@@ -5,25 +5,65 @@ public class PlayScene : MonoBehaviour
 {
     private void Start()
     {
-        Manager.Game.remainingHealth = Manager.Game.characterMaxHealth;
-        Manager.Game.suhyenHealth = 60;
-        Manager.Game.healthInDream = Manager.Game.characterMaxHealth / 2;
-
-        Manager.Game.onNightMareChange.Add(this, () =>
-        {
-            if (Manager.Game.isNightmare == true)
-                Manager.Game.specialSkillCooltime = 0f;
-        });
-
-        StartCoroutine(UpdateWave());
+        Init();
     }
 
     private void Update()
     {
-        if (Manager.Game.specialSkillCooltime > 0f)
-            Manager.Game.specialSkillCooltime -= Time.deltaTime;
-        else
-            Manager.Game.specialSkillCooltime = 0f;
+        if (Manager.Game.SpecialSkillCooltime > 0f)
+            Manager.Game.SpecialSkillCooltime -= Time.deltaTime;
+    }
+
+    private void Init()
+    {
+        Manager.Game.Health = Manager.Game.maxHealth;
+        Manager.Game.SuhyenHealth = Manager.Game.suhyenMaxHealth;
+        Manager.Game.DreamHealth = Manager.Game.dreamMaxHealth;
+
+        Manager.Game.onNightMareChange.Add(this, () =>
+        {
+            if (Manager.Game.IsNightmare == true)
+                Manager.Game.SpecialSkillCooltime = 0f;
+        });
+
+        StartCoroutine(LoopWave());
+    }
+
+    private IEnumerator LoopWave()
+    {
+        SetWaveClearCondition();
+        while (true)
+        {
+            if (Manager.Game.wave == 1)
+            {
+                Manager.Game.remainingWaveSecond = 0;
+                Manager.Game.remainingWaveKill = 0;
+                Manager.Game.ShadowState = ShadowState.None;
+                yield return new WaitUntil(() => Manager.Game.ShadowState == ShadowState.Killed);
+            }
+
+            if (Manager.Game.wave == 15)
+            {
+                Manager.Game.SpecialSkillCooltime = 0f;
+                Manager.Game.remainingWaveSecond = 0;
+                Manager.Game.remainingWaveKill = 0;
+                yield return new WaitUntil(() => Manager.Game.isBossDinoKilled);
+                yield return new WaitForSeconds(1f);
+                Utility.StartScene(Scenes.EndingScene);
+            }
+
+            while (Manager.Game.remainingWaveSecond > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                Manager.Game.remainingWaveSecond--;
+            }
+
+            yield return new WaitUntil(() => Manager.Game.remainingWaveKill <= 0);
+
+            Manager.Game.wave++;
+            Manager.Game.onWaveClear.Call();
+            SetWaveClearCondition();
+        }
     }
 
     private void SetWaveClearCondition()
@@ -56,43 +96,6 @@ public class PlayScene : MonoBehaviour
         {
             Manager.Game.remainingWaveSecond = 30;
             Manager.Game.remainingWaveKill = 10;
-        }
-    }
-
-    IEnumerator UpdateWave()
-    {
-        SetWaveClearCondition();
-        while (true)
-        {
-            if (Manager.Game.wave == 1)
-            {
-                Manager.Game.remainingWaveSecond = 0;
-                Manager.Game.remainingWaveKill = 0;
-                Manager.Game.shadowState = ShadowState.None;
-                yield return new WaitUntil(() => Manager.Game.shadowState == ShadowState.Killed);
-            }
-
-            if (Manager.Game.wave == 15)
-            {
-                Manager.Game.specialSkillCooltime = 0f;
-                Manager.Game.remainingWaveSecond = 0;
-                Manager.Game.remainingWaveKill = 0;
-                yield return new WaitUntil(() => Manager.Game.isBossDinoKilled);
-                yield return new WaitForSeconds(1f);
-                Utility.StartScene(Scenes.EndingScene);
-            }
-
-            while (Manager.Game.remainingWaveSecond > 0)
-            {
-                yield return new WaitForSeconds(1f);
-                Manager.Game.remainingWaveSecond--;
-            }
-
-            yield return new WaitUntil(() => Manager.Game.remainingWaveKill <= 0);
-
-            Manager.Game.wave++;
-            Manager.Game.onWaveClear.Call();
-            SetWaveClearCondition();
         }
     }
 }
