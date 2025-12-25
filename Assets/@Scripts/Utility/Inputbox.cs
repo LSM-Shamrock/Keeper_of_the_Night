@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inputbox : BaseController
+public class Inputbox : MonoBehaviour
 {
     Canvas _canvas;
     InputField _inputField;
+
     public void Init()
     {
         _canvas = GetComponent<Canvas>();

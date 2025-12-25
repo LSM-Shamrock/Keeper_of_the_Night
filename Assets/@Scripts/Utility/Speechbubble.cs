@@ -2,25 +2,37 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Speechbubble : BaseController
+public class Speechbubble : MonoBehaviour
 {
     Text _text;
     Transform _master;
+
+    private void Update()
+    {
+        if (_master == null)
+            Destroy(gameObject);
+
+        UpdatePosition();
+    }
+
     public void Init(Transform master)
     { 
         _text = GetComponentInChildren<Text>(); 
         _master = master; 
     }
+
     public void Show(string text)
     {
         _text.text = text;
         UpdatePosition();
         gameObject.SetActive(true);
     }
+
     public void Hide()
     {
         gameObject.SetActive(false); 
     }
+
     protected void UpdatePosition()
     {
         if (_master == null)
@@ -34,11 +46,5 @@ public class Speechbubble : BaseController
         showDirection.y = transform.position.y < 0 ? 1 : -1;
         transform.position += showDirection * 40f;
         transform.position += Vector3.Scale(showDirection, half);
-    }
-    private void FixedUpdate()
-    {
-        if (_master == null)
-            Destroy(gameObject);
-        UpdatePosition();
     }
 }
