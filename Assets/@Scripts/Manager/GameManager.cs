@@ -117,10 +117,18 @@ public class GameManager
     public int remainingWaveSecond;
     public int remainingWaveKill;
 
-    public ShadowState shadowState;
+    public ActionEx onShadowStateChange { get; private set; } = new ActionEx();
+    private ShadowState _shadowState;
+    public ShadowState shadowState
+    {
+        get { return _shadowState; }
+        set
+        {
+            _shadowState = value;
+            onShadowStateChange.Call();
+        }
+    }
 
-
-    
     public ActionEx onNightMareChange { get; private set; } = new ActionEx();
     private bool _isNightmare;
     public bool isNightmare

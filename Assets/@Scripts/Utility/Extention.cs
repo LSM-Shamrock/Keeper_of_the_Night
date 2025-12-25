@@ -70,6 +70,18 @@ public static class Extention
         Physics2D.OverlapCollider(collider, filter.NoFilter(), cols);
         return cols.Any(c => c.attachedRigidbody != null && c.attachedRigidbody.gameObject.name == checkRigidbodyName.ToString());
     }
+    public static bool IsContact<T>(this Rigidbody2D rigidbody, T checkRigidbodyName) where T : Enum
+    {
+        List<Collider2D> colliders = new List<Collider2D>();
+        rigidbody.GetAttachedColliders(colliders);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.isActiveAndEnabled == false) continue;
+            if (IsContact(collider, checkRigidbodyName))
+                return true;
+        }
+        return false;
+    }
 
     public static void SetSpriteAndPolygon(this GameObject gameObject, Sprite sprite)
     {

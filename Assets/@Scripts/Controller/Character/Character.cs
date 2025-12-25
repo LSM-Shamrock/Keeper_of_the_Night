@@ -6,12 +6,11 @@ using UnityEngine;
 
 public class Character : BaseController
 {
-    private Collider2D _col;
+    private Rigidbody2D _rb;
     private SpriteRenderer _sr;
-    private Dictionary<Sprites.Characters, Sprite> _sprites = new();
     private int _jumpGauge;
 
-    private bool IsOnGround => _col.IsContact(PlaySceneObjects.Ground);
+    private bool IsOnGround => _rb.IsContact(PlaySceneObjects.Ground);
 
     protected override void Start()
     {
@@ -22,21 +21,43 @@ public class Character : BaseController
         UpdateDinoSpecial();
     }
 
+    private void SetCurrentCharacter(Sprites.Characters character)
+    {
+        Manager.Game.currentCharacter = character;
+        foreach (Transform child in transform)
+        {
+            if (child.name == character.ToString())
+                child.gameObject.SetActive(true);
+            else
+                child.gameObject.SetActive(false);
+        }
+    }
+
     private void Init()
     {
-        _col = GetComponent<Collider2D>();
+        _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
-        foreach (Sprites.Characters character in Enum.GetValues(typeof(Sprites.Characters)))
-            _sprites[character] = Utility.LoadResource<Sprite>(character);
 
-        Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
-        _sr.sprite = _sprites[Manager.Game.currentCharacter];
-        Manager.Game.onNightmareEvent.Add(this, OnNightmareEvent);
+        SetCurrentCharacter(Manager.Game.selectedCharacter);
+
         StartCoroutine(LoopJump());
         StartCoroutine(LoopMove());
         StartCoroutine(LoopIceDown());
-        StartCoroutine(SuhyenEvent());
         StartCoroutine(LoopShoutEnemyName());
+
+        Manager.Game.onShadowStateChange.Add(this, () =>
+        {
+            if (Manager.Game.shadowState == ShadowState.EndOfGiantization) 
+                SetCurrentCharacter(Sprites.Characters.Suhyen);
+            if (Manager.Game.shadowState == ShadowState.Killed)
+                SetCurrentCharacter(Manager.Game.selectedCharacter);
+        });
+
+        Manager.Game.onNightmareEvent.Add(this, () =>
+        {
+            if (Manager.Game.wave == 7) Manager.Speech.SpeechForSeconds(transform, "ZzzzZzzz", 3f);
+            if (Manager.Game.wave == 8) Manager.Speech.SpeechForSeconds(transform, "!", 2f);
+        });
     }
     private IEnumerator LoopJump()
     {
@@ -79,18 +100,7 @@ public class Character : BaseController
             yield return new WaitForFixedUpdate();
         }
     }
-    private IEnumerator SuhyenEvent()
-    {
-        yield return new WaitUntil(() => Manager.Game.shadowState == ShadowState.EndOfGiantization);
 
-        Manager.Game.currentCharacter = Sprites.Characters.Suhyen;
-        _sr.sprite = _sprites[Sprites.Characters.Suhyen];
-
-        yield return new WaitUntil(() => Manager.Game.shadowState == ShadowState.Killed);
-
-        Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
-        _sr.sprite = _sprites[Manager.Game.currentCharacter];
-    }
     private IEnumerator LoopIceDown()
     {
         while (true)
@@ -117,12 +127,6 @@ public class Character : BaseController
             transform.localScale = Vector3.one * 75;
         }
     }
-    private void OnNightmareEvent()
-    {
-        if (Manager.Game.wave == 7) Manager.Speech.SpeechForSeconds(transform, "ZzzzZzzz", 3f);
-        if (Manager.Game.wave == 8) Manager.Speech.SpeechForSeconds(transform, "!", 2f);
-    }
-
 
     private IEnumerator LoopShoutEnemyName()
     {
