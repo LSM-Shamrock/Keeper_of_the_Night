@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkill_MoonlightswordShield : BaseController
+public class CharacterSkill_MoonlightSwordShield : BaseController
 {
-    GameObject _child;
-    SpriteRenderer _blue;
-    SpriteRenderer _yellow;
-    SpriteRenderer _white;
+    private GameObject _child;
+    private SpriteRenderer _blue;
+    private SpriteRenderer _yellow;
+    private SpriteRenderer _white;
 
-    bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
+    private bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
 
-    bool IsSleepground => Manager.Game.currentCharacter == Sprites.Characters.Sleepground;
+    private bool IsSleepground => Manager.Game.currentCharacter == Sprites.Characters.Sleepground;
 
     protected override void Start()
     {
         Init();
     }
 
-    void Init()
+    private void Init()
     {
         _child = transform.GetChild(0).gameObject;
         _blue = transform.GetChild(1).GetComponent<SpriteRenderer>();
         _yellow = transform.GetChild(2).GetComponent<SpriteRenderer>();
         _white = transform.GetChild(3).GetComponent<SpriteRenderer>();
         Manager.Game.onDisarmSpecialSkill.Add(this, () => StartCoroutine(OnDisarmSpecialSkill()));
-        StartCoroutine(Loop_Release());
-        StartCoroutine(Loop_OnSkill());
+        StartCoroutine(LoopRelease());
+        StartCoroutine(LoopOnSkill());
     }
-   
-    void ShowShield()
+
+    private void ShowShield()
     {
         _blue.gameObject.SetActive(true);
         _yellow.gameObject.SetActive(true);
@@ -39,13 +39,13 @@ public class CharacterSkill_MoonlightswordShield : BaseController
         _yellow.SetTransparency(0.75f);
         _white.SetTransparency(0.5f);
     }
-    void HideShield()
+    private void HideShield()
     {
         _blue.gameObject.SetActive(false);
         _yellow.gameObject.SetActive(false);
         _white.gameObject.SetActive(false);
     }
-    IEnumerator Loop_ShieldEffect()
+    private IEnumerator LoopShieldEffect()
     {
         while (true)
         {
@@ -54,64 +54,62 @@ public class CharacterSkill_MoonlightswordShield : BaseController
                 _blue.AddTransparency(0.1f);
                 _yellow.AddTransparency(0.1f);
                 _white.AddTransparency(0.1f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             foreach (int i in Count(100))
             {
                 _blue.AddTransparency(-0.1f);
                 _yellow.AddTransparency(-0.1f);
                 _white.AddTransparency(-0.1f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
-            yield return waitForFixedUpdate;
         }
     }
 
-    IEnumerator OnDisarmSpecialSkill()
+    private IEnumerator OnDisarmSpecialSkill()
     {
         if (IsSleepground)
         {
             HideShield();
             _child.SetActive(false);
-            yield return WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
             Manager.Game.isSpecialSkillInvoking = false;
             Manager.Game.specialSkillCooltime = 0.5f;
         }
     }
 
-    IEnumerator Loop_Release()
+    private IEnumerator LoopRelease()
     {
         while (true)
         {
-            yield return WaitUntil(() => IsSleepground);
+            yield return new WaitUntil(() => IsSleepground);
             if (Manager.Game.isSpecialSkillInvoking)
             {
                 foreach (int i in Count(150))
                 {
-                    yield return WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.1f);
                     if (!Manager.Game.isSpecialSkillInvoking) break;
                 }
 
                 if (Manager.Game.isSpecialSkillInvoking)
                     Manager.Game.onDisarmSpecialSkill.Call();
             }
-            yield return waitForFixedUpdate;
         }
     }
-    IEnumerator Loop_OnSkill()
+    private IEnumerator LoopOnSkill()
     {
         Sprite sprite_Droping = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
         Sprite sprite_StuckInTheGround = Utility.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
         while (true)
         {
-            yield return WaitUntil(() => IsSleepground);
+            yield return new WaitUntil(() => IsSleepground);
 
             if (Manager.Game.isSpecialSkillInvoking)
             {
-                if (Manager.Input.isPressedS || Manager.Input.isMouseClicked)
+                if (Manager.Input.isPressedS || Manager.Input.isPressedAttack)
                 {
                     Manager.Game.onDisarmSpecialSkill.Call();
-                    yield return WaitUntil(() => !Manager.Input.isPressedS);
+                    yield return new WaitUntil(() => !Manager.Input.isPressedS);
                 }
             }
             else if (Manager.Input.isPressedS && Manager.Game.specialSkillCooltime <= 0f)
@@ -120,20 +118,18 @@ public class CharacterSkill_MoonlightswordShield : BaseController
                 _child.SetSpriteAndPolygon(sprite_Droping);
                 _child.SetActive(true);
                 transform.position = Manager.Game.Character.position + Vector3.up * 30f;
-                yield return WaitUntil(() => !IsContactGround);
+                yield return new WaitUntil(() => !IsContactGround);
                 while (!IsContactGround)
                 {
                     transform.AddY(-5f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
                 transform.AddY(-5f);
                 ShowShield();
                 _child.SetSpriteAndPolygon(sprite_StuckInTheGround);
-                yield return WaitForSeconds(0.5f);
-                yield return WaitUntil(() => !Manager.Input.isPressedS);
+                yield return new WaitForSeconds(0.5f);
+                yield return new WaitUntil(() => !Manager.Input.isPressedS);
             }
-
-            yield return waitForFixedUpdate;
         }
 
     }

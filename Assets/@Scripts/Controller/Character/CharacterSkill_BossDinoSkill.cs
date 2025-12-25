@@ -5,28 +5,28 @@ using UnityEngine;
 
 public class CharacterSkill_BossDinoSkill : BaseController
 {
-    LineRenderer _line;
-    GameObject _child;
-    SpriteRenderer _sr;
+    private LineRenderer _line;
+    private GameObject _child;
+    private SpriteRenderer _sr;
 
     protected override void Start()
     {
         Init();
     }
 
-    void Init()
+    private void Init()
     {
         _line = gameObject.Component<LineRenderer>();
         _child = transform.GetChild(0).gameObject;
         _sr = _child.Component<SpriteRenderer>();
 
-        StartCoroutine(Loop_CreateClone());
-        StartCoroutine(Loop_DrawLine());
-        StartCoroutine(Loop_Brightness());
-        StartCoroutine(Loop_LineColor());
+        StartCoroutine(LoopCreateClone());
+        StartCoroutine(LoopDrawLine());
+        StartCoroutine(LoopBrightness());
+        StartCoroutine(LoopLineColor());
     }
 
-    void CreateClone()
+    private void CreateClone()
     {
         GameObject go = _child.CreateClone();
         Transform transform = go.transform;
@@ -44,7 +44,7 @@ public class CharacterSkill_BossDinoSkill : BaseController
 
 
         List<Coroutine> coroutines = new();
-        coroutines.Add(StartCoroutine(Loop_Effect()));
+        coroutines.Add(StartCoroutine(LoopEffect()));
         coroutines.Add(StartCoroutine(WaitAndDestroy()));
 
         void DestroyThisClone()
@@ -57,11 +57,11 @@ public class CharacterSkill_BossDinoSkill : BaseController
 
         IEnumerator WaitAndDestroy()
         {
-            yield return WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
             DestroyThisClone();
         }
 
-        IEnumerator Loop_Effect()
+        IEnumerator LoopEffect()
         {
             while (true)
             {
@@ -69,20 +69,19 @@ public class CharacterSkill_BossDinoSkill : BaseController
                 {
                     sr?.AddBrightness(0.02f);
                     transform.localScale += Vector3.one * 0.3f;
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
                 foreach (int i in Count(10))
                 {
                     sr?.AddBrightness(-0.02f);
                     transform.localScale += Vector3.one * -0.3f;
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
-                yield return waitForFixedUpdate;
             }
         }
     }
 
-    IEnumerator Loop_CreateClone()
+    private IEnumerator LoopCreateClone()
     {
         while (true)
         {
@@ -91,16 +90,16 @@ public class CharacterSkill_BossDinoSkill : BaseController
             {
                 CreateClone();
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 
-    IEnumerator Loop_DrawLine()
+    private IEnumerator LoopDrawLine()
     {
         while (true)
         {
             bool characterCheck = Manager.Game.currentCharacter == Sprites.Characters.Dino;
-            if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isMouseClicked)
+            if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isPressedAttack)
             {
                 _child.SetActive(true);
                 _line.positionCount = 2;
@@ -117,11 +116,11 @@ public class CharacterSkill_BossDinoSkill : BaseController
                 _line.positionCount = 0;
             }
             
-            yield return waitForFixedUpdate;
+            yield return null;
         }
     }
 
-    IEnumerator Loop_Brightness()
+    private IEnumerator LoopBrightness()
     {
         _sr.SetTransparency(0.5f);
         _sr.SetBrightness(0f);
@@ -130,17 +129,17 @@ public class CharacterSkill_BossDinoSkill : BaseController
             foreach (int i in Count(30))
             {
                 _sr.AddBrightness(0.01f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             foreach (int i in Count(30))
             {
                 _sr.AddBrightness(-0.01f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
         }
     }
 
-    IEnumerator Loop_LineColor()
+    private IEnumerator LoopLineColor()
     {
         _line.startWidth = 1f;
         _line.endWidth = 1f;
@@ -151,14 +150,13 @@ public class CharacterSkill_BossDinoSkill : BaseController
             color.a = 0.5f;
             _line.startColor = color;
             _line.endColor = color;
-            yield return WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
 
             color = Utility.StringToColor("#ff4040");
             color.a = 0.5f;
             _line.startColor = color;
             _line.endColor = color;
-            yield return WaitForSeconds(0.1f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForSeconds(0.1f);
         }
     }
 }

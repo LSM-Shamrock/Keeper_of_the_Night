@@ -22,7 +22,7 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
                 if (IsContactMoonlightswordShield)
                     DestroyThisClone();
 
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             foreach (var j in Count(6))
             {
@@ -35,13 +35,13 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
                 if (IsContactMoonlightswordShield)
                     DestroyThisClone();
 
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
         }
         foreach (var i in Count(20))
         {
             _sr.AddTransparency(0.03f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         DestroyThisClone();
     }
@@ -52,9 +52,9 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
             if (IsContactCharacter)
             {
                 Manager.Game.TakeDamageToPlayer(2);
-                yield return WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.1f);
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 }

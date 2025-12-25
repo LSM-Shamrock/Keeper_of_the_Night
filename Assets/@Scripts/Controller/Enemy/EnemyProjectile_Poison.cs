@@ -20,23 +20,23 @@ public class EnemyProjectile_Poison : EnemyProjectile
                 while (true)
                 {
                     transform.position = Manager.Game.Character.position;
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         DestroyThisClone();
     }
     protected override IEnumerator Routine_ContactCharacter()
     {
-        yield return WaitUntil(() => IsContactCharacter);
+        yield return new WaitUntil(() => IsContactCharacter);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 20f;
         foreach (int i in Count(10))
         {
             Manager.Game.TakeDamageToPlayer(1);
             _sr.AddTransparency(0.04f);
-            yield return WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.2f);
         }
         DestroyThisClone();
     }

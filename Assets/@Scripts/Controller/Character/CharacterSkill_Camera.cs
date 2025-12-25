@@ -5,11 +5,11 @@ using static Utility;
 
 public class CharacterSkill_Camera : BaseController
 {
-    GameObject _child;
-    Vector3 _direction;
-    SpriteRenderer _sr;
-    Sprite _sprite_right;
-    Sprite _sprite_left;
+    private GameObject _child;
+    private Vector3 _direction;
+    private SpriteRenderer _sr;
+    private Sprite _sprite_right;
+    private Sprite _sprite_left;
 
 
     protected override void Start()
@@ -17,21 +17,21 @@ public class CharacterSkill_Camera : BaseController
         Init();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        Update_PositionAndDircetion();
+        UpdatePositionAndDircetion();
     }
 
-    void Init()
+    private void Init()
     {
         _child = transform.GetChild(0).gameObject;
         _sr = _child.Component<SpriteRenderer>();
         _sprite_right = LoadResource<Sprite>(Sprites.CharacterSkill.Suhyen_Camera_Right);
         _sprite_left = LoadResource<Sprite>(Sprites.CharacterSkill.Suhyen_Camera_Left);
-        StartCoroutine(Loop_Routine());
+        StartCoroutine(LoopRoutine());
     }
 
-    void Flash()
+    private void Flash()
     {
         var prefab = LoadResource<GameObject>(Prefabs.Scene_Play.CharacterSkill_CameraFlash);
         var go = prefab.CreateClone();
@@ -39,26 +39,24 @@ public class CharacterSkill_Camera : BaseController
         flash.Init(transform.position, _direction);
     }
 
-    IEnumerator Loop_Routine()
+    private IEnumerator LoopRoutine()
     {
         while (true)
         {
             _child.SetActive(false);
-            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Suhyen);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Suhyen);
             
             _child.SetActive(true);
-            if (Manager.Input.isMouseClicked)
+            if (Manager.Input.isPressedAttack)
             {
                 Flash();
-                yield return WaitForSeconds(0.1f);
-                yield return WaitUntil(() => !Manager.Input.isMouseClicked);
+                yield return new WaitForSeconds(0.1f);
+                yield return new WaitUntil(() => !Manager.Input.isPressedAttack);
             }
-
-            yield return waitForFixedUpdate;
         }
     }
 
-    void Update_PositionAndDircetion()
+    private void UpdatePositionAndDircetion()
     {
         transform.position = Manager.Game.Character.position;
         transform.position += Vector3.up * -10f;

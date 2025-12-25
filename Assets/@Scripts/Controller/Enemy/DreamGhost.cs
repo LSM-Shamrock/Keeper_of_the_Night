@@ -39,28 +39,28 @@ public class DreamGhost : EnemyBase
         foreach (int i in Count(20))
         {
             sr.AddTransparency(-0.05f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         Manager.Game.isNightmare = Manager.Game.wave == 7;
         Manager.Game.onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
-        yield return WaitUntil(() => Manager.Game.wave == 8);
+        yield return new WaitUntil(() => Manager.Game.wave == 8);
         sr.SetTransparency(1f);
         foreach (int i in Count(20))
         {
             sr.AddTransparency(-0.05f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         Manager.Game.isNightmare = Manager.Game.wave == 7;
         Manager.Game.onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -72,7 +72,7 @@ public class DreamGhost : EnemyBase
         while (Manager.Game.wave != 8)
         {
             CreatePhantom();
-            yield return WaitForSeconds(RandomNumber(2, 4));
+            yield return new WaitForSeconds(RandomNumber(2, 4));
         }
     }
     IEnumerator OnAppearance()
@@ -85,13 +85,13 @@ public class DreamGhost : EnemyBase
             transform.AddX(2f * moveX);
             transform.AddY(-3);
             CreateButterflyParticle();
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         Show();
-        yield return WaitForSeconds(1f);
+        yield return new WaitForSeconds(1f);
         Hide();
         StartCoroutine(WhiteoutEffect());
-        yield return WaitUntil(() => Manager.Game.wave == 8);
+        yield return new WaitUntil(() => Manager.Game.wave == 8);
         transform.SetX(Manager.Game.Character.position.x > 0 ? -200f : 200f);
         Show();
         while (true)
@@ -106,7 +106,7 @@ public class DreamGhost : EnemyBase
                     foreach (int i in Count(5))
                     {
                         transform.AddY(5f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForFixedUpdate();
                     }
                     if (IsContactCharacter)
                         Manager.Game.TakeDamageToPlayer(9);
@@ -114,15 +114,15 @@ public class DreamGhost : EnemyBase
                     while (!IsContactGround)
                     {
                         transform.AddY(-2f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForFixedUpdate();
                     }
-                    yield return WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.5f);
                 }
             }
             else 
                 transform.AddY(-1f);
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 

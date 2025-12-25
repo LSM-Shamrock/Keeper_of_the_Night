@@ -10,10 +10,10 @@ public class EnemyProjectile_DinoProjectile : EnemyProjectile
             if (IsContactCharacter)
             {
                 Manager.Game.TakeDamageToPlayer(2);
-                yield return WaitForSeconds(0.01f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForFixedUpdate();
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     protected override IEnumerator Start_Shoot()
@@ -28,7 +28,7 @@ public class EnemyProjectile_DinoProjectile : EnemyProjectile
             if (IsContactMoonlightswordShield)
                 DestroyThisClone();
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         DestroyThisClone();
     }

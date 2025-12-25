@@ -17,22 +17,6 @@ public class BaseController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         return distance;
     }
 
-    // 흐름
-    protected float FixedDeltaTime => Time.fixedDeltaTime;
-    protected readonly WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
-
-    protected WaitForSeconds WaitForSeconds(float seconds)
-    {
-        return new WaitForSeconds(seconds);
-    }
-    protected WaitUntil WaitUntil(Func<bool> predicate)
-    {
-        return new WaitUntil(predicate);
-    }
-    protected WaitWhile WaitWhile(Func<bool> predicate)
-    {
-        return new WaitWhile(predicate);
-    }
     protected IEnumerable<int> Count(int count)
     {
         for (int i = 0; i < count; i++)

@@ -18,7 +18,7 @@ public class EnemyHiddenNameParticle : BaseController
     IEnumerator Routine()
     {
         yield return transform.MoveOverTime(0.05f, Vector3.up * 5f);
-        yield return WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 

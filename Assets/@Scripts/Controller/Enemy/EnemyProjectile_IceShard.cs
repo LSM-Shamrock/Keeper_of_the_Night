@@ -5,18 +5,18 @@ public class EnemyProjectile_IceShard : EnemyProjectile
 {
     protected override IEnumerator Routine_ContactCharacter()
     {
-        yield return WaitUntil(() => IsContactCharacter);
+        yield return new WaitUntil(() => IsContactCharacter);
         Manager.Game.TakeDamageToPlayer(11);
         _sr.sprite = Utility.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 50f;
         Manager.Game.ice += 4;
-        yield return WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.3f);
         foreach (int i in Count(10))
         {
             _sr.AddTransparency(0.05f);
-            yield return WaitForSeconds(0.03f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForFixedUpdate();
         }
         DestroyThisClone();
     }
@@ -35,10 +35,10 @@ public class EnemyProjectile_IceShard : EnemyProjectile
                 while (true)
                 {
                     transform.position = Manager.Game.Character.position;
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         DestroyThisClone();
     }

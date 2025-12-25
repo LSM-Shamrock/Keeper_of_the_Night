@@ -33,7 +33,7 @@ public class DreamGhost_Phantom : EnemyBase
                     foreach (int i in Count(5))
                     {
                         transform.AddY(5f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForFixedUpdate();
                     }
                     if (IsContactCharacter)
                         Manager.Game.TakeDamageToPlayer(9);
@@ -41,15 +41,15 @@ public class DreamGhost_Phantom : EnemyBase
                     while (!IsContactGround)
                     {
                         transform.AddY(-2f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForFixedUpdate();
                     }
-                    yield return WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.5f);
                 }
             }
             else
                 transform.AddY(-1f);
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 }

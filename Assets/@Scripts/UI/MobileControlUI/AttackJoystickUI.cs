@@ -36,6 +36,8 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
     {
         GetChild(Boddy).position = _defaultPosition;
         GetChild(Handle).localPosition = Vector3.zero;
+
+        Manager.Input.isPressedAttackJoystick = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -46,5 +48,8 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
         float dist = Mathf.Min(dragVec.magnitude, _joystickRadius);
 
         GetChild(Handle).localPosition = dir * dist;
+
+        Manager.Input.attackDirection = dir;
+        if (dist > 0) Manager.Input.isPressedAttackJoystick = true;
     }
 }

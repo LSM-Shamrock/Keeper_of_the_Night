@@ -33,7 +33,7 @@ public class EnemySkill_Rat : EnemyBase
                     transform.AddX(-1.5f);
             }
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -46,13 +46,13 @@ public class EnemySkill_Rat : EnemyBase
                 foreach (var i in Count(5))
                 {
                     transform.AddY(4f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
                 if (IsContactCharacter)
                     Manager.Game.TakeDamageToPlayer(2);
-                yield return WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.5f);
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 

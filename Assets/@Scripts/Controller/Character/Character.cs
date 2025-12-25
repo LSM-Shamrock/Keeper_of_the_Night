@@ -6,12 +6,12 @@ using UnityEngine;
 
 public class Character : BaseController
 {
-    Collider2D _col;
-    SpriteRenderer _sr;
-    Dictionary<Sprites.Characters, Sprite> _sprites = new();
-    int _jumpGauge;
+    private Collider2D _col;
+    private SpriteRenderer _sr;
+    private Dictionary<Sprites.Characters, Sprite> _sprites = new();
+    private int _jumpGauge;
 
-    bool IsOnGround => _col.IsContact(PlaySceneObjects.Ground);
+    private bool IsOnGround => _col.IsContact(PlaySceneObjects.Ground);
 
     protected override void Start()
     {
@@ -19,10 +19,10 @@ public class Character : BaseController
     }
     private void FixedUpdate()
     {
-        Update_DinoSpecial();
+        UpdateDinoSpecial();
     }
 
-    void Init()
+    private void Init()
     {
         _col = GetComponent<Collider2D>();
         _sr = GetComponent<SpriteRenderer>();
@@ -32,17 +32,17 @@ public class Character : BaseController
         Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
         _sr.sprite = _sprites[Manager.Game.currentCharacter];
         Manager.Game.onNightmareEvent.Add(this, OnNightmareEvent);
-        StartCoroutine(Loop_Jump());
-        StartCoroutine(Loop_Move());
-        StartCoroutine(Loop_IceDown());
-        StartCoroutine(Loop_SuhyenEvent());
-        StartCoroutine(Loop_ShoutEnemyName());
+        StartCoroutine(LoopJump());
+        StartCoroutine(LoopMove());
+        StartCoroutine(LoopIceDown());
+        StartCoroutine(SuhyenEvent());
+        StartCoroutine(LoopShoutEnemyName());
     }
-    IEnumerator Loop_Jump()
+    private IEnumerator LoopJump()
     {
         while (true)
         {
-            if (Manager.Game.ice > 0) { yield return waitForFixedUpdate; continue; }
+            if (Manager.Game.ice > 0) { yield return new WaitForFixedUpdate(); continue; }
             if (IsOnGround)
             {
                 _jumpGauge = 15;
@@ -50,15 +50,15 @@ public class Character : BaseController
                 {   
                     transform.position += Vector3.up * (_jumpGauge * _jumpGauge / 10);
                     _jumpGauge--;
-                    yield return WaitForSeconds(0.01f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForSeconds(0.01f);
+                    yield return new WaitForFixedUpdate();
                 }
             }
             else transform.position += Vector3.up * -5f;
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_Move()
+    private IEnumerator LoopMove()
     {
         while(true)
         {   
@@ -76,39 +76,34 @@ public class Character : BaseController
                 }
             }
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_SuhyenEvent()
+    private IEnumerator SuhyenEvent()
     {
-        while (true)
-        {
-            if (Manager.Game.shadowState != ShadowState.EndOfGiantization)
-            {
-                yield return waitForFixedUpdate;
-                continue;
-            }
-            Manager.Game.currentCharacter = Sprites.Characters.Suhyen;
-            _sr.sprite = _sprites[Sprites.Characters.Suhyen];
-            yield return WaitUntil(() => Manager.Game.shadowState == ShadowState.Killed);
-            Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
-            _sr.sprite = _sprites[Manager.Game.currentCharacter];
-            yield return waitForFixedUpdate;
-        }
+        yield return new WaitUntil(() => Manager.Game.shadowState == ShadowState.EndOfGiantization);
+
+        Manager.Game.currentCharacter = Sprites.Characters.Suhyen;
+        _sr.sprite = _sprites[Sprites.Characters.Suhyen];
+
+        yield return new WaitUntil(() => Manager.Game.shadowState == ShadowState.Killed);
+
+        Manager.Game.currentCharacter = Manager.Game.selectedCharacter;
+        _sr.sprite = _sprites[Manager.Game.currentCharacter];
     }
-    IEnumerator Loop_IceDown()
+    private IEnumerator LoopIceDown()
     {
         while (true)
         {
             if (Manager.Game.ice > 0)
             {
-                yield return WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(0.1f);
                 Manager.Game.ice--;
             }
-            else yield return waitForFixedUpdate;
+            else yield return null;
         }
     }
-    void Update_DinoSpecial()
+    private void UpdateDinoSpecial()
     {
         if (Manager.Game.selectedCharacter != Sprites.Characters.Dino) return;
         if (!Manager.Game.isSpecialSkillInvoking)
@@ -122,14 +117,14 @@ public class Character : BaseController
             transform.localScale = Vector3.one * 75;
         }
     }
-    void OnNightmareEvent()
+    private void OnNightmareEvent()
     {
         if (Manager.Game.wave == 7) Manager.Speech.SpeechForSeconds(transform, "ZzzzZzzz", 3f);
         if (Manager.Game.wave == 8) Manager.Speech.SpeechForSeconds(transform, "!", 2f);
     }
 
 
-    IEnumerator Loop_ShoutEnemyName()
+    private IEnumerator LoopShoutEnemyName()
     {
         while (true)
         {
@@ -139,11 +134,10 @@ public class Character : BaseController
                 foreach (int i in Count(3))
                 {
                     yield return Manager.Speech.SpeechForSeconds(transform, Manager.Game.shoutedEnemyName + "!", 0.5f);
-                    yield return WaitForSeconds(0.25f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForSeconds(0.25f);
                 }
             }
-            yield return waitForFixedUpdate;
+            yield return null;
         }
     }
 }

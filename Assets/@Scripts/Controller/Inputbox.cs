@@ -22,7 +22,7 @@ public class Inputbox : BaseController
 
         _inputField.Select();
 
-        yield return WaitUntil(() => Manager.Input.isPressedEnter);
+        yield return new WaitUntil(() => Manager.Input.isPressedEnter);
 
         action?.Invoke(_inputField.text);
 

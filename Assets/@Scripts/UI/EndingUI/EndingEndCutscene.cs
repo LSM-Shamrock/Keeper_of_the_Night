@@ -32,7 +32,7 @@ public class EndingEndCutscene : EndingBase
     {
         _back.enabled = false;
         _front.enabled = false;
-        yield return WaitUntil(() => Regex.IsMatch(EndingCurrentLine, Pattern_Cutscene));
+        yield return new WaitUntil(() => Regex.IsMatch(EndingCurrentLine, Pattern_Cutscene));
         _front.enabled = true;
 
         while (EndingProgress != EndingScript.Length - 1)
@@ -46,17 +46,17 @@ public class EndingEndCutscene : EndingBase
                 _front.sprite = sprite;
             }
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         _front.sprite = ThankYouForPlaying;
         transform.localScale = Vector3.one * 400f / 375f;
 
-        yield return WaitForSeconds(4f);
+        yield return new WaitForSeconds(4f);
 
         _front.sprite = Endcard_1;
         transform.localScale = Vector3.one;
 
-        yield return WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f);
 
         _back.sprite = _front.sprite;
         _back.enabled = true;
@@ -66,7 +66,7 @@ public class EndingEndCutscene : EndingBase
         foreach (int i in Count(50))
         {
             _front.AddTransparency(-0.02f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 }

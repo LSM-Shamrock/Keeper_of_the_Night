@@ -74,7 +74,7 @@ public class EndingCharacter : EndingBase
         foreach (int i in Count(25))
         {
             CreatePurpleParticle();
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         
         yield return new WaitForSeconds(0.5f);
@@ -103,7 +103,7 @@ public class EndingCharacter : EndingBase
         foreach (int i in Count(25))
         {
             CreateYellowParticle();
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
 
         yield return new WaitForSeconds(0.5f);

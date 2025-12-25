@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CharacterSkill_CameraFlash : BaseController
 {
-    SpriteRenderer _sr;
-    Vector3 _direction;
+    private SpriteRenderer _sr;
+    private Vector3 _direction;
 
     public void Init(Vector3 position, Vector3 direction)
     {
@@ -14,7 +14,7 @@ public class CharacterSkill_CameraFlash : BaseController
         StartCoroutine(CloneEffect());
     }
 
-    IEnumerator CloneEffect()
+    private IEnumerator CloneEffect()
     {
         _sr.SetTransparency(0.9f);
         foreach (int i in Count(5))
@@ -22,7 +22,7 @@ public class CharacterSkill_CameraFlash : BaseController
             transform.localScale += Vector3.one * 30f;
             transform.position += _direction * 10f;
             _sr.AddTransparency(-0.02f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         Destroy(gameObject);
     }

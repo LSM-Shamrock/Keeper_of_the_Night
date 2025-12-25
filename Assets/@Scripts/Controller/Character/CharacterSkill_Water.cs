@@ -8,33 +8,32 @@ public class CharacterSkill_Water : BaseController
         Init();
     }
 
-    GameObject _child;
+    private GameObject _child;
 
-    void Init()
+    private void Init()
     {
         _child = transform.GetChild(0).gameObject;
-        StartCoroutine(Loop_Throw());
+        StartCoroutine(LoopThrow());
     }
 
-    IEnumerator Loop_Throw()
+    private IEnumerator LoopThrow()
     {
         while (true)
         {
-            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
-            if (Manager.Input.isMouseClicked)
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
+            if (Manager.Input.isPressedAttack)
             {
                 StartCoroutine(Throw());
-                yield return WaitForSeconds(0.3f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForSeconds(0.3f);
             }
         }
     }
 
-    IEnumerator Throw()
+    private IEnumerator Throw()
     {
-        var go = _child.CreateClone();
-        var transform = go.transform;
-        var col = go.Component<Collider2D>();
+        GameObject go = _child.CreateClone();
+        Transform transform = go.transform;
+        Collider2D col = go.Component<Collider2D>();
 
         float size = 20f;
         transform.localScale = Vector3.one * size;
@@ -68,7 +67,7 @@ public class CharacterSkill_Water : BaseController
                 }
             }
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         Destroy(go);
     }

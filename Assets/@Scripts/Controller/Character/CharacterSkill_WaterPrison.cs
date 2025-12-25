@@ -8,13 +8,13 @@ public class CharacterSkill_WaterPrison : BaseController
         Init();
     }
 
-    GameObject _child;
-    SpriteRenderer _sr;
-    Collider2D _col;
+    private GameObject _child;
+    private SpriteRenderer _sr;
+    private Collider2D _col;
 
-    bool IsContactEnemy => _col.IsContact(Prefabs.Scene_Play.Enemy);
+    private bool IsContactEnemy => _col.IsContact(Prefabs.Scene_Play.Enemy);
 
-    void Init()
+    private void Init()
     {
         _child = transform.GetChild(0).gameObject;
         _sr = _child.Component<SpriteRenderer>();
@@ -22,12 +22,12 @@ public class CharacterSkill_WaterPrison : BaseController
 
         Manager.Game.onDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
 
-        StartCoroutine(Loop_Invoking());
-        StartCoroutine(Loop_BrightnessEffect());
-        StartCoroutine(Loop_SizeEffect());
+        StartCoroutine(LoopInvoking());
+        StartCoroutine(LoopBrightnessEffect());
+        StartCoroutine(LoopSizeEffect());
     }
 
-    void OnDisarmSpecialSkill()
+    private void OnDisarmSpecialSkill()
     {
         if (Manager.Game.selectedCharacter == Sprites.Characters.Rather)
         {
@@ -36,7 +36,7 @@ public class CharacterSkill_WaterPrison : BaseController
         }
     }
 
-    IEnumerator Loop_BrightnessEffect()
+    private IEnumerator LoopBrightnessEffect()
     {
         _sr.SetTransparency(0.5f);
         _sr.SetBrightness(0.5f);
@@ -45,45 +45,41 @@ public class CharacterSkill_WaterPrison : BaseController
             foreach (int i in Count(50))
             {
                 _sr.AddBrightness(0.005f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             foreach (int i in Count(50))
             {
                 _sr.AddBrightness(-0.005f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
-
-            yield return waitForFixedUpdate;
         }
     }
 
-    IEnumerator Loop_SizeEffect()
+    private IEnumerator LoopSizeEffect()
     {
         while (true)
         {
             foreach (int i in Count(10))
             {
                 _child.transform.localScale += Vector3.one * 0.02f;
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             foreach (int i in Count(10))
             {
                 _child.transform.localScale += Vector3.one * -0.02f;
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
-
-            yield return waitForFixedUpdate;
         }
     }
 
-    IEnumerator Loop_Invoking()
+    private IEnumerator LoopInvoking()
     {
         if (Manager.Game.currentCharacter == Sprites.Characters.Rather)
             Manager.Game.specialSkillCooltime = 15f;
         
         while (true)
         {
-            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
 
             if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
@@ -100,20 +96,18 @@ public class CharacterSkill_WaterPrison : BaseController
                 {
                     size -= 10;
                     _child.transform.localScale = Vector3.one * size;
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
                 Manager.Game.isSpecialSkillInvoking = false;
                 foreach (int i in Count(10))
                 {
                     if (IsContactEnemy)
-                        yield return WaitForSeconds(1f);
+                        yield return new WaitForSeconds(1f);
 
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
                 Manager.Game.onDisarmSpecialSkill.Call();
             }
-
-            yield return waitForFixedUpdate;
         }
     }
 

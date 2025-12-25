@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CharacterSkill_BossDino : BaseController
 {
-    GameObject _child;
-    GameObject _black;
+    private GameObject _child;
+    private GameObject _black;
 
     protected override void Start()
     {
@@ -13,29 +13,27 @@ public class CharacterSkill_BossDino : BaseController
 
     private void FixedUpdate()
     {
-        Update_Visual();
+        UpdateVisual();
     }
 
-    void Init()
+    private void Init()
     {
         _child = transform.GetChild(0).gameObject;
         _black = transform.GetChild(1).gameObject;
 
-        Manager.Game.onDisarmSpecialSkill.Add(this, OnSignal_SpecialSkillDisarm);
+        Manager.Game.onDisarmSpecialSkill.Add(this, OnSignalSpecialSkillDisarm);
 
-        StartCoroutine(Loop_Routine());
-        StartCoroutine(Loop_BlackBrightnessEftect());
+        StartCoroutine(LoopRoutine());
+        StartCoroutine(LoopBlackBrightnessEftect());
     }
 
-    void OnSignal_SpecialSkillDisarm()
+    private void OnSignalSpecialSkillDisarm()
     {
         if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
-        {
             Manager.Game.isSpecialSkillInvoking = false;
-        }
     }
 
-    void Update_Visual()
+    private void UpdateVisual()
     {
         bool b = Manager.Game.selectedCharacter == Sprites.Characters.Dino && Manager.Game.isSpecialSkillInvoking;
         _child.SetActive(b);
@@ -51,43 +49,41 @@ public class CharacterSkill_BossDino : BaseController
         _black.transform.position += Manager.Game.characterMoveDirection * 15f;
     }
 
-    IEnumerator Loop_BlackBrightnessEftect()
+    private IEnumerator LoopBlackBrightnessEftect()
     {
         while (true)
         {
             foreach (int i in Count(30))
             {
                 _black.Component<SpriteRenderer>().AddBrightness(0.01f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             foreach (int i in Count(30))
             {
                 _black.Component<SpriteRenderer>().AddBrightness(-0.01f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
-
-            yield return waitForFixedUpdate;
         }
     }
 
-    IEnumerator Loop_Routine()
+    private IEnumerator LoopRoutine()
     {
         if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
             Manager.Game.specialSkillCooltime = 35f;
 
         while (true)
         {
-            yield return WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Dino);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Dino);
 
             if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
                 Manager.Game.specialSkillCooltime = 45f;
                 Manager.Game.isSpecialSkillInvoking = true;
-                yield return WaitForSeconds(10f);
+
+                yield return new WaitForSeconds(10f);
+
                 Manager.Game.onDisarmSpecialSkill.Call();
             }
-
-            yield return waitForFixedUpdate;
         }
     }
 }

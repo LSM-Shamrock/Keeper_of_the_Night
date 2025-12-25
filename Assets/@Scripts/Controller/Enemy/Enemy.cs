@@ -45,8 +45,8 @@ public class Enemy : EnemyBase
         {
             foreach (int i in Count(20))
             {
-                yield return WaitForSeconds(0.05f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForFixedUpdate();
             }
             StopCoroutine(loop);
         }
@@ -55,7 +55,7 @@ public class Enemy : EnemyBase
             while (true)
             {
                 Create();
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
         }
         void Create()
@@ -79,7 +79,7 @@ public class Enemy : EnemyBase
             if (Manager.Game.shoutedEnemyName == _hiddenName)
             {
                 Debug.Log("야괴 이름 적중 : " + _hiddenName + " : " + _type.ToString());
-                yield return WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(0.25f);
                 CreateNameParticles();
                 if (_type == Sprites.Enemys.BossDino)
                 {
@@ -95,8 +95,8 @@ public class Enemy : EnemyBase
                     foreach (int i in Count(20))
                     {
                         transform.position = p;
-                        yield return WaitForSeconds(0.05f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForSeconds(0.05f);
+                        yield return new WaitForFixedUpdate();
                     }
 
                     Manager.Game.remainingWaveKill--;
@@ -107,7 +107,7 @@ public class Enemy : EnemyBase
                 }
             }
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     #endregion
@@ -196,7 +196,7 @@ public class Enemy : EnemyBase
     {
         var clip = LoadResource<AudioClip>(Audios.Pipe);
         _audioSource?.PlayOneShot(clip);
-        yield return WaitForSeconds(clip.length);
+        yield return new WaitForSeconds(clip.length);
     }
     void CreateFire()
     {
@@ -244,7 +244,7 @@ public class Enemy : EnemyBase
             // 거대화
             if (giantization < 1f)
             {
-                timer += FixedDeltaTime;
+                timer += Time.fixedDeltaTime;
 
                 if (timer > 0f)
                     _sr.SetBrightness(-0.75f * (timer / Interval));
@@ -283,7 +283,7 @@ public class Enemy : EnemyBase
                 IsContactBossDinoSkill ||
                 IsContactWaterPrison) Manager.Game.onDisarmSpecialSkill.Call();
 
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Loop_Flap_Bird()
@@ -298,15 +298,15 @@ public class Enemy : EnemyBase
                 for (int _ = 15; _ > 0; _--)
                 {
                     transform.AddY(-0.5f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
             }
             for (int _ = 5; _ > 0; _--)
             {
                 transform.AddY(1.5f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Loop_Jump_Thepiedpiper()
@@ -323,11 +323,11 @@ public class Enemy : EnemyBase
                 for (int _ = 10; _ > 0; _--)
                 {
                     transform.AddY(4f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
-                yield return WaitUntil(() => IsContactGround);
+                yield return new WaitUntil(() => IsContactGround);
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Loop_Jump_Dino()
@@ -342,13 +342,13 @@ public class Enemy : EnemyBase
                 for (int _ = 40; _ > 0; _--)
                 {
                     transform.AddY(3f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
             }
             else
             {
                 transform.AddY(-3f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
         }
     }
@@ -373,7 +373,7 @@ public class Enemy : EnemyBase
                 case Sprites.Enemys.BossDino: enumerator = Move_Dino(); break;
             }
             yield return enumerator;
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Move_Shadow_And_Voidcavity()
@@ -408,9 +408,9 @@ public class Enemy : EnemyBase
             {
                 MoveToMoveDirection(3f);
                 if (IsContactCharacter) break;
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
-            yield return WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield break;
@@ -598,7 +598,7 @@ public class Enemy : EnemyBase
             yield break;
 
         Manager.Game.TakeDamageToPlayer(12);
-        yield return WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
     }
     IEnumerator Attack_Voidcavity()
     {
@@ -613,10 +613,10 @@ public class Enemy : EnemyBase
         for (int _ = 5; _ > 0; _--)
         {
             transform.position += Vector3.up * 5f;
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         if (IsContactCharacter) Manager.Game.TakeDamageToPlayer(9);
-        yield return WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
     }
     IEnumerator Attack_Crazylaughmask()
     {
@@ -630,9 +630,9 @@ public class Enemy : EnemyBase
         for (int i = 10; i > 0; i--)
         {
             MoveToMoveDirection(-2f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
-        yield return WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
     }
     IEnumerator Attack_Motherspiritsnake()
     {
@@ -642,10 +642,10 @@ public class Enemy : EnemyBase
         if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(-0.5f);
-            yield return WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f);
             _sr.SetBrightness(0f);
             CreatePoison();
-            yield return WaitForSeconds(2f);
+            yield return new WaitForSeconds(2f);
         }
     }
     IEnumerator Attack_Bird()
@@ -663,7 +663,7 @@ public class Enemy : EnemyBase
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
             {
                 LookAtTheTarget(Manager.Game.Character);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             _sr.SetBrightness(0);
             CreateWhirlwind();
@@ -675,7 +675,7 @@ public class Enemy : EnemyBase
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
             {
                 LookAtTheTarget(Manager.Game.Character);
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
             _sr.SetBrightness(0f);
             foreach (int _ in Count(30))
@@ -689,14 +689,14 @@ public class Enemy : EnemyBase
                 if (IsContactGround || IsContactMoonlightswordShield) 
                     break;
 
-                yield return waitForFixedUpdate;
+                yield return new WaitForFixedUpdate();
             }
         }
 
         for (float timer = 2f; timer > 0; timer -= Time.fixedDeltaTime)
         {
             LookAtTheTarget(Manager.Game.Character);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Attack_Sadeyes()
@@ -711,9 +711,9 @@ public class Enemy : EnemyBase
         for (int i = 10; i > 0; i--)
         {
             MoveToMoveDirection(-2f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
-        yield return WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
     }
     IEnumerator Attack_Thepiedpiper()
     {
@@ -727,11 +727,11 @@ public class Enemy : EnemyBase
             {
                 CallingRat();
                 yield return PlayPipeSoundAndWaiting();
-                yield return WaitForSeconds(0.1f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForFixedUpdate();
             }
             Manager.Speech.EraseSpeachbubble(transform);
-            yield return WaitForSeconds(5f);
+            yield return new WaitForSeconds(5f);
         }
     }
     IEnumerator Attack_Fire()
@@ -745,10 +745,10 @@ public class Enemy : EnemyBase
         if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(-0.5f);
-            yield return WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f);
             _sr.SetBrightness(0f);
             CreateFire();
-            yield return WaitForSeconds(2f);
+            yield return new WaitForSeconds(2f);
         }
     }
     IEnumerator Attack_Red()
@@ -763,10 +763,10 @@ public class Enemy : EnemyBase
                 for (int i = 5; i > 0; i--)
                 {   
                     transform.Translate(Vector3.up * 5f);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
                 if (IsContactCharacter) Manager.Game.TakeDamageToPlayer(13);
-                yield return WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }
@@ -778,10 +778,10 @@ public class Enemy : EnemyBase
         if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(0.5f);
-            yield return WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             _sr.SetBrightness(0);
             CreateIceShard();
-            yield return WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f);
         }
     }
     IEnumerator Attack_Dino()
@@ -792,15 +792,15 @@ public class Enemy : EnemyBase
         if (DistanceTo(Manager.Game.Character) < 250f)
         {
             _sr.SetBrightness(-0.5f);
-            yield return WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             _sr.SetBrightness(0);
             for (int _ = 3; _ > 0; _--)
             {
                 CreateDinoProjectile();
-                yield return WaitForSeconds(0.01f);
-                yield return waitForFixedUpdate;
+                yield return new WaitForSeconds(0.01f);
+                yield return new WaitForFixedUpdate();
             }
-            yield return WaitForSeconds(2f);
+            yield return new WaitForSeconds(2f);
         }
     }
 }

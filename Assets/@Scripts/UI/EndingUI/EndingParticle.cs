@@ -31,11 +31,11 @@ public class EndingParticle : EndingBase
 
     IEnumerator Start_FadeoutAndDestroy()
     {
-        yield return WaitUntil(() => EndingProgress == 21);
+        yield return new WaitUntil(() => EndingProgress == 21);
         foreach (int i in Count(10))
         {
             _image.AddTransparency(0.1f);
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
         Destroy(gameObject);
     }
@@ -55,7 +55,7 @@ public class EndingParticle : EndingBase
             
             yield return transform.MoveToTransformOverTime(0.5f, dino);
             
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -77,7 +77,7 @@ public class EndingParticle : EndingBase
             Vector3 v = new Vector3(Utility.RandomNumber(-25, 25), 50);
             yield return transform.MoveToPositionOverTime(0.5f, target.position + v);
             
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 }

@@ -80,7 +80,7 @@ public abstract class EnemyBase : BaseController
                 LookAtTheTarget(Manager.Game.Character);
                 MoveToMoveDirection(-4);
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Loop_ContactCharacterSkill_MoonlightswordShield()
@@ -94,7 +94,7 @@ public abstract class EnemyBase : BaseController
                     foreach (int i in Count(10))
                     {
                         transform.AddX(-5f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForFixedUpdate();
                     }
                 }
                 if (transform.GetX() > Manager.Game.MoonlightswordShield.GetX())
@@ -102,11 +102,11 @@ public abstract class EnemyBase : BaseController
                     foreach (int i in Count(10))
                     {
                         transform.AddX(5f);
-                        yield return waitForFixedUpdate;
+                        yield return new WaitForFixedUpdate();
                     }
                 }
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
     IEnumerator Loop_ContactCharacterSkill_WatterPrison()
@@ -118,10 +118,10 @@ public abstract class EnemyBase : BaseController
                 while (IsContactWaterPrison)
                 {
                     yield return transform.MoveToPositionOverTime(0.1f, Manager.Game.WaterPrison.position);
-                    yield return waitForFixedUpdate;
+                    yield return new WaitForFixedUpdate();
                 }
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 }

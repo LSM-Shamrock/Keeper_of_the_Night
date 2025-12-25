@@ -59,9 +59,9 @@ public class EnemyGenerator : BaseController
             CreateEnemy(Sprites.Enemys.SnowLady);
 
         if (Manager.Game.isNightmare)
-            yield return WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
+            yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
         else
-            yield return WaitForSeconds(Utility.RandomNumber(2.5f, 5f));
+            yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 5f));
     }
     
     IEnumerator Loop()
@@ -75,7 +75,7 @@ public class EnemyGenerator : BaseController
             else if (Manager.Game.wave == 1)
             {
                 CreateEnemy(Sprites.Enemys.Shadow);
-                yield return WaitUntil(() => Manager.Game.wave != 1);
+                yield return new WaitUntil(() => Manager.Game.wave != 1);
             }
             else
             {
@@ -89,7 +89,7 @@ public class EnemyGenerator : BaseController
                     while (Manager.Game.wave == 15)
                     {
                         yield return Logic_CreateEnemy(Utility.RandomNumber(2, 13));
-                        yield return WaitForSeconds(3f);
+                        yield return new WaitForSeconds(3f);
                     }
                 }
                 else
@@ -102,7 +102,7 @@ public class EnemyGenerator : BaseController
                     }
                 }
             }
-            yield return waitForFixedUpdate;
+            yield return new WaitForFixedUpdate();
         }
     }
 }
