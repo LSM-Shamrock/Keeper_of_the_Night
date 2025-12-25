@@ -51,6 +51,6 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
 
         GetChild(Handle).localPosition = dir * dist;
 
-        Manager.Input.attackDirection = dir;
+        Manager.Input.attackJoystickDirection = dir;
     }
 }

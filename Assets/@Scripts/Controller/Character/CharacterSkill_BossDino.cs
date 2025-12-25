@@ -98,6 +98,8 @@ public class CharacterSkill_BossDino : BaseController
 
     private IEnumerator LoopBallEftect()
     {
+        _ballStart.SetBrightness(0f);
+        _ballEnd.SetBrightness(0f);
         while (true)
         {
             foreach (int i in Count(30))

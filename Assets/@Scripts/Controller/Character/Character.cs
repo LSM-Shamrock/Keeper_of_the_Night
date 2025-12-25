@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class Character : BaseController
 {
-    private Rigidbody2D _rb;
-    private SpriteRenderer _sr;
+    private Rigidbody2D _rigidbody;
+
     private int _jumpGauge;
 
-    private bool IsOnGround => _rb.IsContact(PlaySceneObjects.Ground);
+    private bool IsOnGround => _rigidbody.IsContact(PlaySceneObjects.Ground);
 
     protected override void Start()
     {
@@ -35,8 +35,7 @@ public class Character : BaseController
 
     private void Init()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        _sr = GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody2D>();
 
         SetCurrentCharacter(Manager.Game.selectedCharacter);
 
@@ -101,6 +100,7 @@ public class Character : BaseController
         }
     }
 
+    // TODO
     private IEnumerator LoopIceDown()
     {
         while (true)
@@ -113,18 +113,25 @@ public class Character : BaseController
             else yield return null;
         }
     }
+
+    // TODO
     private void UpdateDinoSpecial()
     {
-        if (Manager.Game.selectedCharacter != Characters.Dino) return;
+        if (Manager.Game.selectedCharacter != Characters.Dino) 
+            return;
+
+        Transform dinoTransform = transform.Find(Characters.Dino.ToString());
+        SpriteRenderer dinoSpriteRenderer = dinoTransform.GetComponentInChildren<SpriteRenderer>();
+
         if (!Manager.Game.isSpecialSkillInvoking)
         {
-            _sr.color = Color.white;
-            transform.localScale = Vector3.one * 50;
+            dinoSpriteRenderer.enabled = true;
+            dinoTransform.localScale = Vector3.one;
         }
         else
         {
-            _sr.color = Color.clear;
-            transform.localScale = Vector3.one * 75;
+            dinoSpriteRenderer.enabled = false;
+            dinoTransform.localScale = Vector3.one * 1.5f;
         }
     }
 

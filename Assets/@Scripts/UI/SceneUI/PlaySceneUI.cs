@@ -4,15 +4,18 @@ using UnityEngine.UI;
 
 public class PlaySceneUI : SceneUI
 {
-    ChildKey<Text> Text_SpecialSkill = new(nameof(Text_SpecialSkill));
-    ChildKey<Text> Text_HP = new(nameof(Text_HP));
-    ChildKey<Text> Text_Wave = new(nameof(Text_Wave));
-    ChildKey<Text> Text_WaveProgress = new(nameof(Text_WaveProgress));
+    private ChildKey<Text> Text_Move = new(nameof(Text_Move));
+    private ChildKey<Text> Text_Attack = new(nameof(Text_Attack));
+    private ChildKey<Text> Text_SpecialSkill = new(nameof(Text_SpecialSkill));
+    private ChildKey<Text> Text_HP = new(nameof(Text_HP));
+    private ChildKey<Text> Text_Wave = new(nameof(Text_Wave));
+    private ChildKey<Text> Text_WaveProgress = new(nameof(Text_WaveProgress));
     
+    private ChildKey<Image> DeathThumbnail = new(nameof(DeathThumbnail));
+    private ChildKey<Image> WaveClear = new(nameof(WaveClear));
+    private ChildKey<Image> GameOver = new(nameof(GameOver));
 
-    ChildKey<Image> DeathThumbnail = new(nameof(DeathThumbnail));
-    ChildKey<Image> WaveClear = new(nameof(WaveClear));
-    ChildKey<Image> GameOver = new(nameof(GameOver));
+    private ChildKey<Transform> UI_MobileControl = new(nameof(UI_MobileControl));
 
 
     private void Start()
@@ -31,13 +34,18 @@ public class PlaySceneUI : SceneUI
     private void Init()
     {
         BindChild(
+        Text_Move,
+        Text_Attack,
         Text_SpecialSkill,
         Text_HP,
         Text_Wave,
         Text_WaveProgress,
         DeathThumbnail,
         WaveClear,
-        GameOver);
+        GameOver,
+        UI_MobileControl);
+
+        SetControlUI(Manager.Input.isMobileControl);
 
         Manager.Game.onPlayerDie.Add(this, () =>
         {
@@ -47,12 +55,12 @@ public class PlaySceneUI : SceneUI
             StartCoroutine(ShowGameOver());
         });
 
-
         Manager.Game.onWaveClear.Add(this, () =>
         {
             StartCoroutine(OnWaveClear());
         });
-        StartCoroutine(UpdateWaveClearImageEffect());
+
+        StartCoroutine(LoopWaveClearImageEffect());
     }
 
 
@@ -77,7 +85,6 @@ public class PlaySceneUI : SceneUI
             hpText.fontStyle = FontStyle.Normal;
         }
     }
-
     private void UpdateWaveText()
     {
         const float defaultScale = 0.75f;
@@ -98,7 +105,6 @@ public class PlaySceneUI : SceneUI
             waveText.transform.localScale = Vector3.one * defaultScale;
         }
     }
-
     private void UpdateWaveProgressText()
     {
         Text waveProgressText = GetChild(Text_WaveProgress);
@@ -144,7 +150,6 @@ public class PlaySceneUI : SceneUI
         else
             waveProgressText.enabled = true;
     }
-
     private void UpdateSpecialSkillText()
     {
         Text specialSkillText = GetChild(Text_SpecialSkill);
@@ -153,13 +158,13 @@ public class PlaySceneUI : SceneUI
             if (Manager.Game.currentCharacter == Characters.Sleepground)
             {
                 specialSkillText.color = Utility.StringToColor("#918d10");
-                specialSkillText.text = "S로 검뽑기";
+                specialSkillText.text = "(S)로 검뽑기";
                 return;
             }
             if (Manager.Game.currentCharacter == Characters.Dino)
             {
                 specialSkillText.color = Utility.StringToColor("#918d10");
-                specialSkillText.text = "마우스로 흡혈";
+                specialSkillText.text = "(공격)으로 흡혈";
                 return;
             }
         }
@@ -172,10 +177,9 @@ public class PlaySceneUI : SceneUI
         else
         {
             specialSkillText.color = Utility.StringToColor("#918d10");
-            specialSkillText.text = "S로 특수기술!";
+            specialSkillText.text = "(S)로 특수기술!";
         }
     }
-
 
 
     private void StopCodeOfAnotherObject()
@@ -214,9 +218,7 @@ public class PlaySceneUI : SceneUI
     }
 
 
-
-
-    IEnumerator OnWaveClear()
+    private IEnumerator OnWaveClear()
     {
         Image waveClearImage = GetChild(WaveClear);
 
@@ -246,7 +248,7 @@ public class PlaySceneUI : SceneUI
         waveClearImage.SetAlpha(0);
     }
 
-    IEnumerator UpdateWaveClearImageEffect()
+    private IEnumerator LoopWaveClearImageEffect()
     {
         Image waveClearImage = GetChild(WaveClear);
 
@@ -270,4 +272,12 @@ public class PlaySceneUI : SceneUI
         }
     }
 
+
+    private void SetControlUI(bool isMobileControl)
+    {
+        GetChild(Text_Move).gameObject.SetActive(!isMobileControl);
+        GetChild(Text_Attack).gameObject.SetActive(!isMobileControl);
+
+        GetChild(UI_MobileControl).gameObject.SetActive(isMobileControl);
+    }
 }

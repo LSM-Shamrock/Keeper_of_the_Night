@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using static Utility;
 
 public class EnemyGenerator : BaseController
 {
-    Vector3 position = new Vector3(250f, 0f);
+    private Vector3 _createPosition = new Vector3(250f, 0f);
     
     protected override void Start()
     {
         Init();
     }
 
-    void Init()
+    private void Init()
     {
         StartCoroutine(Loop());
     }
 
-    void CreateEnemy(Enemys type)
+    private void CreateEnemy(Enemys type)
     {
         GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Scene_Play.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
-        enemy.transform.position = position;
+        enemy.transform.position = _createPosition;
         enemy.Init(type);
     }
 
-    IEnumerator Logic_CreateEnemy(int enemyChoice)
+    private IEnumerator CreateEnemyAndWait(int enemyChoice)
     {
         if (enemyChoice == 9 || enemyChoice == 10)
             enemyChoice = Utility.RandomNumber(2, 8);
@@ -35,28 +32,19 @@ public class EnemyGenerator : BaseController
             enemyChoice = Utility.RandomNumber(2, 13);
 
         if (Utility.RandomNumber(1, 2) == 1)
-            position.x = 300;
+            _createPosition.x = 300;
         else
-            position.x = -300;
+            _createPosition.x = -300;
 
-        if (enemyChoice == 2)
-            CreateEnemy(Enemys.VoidCavity);
-        if (enemyChoice == 3)
-            CreateEnemy(Enemys.CrazyLaughMask);
-        if (enemyChoice == 4)
-            CreateEnemy(Enemys.MotherSpiritSnake);
-        if (enemyChoice == 5)
-            CreateEnemy(Enemys.Bird);
-        if (enemyChoice == 6)
-            CreateEnemy(Enemys.SadEyes);
-        if (enemyChoice == 8)
-            CreateEnemy(Enemys.ThePiedPiper);
-        if (enemyChoice == 11)
-            CreateEnemy(Enemys.Fire);
-        if (enemyChoice == 12)
-            CreateEnemy(Enemys.Red);
-        if (enemyChoice == 13)
-            CreateEnemy(Enemys.SnowLady);
+        if (enemyChoice == 2) CreateEnemy(Enemys.VoidCavity);
+        if (enemyChoice == 3) CreateEnemy(Enemys.CrazyLaughMask);
+        if (enemyChoice == 4) CreateEnemy(Enemys.MotherSpiritSnake);
+        if (enemyChoice == 5) CreateEnemy(Enemys.Bird);
+        if (enemyChoice == 6) CreateEnemy(Enemys.SadEyes);
+        if (enemyChoice == 8) CreateEnemy(Enemys.ThePiedPiper);
+        if (enemyChoice == 11) CreateEnemy(Enemys.Fire);
+        if (enemyChoice == 12) CreateEnemy(Enemys.Red);
+        if (enemyChoice == 13) CreateEnemy(Enemys.SnowLady);
 
         if (Manager.Game.isNightmare)
             yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
@@ -64,13 +52,13 @@ public class EnemyGenerator : BaseController
             yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 5f));
     }
     
-    IEnumerator Loop()
+    private IEnumerator Loop()
     {
         while (true)
         {
             if (Manager.Game.wave == 0)
             {
-                yield return Logic_CreateEnemy(12);
+                yield return CreateEnemyAndWait(12);
             }
             else if (Manager.Game.wave == 1)
             {
@@ -88,21 +76,21 @@ public class EnemyGenerator : BaseController
                     CreateEnemy(Enemys.BossDino);
                     while (Manager.Game.wave == 15)
                     {
-                        yield return Logic_CreateEnemy(Utility.RandomNumber(2, 13));
+                        yield return CreateEnemyAndWait(Utility.RandomNumber(2, 13));
                         yield return new WaitForSeconds(3f);
                     }
                 }
                 else
                 {
-                    Logic_CreateEnemy(Manager.Game.wave);
+                    CreateEnemyAndWait(Manager.Game.wave);
                     int checkingWave = Manager.Game.wave;
                     while (Manager.Game.wave == checkingWave)
                     {
-                        yield return Logic_CreateEnemy(Utility.RandomNumber(2, Manager.Game.wave));
+                        yield return CreateEnemyAndWait(Utility.RandomNumber(2, Manager.Game.wave));
                     }
                 }
             }
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
     }
 }
