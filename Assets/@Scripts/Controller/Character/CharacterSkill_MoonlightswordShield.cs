@@ -11,7 +11,7 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
 
     private bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
 
-    private bool IsSleepground => Manager.Game.currentCharacter == Sprites.Characters.Sleepground;
+    private bool IsSleepground => Manager.Game.currentCharacter == CharacterType.Sleepground;
 
     protected override void Start()
     {

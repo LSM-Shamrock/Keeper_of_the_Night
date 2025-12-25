@@ -8,7 +8,7 @@ public class Enemy : EnemyBase
 {
     float _hp;
 
-    Sprites.Enemys _type;
+    EnemyType _type;
 
     protected override void DeleteThisClone()
     {
@@ -22,10 +22,10 @@ public class Enemy : EnemyBase
     {
         switch (_type)
         {
-            case Sprites.Enemys.ThePiedPiper:
+            case EnemyType.ThePiedPiper:
                 _hiddenName = "하민우";
                 break;
-            case Sprites.Enemys.BossDino:
+            case EnemyType.BossDino:
                 _hiddenName = "공룡";
                 break;
 
@@ -81,7 +81,7 @@ public class Enemy : EnemyBase
                 Debug.Log("야괴 이름 적중 : " + _hiddenName + " : " + _type.ToString());
                 yield return new WaitForSeconds(0.25f);
                 CreateNameParticles();
-                if (_type == Sprites.Enemys.BossDino)
+                if (_type == EnemyType.BossDino)
                 {
                     yield return Manager.Speech.SpeechForSeconds(transform, "윽!", 0.75f);
                     yield return Manager.Speech.SpeechForSeconds(transform, "으아앗", 1f);
@@ -100,7 +100,7 @@ public class Enemy : EnemyBase
                     }
 
                     Manager.Game.remainingWaveKill--;
-                    if (_type == Sprites.Enemys.Shadow)
+                    if (_type == EnemyType.Shadow)
                         Manager.Game.shadowState = ShadowState.Killed;
 
                     DeleteThisClone();
@@ -112,7 +112,7 @@ public class Enemy : EnemyBase
     }
     #endregion
 
-    public void Init(Sprites.Enemys type)
+    public void Init(EnemyType type)
     {
         base.Init();
         _type = type;
@@ -135,24 +135,24 @@ public class Enemy : EnemyBase
         float size = 0;
         switch (_type)
         {
-            case Sprites.Enemys.Shadow: _hp = 100; break;
-            case Sprites.Enemys.VoidCavity: _hp = 12; size = 31.4f; break;
-            case Sprites.Enemys.CrazyLaughMask: _hp = 18; size = 31.9f; break;
-            case Sprites.Enemys.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
-            case Sprites.Enemys.Bird: _hp = 20; size = 31.0f; break;
-            case Sprites.Enemys.SadEyes: _hp = 20; size = 31.4f; break;
-            case Sprites.Enemys.ThePiedPiper: _hp = 18; size = 36.6f; break;
-            case Sprites.Enemys.Fire: _hp = 23; size = 40.5f; break;
-            case Sprites.Enemys.Red: _hp = 25; size = 54.9f; break;
-            case Sprites.Enemys.SnowLady: _hp = 23; size = 50.0f; break;
-            case Sprites.Enemys.BossDino: _hp = 100; size = 76.8f; break;
+            case EnemyType.Shadow: _hp = 100; break;
+            case EnemyType.VoidCavity: _hp = 12; size = 31.4f; break;
+            case EnemyType.CrazyLaughMask: _hp = 18; size = 31.9f; break;
+            case EnemyType.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
+            case EnemyType.Bird: _hp = 20; size = 31.0f; break;
+            case EnemyType.SadEyes: _hp = 20; size = 31.4f; break;
+            case EnemyType.ThePiedPiper: _hp = 18; size = 36.6f; break;
+            case EnemyType.Fire: _hp = 23; size = 40.5f; break;
+            case EnemyType.Red: _hp = 25; size = 54.9f; break;
+            case EnemyType.SnowLady: _hp = 23; size = 50.0f; break;
+            case EnemyType.BossDino: _hp = 100; size = 76.8f; break;
         }
         transform.localScale = Vector3.one * size;
     }
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        if (_type == Sprites.Enemys.Shadow)
+        if (_type == EnemyType.Shadow)
             yield break;
 
         _hp -= damage;
@@ -162,7 +162,7 @@ public class Enemy : EnemyBase
         }
         else
         {
-            if (_type == Sprites.Enemys.BossDino)
+            if (_type == EnemyType.BossDino)
             {
                 Manager.Game.isBossDinoKilled = true;
             }
@@ -223,7 +223,7 @@ public class Enemy : EnemyBase
     IEnumerator Loop_Shadow_Logic()
     {
         // 영도가 아닐 시 바로 종료
-        if (_type != Sprites.Enemys.Shadow)
+        if (_type != EnemyType.Shadow)
             yield break;
 
         // 체력 변화: 100~0 
@@ -288,7 +288,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Loop_Flap_Bird()
     {
-        if (_type != Sprites.Enemys.Bird)
+        if (_type != EnemyType.Bird)
             yield break;
 
         while (true)
@@ -311,7 +311,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Loop_Jump_Thepiedpiper()
     {
-        if (_type != Sprites.Enemys.ThePiedPiper)
+        if (_type != EnemyType.ThePiedPiper)
             yield break;
 
         while (true)
@@ -332,7 +332,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Loop_Jump_Dino()
     {
-        if (_type != Sprites.Enemys.BossDino)
+        if (_type != EnemyType.BossDino)
             yield break;
 
         while (true)
@@ -360,17 +360,17 @@ public class Enemy : EnemyBase
             IEnumerator enumerator = null;
             switch (_type)
             {
-                case Sprites.Enemys.Shadow: enumerator = Move_Shadow_And_Voidcavity(); break;
-                case Sprites.Enemys.VoidCavity: enumerator = Move_Shadow_And_Voidcavity(); break;
-                case Sprites.Enemys.CrazyLaughMask: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
-                case Sprites.Enemys.MotherSpiritSnake: enumerator = Move_Motherspiritsnake(); break;
-                case Sprites.Enemys.Bird: enumerator = Move_Bird(); break;
-                case Sprites.Enemys.SadEyes: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
-                case Sprites.Enemys.ThePiedPiper: enumerator = Move_Thepiedpiper(); break;
-                case Sprites.Enemys.Fire: enumerator = Move_Fire(); break;
-                case Sprites.Enemys.Red: enumerator = Move_Red(); break;
-                case Sprites.Enemys.SnowLady: enumerator = Move_Snowlady(); break;
-                case Sprites.Enemys.BossDino: enumerator = Move_Dino(); break;
+                case EnemyType.Shadow: enumerator = Move_Shadow_And_Voidcavity(); break;
+                case EnemyType.VoidCavity: enumerator = Move_Shadow_And_Voidcavity(); break;
+                case EnemyType.CrazyLaughMask: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
+                case EnemyType.MotherSpiritSnake: enumerator = Move_Motherspiritsnake(); break;
+                case EnemyType.Bird: enumerator = Move_Bird(); break;
+                case EnemyType.SadEyes: enumerator = Move_Crazylaughmask_And_Sadeyes(); break;
+                case EnemyType.ThePiedPiper: enumerator = Move_Thepiedpiper(); break;
+                case EnemyType.Fire: enumerator = Move_Fire(); break;
+                case EnemyType.Red: enumerator = Move_Red(); break;
+                case EnemyType.SnowLady: enumerator = Move_Snowlady(); break;
+                case EnemyType.BossDino: enumerator = Move_Dino(); break;
             }
             yield return enumerator;
             yield return new WaitForFixedUpdate();
@@ -378,7 +378,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Shadow_And_Voidcavity()
     {
-        if (_type != Sprites.Enemys.Shadow && _type != Sprites.Enemys.VoidCavity)
+        if (_type != EnemyType.Shadow && _type != EnemyType.VoidCavity)
             yield break;
 
         if (IsContactGround) transform.position += Vector3.up * 0.1f;
@@ -392,12 +392,12 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Crazylaughmask_And_Sadeyes()
     {
-        if (_type != Sprites.Enemys.CrazyLaughMask && _type != Sprites.Enemys.SadEyes)
+        if (_type != EnemyType.CrazyLaughMask && _type != EnemyType.SadEyes)
             yield break;
 
         LookAtTheTarget(Manager.Game.Character);
         MoveToMoveDirection(1f);
-        if (_type == Sprites.Enemys.CrazyLaughMask)
+        if (_type == EnemyType.CrazyLaughMask)
         {
             if (RandomNumber(1, 500) == 1)
                 yield return Manager.Speech.SpeechForSeconds(transform, "ㅋ흐하하하하핳ㅋ흫흐하핳", 1f);
@@ -417,7 +417,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Motherspiritsnake()
     {
-        if (_type != Sprites.Enemys.MotherSpiritSnake)
+        if (_type != EnemyType.MotherSpiritSnake)
             yield break;
 
         if (IsContactGround) transform.position += Vector3.up * 0.1f;
@@ -433,7 +433,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Bird()
     {
-        if (_type != Sprites.Enemys.Bird)
+        if (_type != EnemyType.Bird)
             yield break;
 
         if (Math.Abs(Manager.Game.Character.position.x - transform.position.x) > 50)
@@ -446,7 +446,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Thepiedpiper()
     {
-        if (_type != Sprites.Enemys.ThePiedPiper)
+        if (_type != EnemyType.ThePiedPiper)
             yield break;
 
         if (IsContactGround) 
@@ -476,7 +476,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Fire()
     {
-        if (_type != Sprites.Enemys.Fire)
+        if (_type != EnemyType.Fire)
             yield break;
 
         if (IsContactGround)
@@ -493,7 +493,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Red()
     {
-        if (_type != Sprites.Enemys.Red)
+        if (_type != EnemyType.Red)
             yield break;
 
         if (IsContactGround)
@@ -513,7 +513,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Snowlady()
     {
-        if (_type != Sprites.Enemys.SnowLady)
+        if (_type != EnemyType.SnowLady)
             yield break;
 
         if (IsContactGround) 
@@ -543,7 +543,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Move_Dino()
     {
-        if (_type != Sprites.Enemys.BossDino)
+        if (_type != EnemyType.BossDino)
             yield break;
 
         LookAtTheTarget(Manager.Game.Character);
@@ -574,24 +574,24 @@ public class Enemy : EnemyBase
             IEnumerator enumerator = null;
             switch (_type)
             {
-                case Sprites.Enemys.Shadow: enumerator = Attack_Shadow(); break;
-                case Sprites.Enemys.VoidCavity: enumerator = Attack_Voidcavity(); break;
-                case Sprites.Enemys.CrazyLaughMask: enumerator = Attack_Crazylaughmask(); break;
-                case Sprites.Enemys.MotherSpiritSnake: enumerator = Attack_Motherspiritsnake(); break;
-                case Sprites.Enemys.Bird: enumerator = Attack_Bird(); break;
-                case Sprites.Enemys.SadEyes: enumerator = Attack_Sadeyes(); break;
-                case Sprites.Enemys.ThePiedPiper: enumerator = Attack_Thepiedpiper(); break;
-                case Sprites.Enemys.Fire: enumerator = Attack_Fire(); break;
-                case Sprites.Enemys.Red: enumerator = Attack_Red(); break;
-                case Sprites.Enemys.SnowLady: enumerator = Attack_Snowlady(); break;
-                case Sprites.Enemys.BossDino: enumerator = Attack_Dino(); break;
+                case EnemyType.Shadow: enumerator = Attack_Shadow(); break;
+                case EnemyType.VoidCavity: enumerator = Attack_Voidcavity(); break;
+                case EnemyType.CrazyLaughMask: enumerator = Attack_Crazylaughmask(); break;
+                case EnemyType.MotherSpiritSnake: enumerator = Attack_Motherspiritsnake(); break;
+                case EnemyType.Bird: enumerator = Attack_Bird(); break;
+                case EnemyType.SadEyes: enumerator = Attack_Sadeyes(); break;
+                case EnemyType.ThePiedPiper: enumerator = Attack_Thepiedpiper(); break;
+                case EnemyType.Fire: enumerator = Attack_Fire(); break;
+                case EnemyType.Red: enumerator = Attack_Red(); break;
+                case EnemyType.SnowLady: enumerator = Attack_Snowlady(); break;
+                case EnemyType.BossDino: enumerator = Attack_Dino(); break;
             }
             yield return enumerator;
         }
     }
     IEnumerator Attack_Shadow()
     {
-        if (_type != Sprites.Enemys.Shadow)
+        if (_type != EnemyType.Shadow)
             yield break;
 
         if (IsContactCharacter == false) 
@@ -602,7 +602,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Voidcavity()
     {
-        if (_type != Sprites.Enemys.VoidCavity)
+        if (_type != EnemyType.VoidCavity)
             yield break;
 
         if (Math.Abs(transform.position.x - Manager.Game.Character.position.x) < 30 == false) 
@@ -620,7 +620,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Crazylaughmask()
     {
-        if (_type != Sprites.Enemys.CrazyLaughMask)
+        if (_type != EnemyType.CrazyLaughMask)
             yield break;
 
         if (IsContactCharacter == false) 
@@ -636,7 +636,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Motherspiritsnake()
     {
-        if (_type != Sprites.Enemys.MotherSpiritSnake)
+        if (_type != EnemyType.MotherSpiritSnake)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 250f)
@@ -650,7 +650,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Bird()
     {
-        if (_type != Sprites.Enemys.Bird)
+        if (_type != EnemyType.Bird)
             yield break;
 
         LookAtTheTarget(Manager.Game.Character);
@@ -701,7 +701,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Sadeyes()
     {
-        if (_type != Sprites.Enemys.SadEyes)
+        if (_type != EnemyType.SadEyes)
             yield break;
 
         if (!IsContactCharacter) 
@@ -717,7 +717,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Thepiedpiper()
     {
-        if (_type != Sprites.Enemys.ThePiedPiper)
+        if (_type != EnemyType.ThePiedPiper)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 200)
@@ -736,7 +736,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Fire()
     {
-        if (_type != Sprites.Enemys.Fire)
+        if (_type != EnemyType.Fire)
             yield break;
 
         if (IsContactWaterPrison) 
@@ -753,7 +753,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Red()
     {
-        if (_type != Sprites.Enemys.Red)
+        if (_type != EnemyType.Red)
             yield break;
 
         if (Mathf.Abs(transform.position.x - Manager.Game.Character.position.x) < 40)
@@ -772,7 +772,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Snowlady()
     {
-        if (_type != Sprites.Enemys.SnowLady)
+        if (_type != EnemyType.SnowLady)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 250f)
@@ -786,7 +786,7 @@ public class Enemy : EnemyBase
     }
     IEnumerator Attack_Dino()
     {
-        if (_type != Sprites.Enemys.BossDino)
+        if (_type != EnemyType.BossDino)
             yield break;
 
         if (DistanceTo(Manager.Game.Character) < 250f)

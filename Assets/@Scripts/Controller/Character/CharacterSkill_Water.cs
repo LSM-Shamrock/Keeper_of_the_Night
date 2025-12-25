@@ -20,7 +20,7 @@ public class CharacterSkill_Water : BaseController
     {
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == CharacterType.Rather);
             if (Manager.Input.isPressedAttack)
             {
                 StartCoroutine(Throw());

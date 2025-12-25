@@ -7,7 +7,7 @@ public class EndingCharacter : EndingBase
 {
     Image _image;
 
-    Sprites.Characters _character;
+    CharacterType _character;
 
 
     protected override void Start()
@@ -19,16 +19,16 @@ public class EndingCharacter : EndingBase
     {
         _image = GetComponent<Image>();
 
-        _character = Enum.Parse<Sprites.Characters>(_image.sprite.name);
+        _character = Enum.Parse<CharacterType>(_image.sprite.name);
 
         Character[_character] = transform;
         IEnumerator coroutine = null;
         switch (_character)
         {
-            case Sprites.Characters.Sleepground: coroutine = StartSleepground(); break;
-            case Sprites.Characters.Dino: coroutine = StartDino(); break;
-            case Sprites.Characters.Heptagram: coroutine = StartHeptagram(); break;
-            case Sprites.Characters.Rather: coroutine = StartRather(); break;
+            case CharacterType.Sleepground: coroutine = StartSleepground(); break;
+            case CharacterType.Dino: coroutine = StartDino(); break;
+            case CharacterType.Heptagram: coroutine = StartHeptagram(); break;
+            case CharacterType.Rather: coroutine = StartRather(); break;
         }
         StartCoroutine(coroutine);
     }
@@ -55,7 +55,7 @@ public class EndingCharacter : EndingBase
     {
         yield return new WaitUntil(() => EndingProgress == 20);
 
-        Transform heptagram = Character[Sprites.Characters.Heptagram];
+        Transform heptagram = Character[CharacterType.Heptagram];
         yield return transform.MoveToTransformOverTime(0.2f, heptagram);
 
         yield return transform.MoveOverTime(0.3f, new Vector3(-200f, 100f));
@@ -81,7 +81,7 @@ public class EndingCharacter : EndingBase
         
         _image.enabled = false;
 
-        Transform sleepground = Character[Sprites.Characters.Sleepground];
+        Transform sleepground = Character[CharacterType.Sleepground];
         yield return transform.MoveToTransformOverTime(0.2f, sleepground);
         transform.AddY(25f);
         

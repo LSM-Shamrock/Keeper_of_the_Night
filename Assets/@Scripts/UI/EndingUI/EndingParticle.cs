@@ -47,7 +47,7 @@ public class EndingParticle : EndingBase
             float brightness = Utility.RandomNumber(-0.25f, 0.1f);
             _image.SetBrightness(brightness);
       
-            Transform dino = Character[Sprites.Characters.Dino];
+            Transform dino = Character[CharacterType.Dino];
 
             transform.position = dino.position;
             transform.AddX(Utility.RandomNumber(-50, 50));
@@ -68,9 +68,9 @@ public class EndingParticle : EndingBase
 
             Transform target;
             if (EndingProgress > 20)
-                target = Character[Sprites.Characters.Sleepground];
+                target = Character[CharacterType.Sleepground];
             else 
-                target = Character[Sprites.Characters.Heptagram];
+                target = Character[CharacterType.Heptagram];
 
             transform.position = target.position;
 

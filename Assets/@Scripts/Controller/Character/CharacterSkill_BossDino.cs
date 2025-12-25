@@ -29,7 +29,7 @@ public class CharacterSkill_BossDino : BaseController
 
         Manager.Game.onDisarmSpecialSkill.Add(this, () =>
         {
-            if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
+            if (Manager.Game.selectedCharacter == CharacterType.Dino)
                 Manager.Game.isSpecialSkillInvoking = false;
         });
 
@@ -42,7 +42,7 @@ public class CharacterSkill_BossDino : BaseController
 
     private void UpdateBoddy()
     {
-        bool b = Manager.Game.selectedCharacter == Sprites.Characters.Dino && Manager.Game.isSpecialSkillInvoking;
+        bool b = Manager.Game.selectedCharacter == CharacterType.Dino && Manager.Game.isSpecialSkillInvoking;
         _body.SetActive(b);
         _ballStart.gameObject.SetActive(b);
 
@@ -55,7 +55,7 @@ public class CharacterSkill_BossDino : BaseController
     }
     private void UpdateDrawLine()
     {
-        bool characterCheck = Manager.Game.currentCharacter == Sprites.Characters.Dino;
+        bool characterCheck = Manager.Game.currentCharacter == CharacterType.Dino;
         if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isPressedAttack)
         {
             _ballEnd.gameObject.SetActive(true);
@@ -77,12 +77,12 @@ public class CharacterSkill_BossDino : BaseController
 
     private IEnumerator LoopRoutine()
     {
-        if (Manager.Game.selectedCharacter == Sprites.Characters.Dino)
+        if (Manager.Game.selectedCharacter == CharacterType.Dino)
             Manager.Game.specialSkillCooltime = 35f;
 
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Dino);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == CharacterType.Dino);
 
             if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
@@ -194,7 +194,7 @@ public class CharacterSkill_BossDino : BaseController
     {
         while (true)
         {
-            bool characterCheck = Manager.Game.currentCharacter == Sprites.Characters.Dino;
+            bool characterCheck = Manager.Game.currentCharacter == CharacterType.Dino;
             if (characterCheck && Manager.Game.isSpecialSkillInvoking)
                 CreateParticle();
 

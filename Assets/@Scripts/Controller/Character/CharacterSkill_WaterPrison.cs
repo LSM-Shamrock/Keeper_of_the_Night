@@ -29,7 +29,7 @@ public class CharacterSkill_WaterPrison : BaseController
 
     private void OnDisarmSpecialSkill()
     {
-        if (Manager.Game.selectedCharacter == Sprites.Characters.Rather)
+        if (Manager.Game.selectedCharacter == CharacterType.Rather)
         {
             Manager.Game.isSpecialSkillInvoking = false;
             _child.SetActive(false);
@@ -74,12 +74,12 @@ public class CharacterSkill_WaterPrison : BaseController
 
     private IEnumerator LoopInvoking()
     {
-        if (Manager.Game.currentCharacter == Sprites.Characters.Rather)
+        if (Manager.Game.currentCharacter == CharacterType.Rather)
             Manager.Game.specialSkillCooltime = 15f;
         
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Sprites.Characters.Rather);
+            yield return new WaitUntil(() => Manager.Game.currentCharacter == CharacterType.Rather);
 
             if (Manager.Game.specialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
