@@ -27,6 +27,10 @@ public class LobbySceneUI : SceneUI
         Characters);
 
         GetChild(ControlTexts).SetActive(!Manager.Input.isMobileControl);
+        Manager.Input.onControlTypeChange.Add(this, () =>
+        {
+            GetChild(ControlTexts).SetActive(!Manager.Input.isMobileControl);
+        });
 
         SetSelectedCharacter(Manager.Game.selectedCharacter);
         foreach (Transform child in GetChild(Characters))

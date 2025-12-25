@@ -164,12 +164,14 @@ public class CharacterSkill_BossDino : BaseController
             {
                 foreach (int i in Count(10))
                 {
+                    if (go == null) break;
                     sr?.AddBrightness(0.02f);
                     transform.localScale += Vector3.one * 0.3f;
                     yield return new WaitForFixedUpdate();
                 }
                 foreach (int i in Count(10))
                 {
+                    if (go == null) break;
                     sr?.AddBrightness(-0.02f);
                     transform.localScale += Vector3.one * -0.3f;
                     yield return new WaitForFixedUpdate();

@@ -46,6 +46,10 @@ public class PlaySceneUI : SceneUI
         UI_MobileControl);
 
         SetControlUI(Manager.Input.isMobileControl);
+        Manager.Input.onControlTypeChange.Add(this, () =>
+        {
+            SetControlUI(Manager.Input.isMobileControl);
+        });
 
         Manager.Game.onPlayerDie.Add(this, () =>
         {

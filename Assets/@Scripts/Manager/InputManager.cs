@@ -1,8 +1,25 @@
 ﻿using UnityEngine;
 
+public enum ControlType
+{
+    Application,
+    PC,
+    Mobile,
+}
+
 public class InputManager 
 {
-    public bool isMobileControl => Application.isMobilePlatform;
+    public readonly ActionEx onControlTypeChange = new();
+    private ControlType _controlType = ControlType.Application;
+    public ControlType controlType
+    {
+        get { return _controlType; }
+        set { _controlType = value; onControlTypeChange.Call(); }
+    }
+
+    public bool isMobileControl => 
+        controlType == ControlType.Mobile || 
+        controlType == ControlType.Application && Application.isMobilePlatform;
 
     public bool isPressedS => Input.GetKey(KeyCode.S);
 
