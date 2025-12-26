@@ -208,7 +208,6 @@ GameObject:
   - component: {fileID: 921946410}
   - component: {fileID: 921946415}
   - component: {fileID: 921946413}
-  - component: {fileID: 921946414}
   m_Layer: 5
   m_Name: UI_EndingScene
   m_TagString: Untagged
@@ -463,18 +462,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d03e1f2d7ccf8d444a8473a61700f444, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &921946414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180147521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7520298f17f93724bb70191d580e6a97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &921946415
