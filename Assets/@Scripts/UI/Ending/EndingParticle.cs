@@ -1,38 +1,41 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndingParticle : EndingBase
+public class EndingParticle : UIBase
 {
-    Image _image;
+    private Image _image;
+    private Dictionary<Characters, Transform> _characters;
+    private int _endingProgress;
 
-    Sprites.Ending _type;
-
-    public void Init(Sprites.Ending type)
+    public void Init(Sprites.Ending type, Dictionary<Characters, Transform> characters)
     {
         _image = GetComponent<Image>();
         _image.sprite = Manager.Resource.LoadResource<Sprite>(type);
 
-        _type = type;
+        _characters = characters;
 
         IEnumerator typeLogic = null;
-        switch (_type)
+        switch (type)
         {
-            case Sprites.Ending.Particle_Purple:
-                typeLogic = Loop_Purple();
-                break;
-            case Sprites.Ending.Particle_Yellow:
-                typeLogic= Loop_Yellow();
-                break;
+            case Sprites.Ending.Particle_Purple: typeLogic = LoopPurple(); break;
+            case Sprites.Ending.Particle_Yellow: typeLogic= LoopYellow(); break;
         }
         StartCoroutine(typeLogic);
-        StartCoroutine(Start_FadeoutAndDestroy());
+        StartCoroutine(StartFadeoutAndDestroy());
     }
 
-    IEnumerator Start_FadeoutAndDestroy()
+    public void OnEndingProgressChange(int endingProgress)
     {
-        yield return new WaitUntil(() => EndingProgress == 21);
-        foreach (int i in Count(10))
+        _endingProgress = endingProgress;
+    }
+
+    private IEnumerator StartFadeoutAndDestroy()
+    {
+        yield return new WaitUntil(() => _endingProgress == 21);
+
+        foreach (int i in Utility.Count(10))
         {
             _image.AddTransparency(0.1f);
             yield return new WaitForFixedUpdate();
@@ -40,14 +43,14 @@ public class EndingParticle : EndingBase
         Manager.Object.Despawn(gameObject);
     }
 
-    IEnumerator Loop_Purple()
+    private IEnumerator LoopPurple()
     {
         while (true)
         {
             float brightness = Utility.RandomNumber(-0.25f, 0.1f);
             _image.SetBrightness(brightness);
       
-            Transform dino = Character[Characters.Dino];
+            Transform dino = _characters[Characters.Dino];
 
             transform.position = dino.position;
             transform.AddX(Utility.RandomNumber(-50, 50));
@@ -59,7 +62,7 @@ public class EndingParticle : EndingBase
         }
     }
 
-    IEnumerator Loop_Yellow()
+    private IEnumerator LoopYellow()
     {
         while (true)
         {
@@ -67,10 +70,10 @@ public class EndingParticle : EndingBase
             _image.SetBrightness(brightness);
 
             Transform target;
-            if (EndingProgress > 20)
-                target = Character[Characters.Sleepground];
+            if (_endingProgress > 20)
+                target = _characters[Characters.Sleepground];
             else 
-                target = Character[Characters.Heptagram];
+                target = _characters[Characters.Heptagram];
 
             transform.position = target.position;
 

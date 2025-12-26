@@ -78,5 +78,12 @@ public static class Utility
         return null;
     }
 
+
+
+    public static IEnumerable<int> Count(int count)
+    {
+        for (int i = 0; i < count; i++)
+            yield return i;
+    }
 }
 
