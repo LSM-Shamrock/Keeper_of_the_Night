@@ -83,15 +83,25 @@ public class CharacterSkill_WaterPrison : BaseController
 
             if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isPressedS)
             {
-                Manager.Game.SpecialSkillCooltime = 20f;
-                Manager.Game.isSpecialSkillInvoking = true;
-
-                transform.SetY(-70);
-                transform.SetX(Utility.MouseX);
-
                 float size = 200;
                 _child.transform.localScale = Vector3.one * size;
                 _child.SetActive(true);
+
+                float alpah = _sr.color.a;
+                _sr.SetAlpha(0.2f);
+                while (Manager.Input.isPressedS)
+                {
+                    transform.SetY(-70);
+                    transform.SetX(Utility.MouseX);
+                    yield return null;
+                }
+                _sr.SetAlpha(alpah);
+
+
+                Manager.Game.SpecialSkillCooltime = 20f;
+                Manager.Game.isSpecialSkillInvoking = true;
+
+
                 foreach (int i in Count(10))
                 {
                     size -= 10;
@@ -103,8 +113,8 @@ public class CharacterSkill_WaterPrison : BaseController
                 {
                     if (IsContactEnemy)
                         yield return new WaitForSeconds(1f);
-
-                    yield return new WaitForFixedUpdate();
+                    else
+                        yield return null;
                 }
                 Manager.Game.onDisarmSpecialSkill.Call();
             }
