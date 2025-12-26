@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class EnemyBase : BaseController
@@ -18,6 +19,7 @@ public abstract class EnemyBase : BaseController
     protected bool IsContactMoonlightgunBullet => _col.IsContact(Prefabs.Play.CharacterSkill_MoonlightgunBullet);
     protected bool IsContactBossDinoSkill => _col.IsContact(PlaySceneObjects.BossDinoSkillParticle);
     protected bool IsContactCameraLight => _col.IsContact(Prefabs.Play.CharacterSkill_CameraFlash);
+    protected bool isSkillIgnore = false;
 
     protected void Show()
     {
@@ -48,71 +50,70 @@ public abstract class EnemyBase : BaseController
         _col = GetComponent<Collider2D>();
         _sr = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
-        StartCoroutine(Loop_ContactCharacterSkill_AttackSkill());
-        StartCoroutine(Loop_ContactCharacterSkill_MoonlightswordShield());
-        StartCoroutine(Loop_ContactCharacterSkill_WatterPrison());
+        StartCoroutine(Loop_Contact_AttackSkill());
+        StartCoroutine(Loop_Contact_MoonlightswordShield());
+        StartCoroutine(Loop_Contact_WatterPrison());
     }
 
     protected abstract IEnumerator WhenTakingDamage(int damage);
-    IEnumerator Loop_ContactCharacterSkill_AttackSkill()
+
+    IEnumerator Loop_Contact_AttackSkill()
     {
         while (true)
         {
+            yield return null;
+            if (isSkillIgnore) continue;
+
             if (IsContactMoonlightSword)
-            {
                 yield return WhenTakingDamage(3);
-            }
+
             if (IsContactMoonlightgunBullet)
             {
                 yield return WhenTakingDamage(4);
                 LookAtTheTarget(Manager.Object.Character);
                 MoveToMoveDirection(-5);
             }
+
             if (IsContactBossDinoSkill)
             {
                 if (Manager.Game.wave == 7) Manager.Game.DreamHealth += 2;
                 else Manager.Game.Health += 2;
                 yield return WhenTakingDamage(3);
             }
+
             if (IsContactWater)
             {
                 yield return WhenTakingDamage(2);
                 LookAtTheTarget(Manager.Object.Character);
                 MoveToMoveDirection(-4);
             }
-            yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_ContactCharacterSkill_MoonlightswordShield()
+    IEnumerator Loop_Contact_MoonlightswordShield()
     {
         while (true)
         {
+            yield return null;
+            if (isSkillIgnore) continue;
+
             if (IsContactMoonlightswordShield)
             {
-                if (transform.GetX() < Manager.Object.MoonlightswordShield.GetX())
+                int xDir = Math.Sign(Manager.Object.MoonlightswordShield.GetX() - transform.GetX());
+                foreach (int i in Count(10))
                 {
-                    foreach (int i in Count(10))
-                    {
-                        transform.AddX(-5f);
-                        yield return new WaitForFixedUpdate();
-                    }
-                }
-                if (transform.GetX() > Manager.Object.MoonlightswordShield.GetX())
-                {
-                    foreach (int i in Count(10))
-                    {
-                        transform.AddX(5f);
-                        yield return new WaitForFixedUpdate();
-                    }
+                    transform.AddX(xDir * 5f);
+                    yield return new WaitForFixedUpdate();
                 }
             }
-            yield return new WaitForFixedUpdate();
         }
     }
-    IEnumerator Loop_ContactCharacterSkill_WatterPrison()
+    IEnumerator Loop_Contact_WatterPrison()
     {
         while (true)
         {
+            yield return null;
+            if (isSkillIgnore) continue;
+
             if (IsContactWaterPrison && Manager.Game.isSpecialSkillInvoking)
             {
                 while (IsContactWaterPrison)
@@ -121,7 +122,6 @@ public abstract class EnemyBase : BaseController
                     yield return new WaitForFixedUpdate();
                 }
             }
-            yield return new WaitForFixedUpdate();
         }
     }
 }

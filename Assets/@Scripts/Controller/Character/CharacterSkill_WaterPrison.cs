@@ -89,6 +89,7 @@ public class CharacterSkill_WaterPrison : BaseController
 
                 float alpah = _sr.color.a;
                 _sr.SetAlpha(0.2f);
+                _col.enabled = false;
                 while (Manager.Input.isPressedS)
                 {
                     transform.SetY(-70);
@@ -96,6 +97,7 @@ public class CharacterSkill_WaterPrison : BaseController
                     yield return null;
                 }
                 _sr.SetAlpha(alpah);
+                _col.enabled = true;
 
 
                 Manager.Game.SpecialSkillCooltime = 20f;

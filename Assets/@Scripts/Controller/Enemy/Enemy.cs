@@ -151,14 +151,9 @@ public class Enemy : EnemyBase
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        if (_type == Enemys.Shadow)
-            yield break;
-
         _hp -= damage;
         if (_hp > 0)
-        {
             yield return Manager.Speech.SpeechForSeconds(transform, _hp.ToString(), 0.1f);
-        }
         else
         {
             if (_type == Enemys.BossDino)
@@ -220,21 +215,19 @@ public class Enemy : EnemyBase
 
     private IEnumerator Loop_Shadow_Logic()
     {
-        // 영도가 아닐 시 바로 종료
         if (_type != Enemys.Shadow)
             yield break;
 
         // 체력 변화: 100~0 
         // 크기 변화: 200~25 = 25+(175~0)
-
         // 최소 크기 25
         // hp변화당 1.75크기변화
-
         // 기존 카메라 타격 횟수: 100/0.5 = 200회
+
+        isSkillIgnore = true; // 외부 스킬들 받지 않음
 
         float timer = -5f;
         float giantization = 0;
-
         const float Interval = 1f;
 
         while (true)
@@ -243,10 +236,7 @@ public class Enemy : EnemyBase
             if (giantization < 1f)
             {
                 timer += Time.fixedDeltaTime;
-
-                if (timer > 0f)
-                    _sr.SetBrightness(-0.75f * (timer / Interval));
-            
+                if (timer > 0f) _sr.SetBrightness(-0.75f * (timer / Interval));
                 if (timer >= Interval)
                 {
                     timer = 0;
@@ -259,16 +249,11 @@ public class Enemy : EnemyBase
                 Manager.Game.ShadowState = ShadowState.EndOfGiantization;
                 _sr.SetBrightness(0f);
             }
-
-            // 크기 업데이트
             transform.localScale = Vector3.one * (25f + giantization * _hp * 1.75f);
 
-            // 카메라 빛에 피해 받기
             if (IsContactCameraLight)
             {
                 _hp -= 0.5f;
-
-                // 죽음
                 if (_hp <= 0)
                 {
                     Manager.Game.ShadowState = ShadowState.Killed;
