@@ -5,9 +5,8 @@ public class GameManager
 {
 
     public Characters selectedCharacter = Characters.Sleepground;
-    public string characterDescription = "월광검으로 근거리 공격";
-    public string specialDescription = "월광검 방어막";
     public Characters currentCharacter;
+    public CharacterData currentCharacterData => Manager.Data.characterDatas[currentCharacter];
     public Vector3 characterMoveDirection;
     public int wave;
     public int remainingWaveSecond;
@@ -51,15 +50,14 @@ public class GameManager
     private int _health;
     private int _suhyenHealth; 
     private int _dreamHealth;
-    public int maxHealth = 200;
     public int suhyenMaxHealth = 60;
-    public int dreamMaxHealth => maxHealth / 2;
+    public int dreamMaxHealth => currentCharacterData.maxHealth / 2;
     public int Health
     {
         get { return _health; }
         set 
         { 
-            _health = Mathf.Clamp(value, 0, maxHealth); 
+            _health = Mathf.Clamp(value, 0, currentCharacterData.maxHealth); 
             if (value <= 0) onPlayerDie.Call(); 
         }
     }

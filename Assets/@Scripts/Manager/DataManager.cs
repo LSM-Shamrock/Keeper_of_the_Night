@@ -5,7 +5,6 @@ public class EnemyData
 {
     public int startHP;
     public float startSize;
-
     public EnemyData(int startHP, float startSize)
     {
         this.startHP = startHP;
@@ -13,13 +12,48 @@ public class EnemyData
     }
 }
 
+public class CharacterData
+{
+    public string name;
+    public string description;
+    public string specialDescription;
+    public int maxHealth;
+    public CharacterData(string name, string description, string specialDescription, int maxHealth)
+    {
+        this.name = name;
+        this.description = description;
+        this.specialDescription = specialDescription;
+        this.maxHealth = maxHealth;
+    }
+    public override string ToString() => name;
+}
+
 public class DataManager 
 {
-
+    // character data
+    public readonly Dictionary<Characters, CharacterData> characterDatas = new()
+    {
+        { Characters.Sleepground, new(
+            "잠뜰",
+            "월광검으로 근거리 공격", 
+            "월광검 방어막", 
+            200) },
+        { Characters.Rather, 
+            new(
+            "라더",
+            "물로 곡선형 공격", 
+            "물감옥 생성", 
+            200) },
+        { Characters.Dino, new(
+            "공룡",
+            "월광건으로 장거리공격", 
+            "야괴로 변신해 흡혈", 
+            100) },
+    };
 
 
     // enemy data
-    public readonly Dictionary<Enemys, EnemyData> enemyData = new()
+    public readonly Dictionary<Enemys, EnemyData> enemyDatas = new()
     {
         { Enemys.Shadow, new(100, 25.0f) },
         { Enemys.VoidCavity, new(12, 31.4f) },

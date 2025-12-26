@@ -16,7 +16,7 @@ public class PlayScene : MonoBehaviour
 
     private void Init()
     {
-        Manager.Game.Health = Manager.Game.maxHealth;
+        Manager.Game.Health = Manager.Game.currentCharacterData.maxHealth;
         Manager.Game.SuhyenHealth = Manager.Game.suhyenMaxHealth;
         Manager.Game.DreamHealth = Manager.Game.dreamMaxHealth;
 

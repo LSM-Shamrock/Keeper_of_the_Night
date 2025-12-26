@@ -73,18 +73,18 @@ public class PlaySceneUI : SceneUI
         Text hpText = GetChild(Text_HP);
         if (Manager.Game.IsNightmare)
         {
-            hpText.text = $"꿈에서의 HP:{Manager.Game.DreamHealth}/{Manager.Game.maxHealth / 2}";
+            hpText.text = $"꿈에서의 HP:{Manager.Game.DreamHealth}/{Manager.Game.dreamMaxHealth}";
             hpText.color = Utility.StringToColor("#7d6080");
         }
         else if (Manager.Game.currentCharacter == Characters.Suhyen)
         {
-            hpText.text = $"수현HP:{Manager.Game.SuhyenHealth}/{60}";
+            hpText.text = $"수현HP:{Manager.Game.SuhyenHealth}/{Manager.Game.suhyenMaxHealth}";
             hpText.color = Utility.StringToColor("#8f40ff");
             hpText.fontStyle = FontStyle.Bold;
         }
         else
         {
-            hpText.text = $"HP:{Manager.Game.Health}/{Manager.Game.maxHealth}";
+            hpText.text = $"HP:{Manager.Game.Health}/{Manager.Game.currentCharacterData.maxHealth}";
             hpText.color = Utility.StringToColor("#806262");
             hpText.fontStyle = FontStyle.Normal;
         }
@@ -143,16 +143,10 @@ public class PlaySceneUI : SceneUI
             }
         }
 
-
-        if (Manager.Game.wave == 1)
-        {
-            if (Manager.Game.ShadowState == ShadowState.EndOfGiantization)
-                waveProgressText.enabled = true;
-            else
+        waveProgressText.enabled = true;
+        if (Manager.Game.wave == 1 && 
+            Manager.Game.ShadowState != ShadowState.EndOfGiantization)
                 waveProgressText.enabled = false;
-        }
-        else
-            waveProgressText.enabled = true;
     }
     private void UpdateSpecialSkillText()
     {
@@ -188,12 +182,13 @@ public class PlaySceneUI : SceneUI
 
     private void StopCodeOfAnotherObject()
     {
-        BaseController[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
-        foreach (var code in codes)
+        MonoBehaviour[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
+        foreach (MonoBehaviour code in codes)
         {
             // if (code == this)
             //     continue;
             
+            Time.timeScale = 0;
             code.enabled = false;
             code.StopAllCoroutines();
         }
@@ -235,7 +230,6 @@ public class PlaySceneUI : SceneUI
         for (int i = 12; i > 0; i--)
         {
             waveClearImage.transform.position += Vector3.right * -25f;
-
             yield return new WaitForFixedUpdate();
         }
         Manager.Game.Health += 10;
@@ -245,10 +239,8 @@ public class PlaySceneUI : SceneUI
         for (int i = 25; i > 0; i--)
         {
             waveClearImage.AddAlpha(-0.02f);
-
             yield return new WaitForFixedUpdate();
         }
-
         waveClearImage.SetAlpha(0);
     }
 
@@ -281,7 +273,6 @@ public class PlaySceneUI : SceneUI
     {
         GetChild(Text_Move).gameObject.SetActive(!isMobileControl);
         GetChild(Text_Attack).gameObject.SetActive(!isMobileControl);
-
         GetChild(UI_MobileControl).gameObject.SetActive(isMobileControl);
     }
 }

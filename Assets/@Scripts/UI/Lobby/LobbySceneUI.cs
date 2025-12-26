@@ -48,31 +48,19 @@ public class LobbySceneUI : SceneUI
 
     private void Update()
     {
-        GetChild(CharacterNameText).text = Manager.Game.selectedCharacter.ToString();
-        GetChild(CharacterNormalText).text = Manager.Game.characterDescription;
-        GetChild(CharacterSpecialText).text = "특수기술:" + Manager.Game.specialDescription;
-        GetChild(CharacterHPText).text = "HP:" + Manager.Game.maxHealth;
+        CharacterData characterData = Manager.Data.characterDatas[Manager.Game.selectedCharacter];
+        GetChild(CharacterNameText).text = characterData.name;
+        GetChild(CharacterNormalText).text = characterData.description;
+        GetChild(CharacterSpecialText).text = "특수기술:" + characterData.specialDescription;
+        GetChild(CharacterHPText).text = "HP:" + characterData.maxHealth;
     }
 
 
     private void SetSelectedCharacter(Characters character)
     {
         Manager.Game.selectedCharacter = character;
-        switch (Manager.Game.selectedCharacter)
-        {
-            case global::Characters.Sleepground:
-                Manager.Game.characterDescription = "월광검으로 근거리 공격";
-                Manager.Game.specialDescription = "월광검 방어막";
-                Manager.Game.maxHealth = 200; break;
-            case global::Characters.Rather:
-                Manager.Game.characterDescription = "물로 곡선형 공격";
-                Manager.Game.specialDescription = "물감옥 생성";
-                Manager.Game.maxHealth = 200; break;
-            case global::Characters.Dino:
-                Manager.Game.characterDescription = "월광건으로 장거리공격";
-                Manager.Game.specialDescription = "야괴로 변신해 흡혈";
-                Manager.Game.maxHealth = 100; break;
-        }
+
+        CharacterData data = Manager.Data.characterDatas[character];
 
         foreach (Characters key in _characterDict.Keys)
         {

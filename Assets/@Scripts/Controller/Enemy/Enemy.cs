@@ -19,7 +19,7 @@ public class Enemy : EnemyBase
         Sprite sprite = Manager.Resource.LoadResource<Sprite>(_type);
         gameObject.SetSpriteAndPolygon(sprite);
 
-        _data = Manager.Data.enemyData[_type];
+        _data = Manager.Data.enemyDatas[_type];
         _hp = _data.startHP;
         transform.localScale = Vector3.one * _data.startSize;
 
