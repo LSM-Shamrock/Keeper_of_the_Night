@@ -5,70 +5,85 @@ using UnityEngine;
 
 public class Enemy : EnemyBase
 {
+    private Enemys _type;
+    private EnemyData _data;
     private float _hp;
 
-    private Enemys _type;
 
-    protected override void DeleteThisClone()
+    public void Init(Enemys type)
     {
-        Debug.Log($"삭제함: {_type.ToString()}");
-        base.DeleteThisClone();
+        base.Init();
+
+        _type = type;
+
+        Sprite sprite = Manager.Resource.LoadResource<Sprite>(_type);
+        gameObject.SetSpriteAndPolygon(sprite);
+
+        _data = Manager.Data.enemyData[_type];
+        _hp = _data.startHP;
+        transform.localScale = Vector3.one * _data.startSize;
+
+        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
+
+        StartCoroutine(MoveLoop());
+        StartCoroutine(AttackLoop());
+        StartCoroutine(Loop_Shadow_Logic());
+        StartCoroutine(Loop_Flap_Bird());
+        StartCoroutine(Loop_Jump_Thepiedpiper());
+        StartCoroutine(Loop_Jump_Dino());
+
+        _hiddenName = _type switch
+        {
+            Enemys.ThePiedPiper => "하민우",
+            Enemys.BossDino => "공룡",
+            _ => ""
+            + Utility.RandomElement(Manager.Data.hiddenSurnames)
+            + Utility.RandomElement(Manager.Data.hiddenMainames)
+        };
+        StartCoroutine(LoopHiddenNameLogic());
     }
 
-    #region 야괴 이름 외치기
+
+    private void OnDeath()
+    {
+        if (_type == Enemys.BossDino)
+            Manager.Game.isBossDinoKilled = true;
+
+        Manager.Game.remainingWaveKill -= 1;
+        DeleteThisClone();
+    }
+    protected override IEnumerator WhenTakingDamage(int damage)
+    {
+        _hp -= damage;
+        if (_hp > 0)
+            yield return Manager.Speech.SpeechForSeconds(transform, _hp.ToString(), 0.1f);
+        else
+            OnDeath();
+    }
+
+
     private string _hiddenName;
-    private void Init_HiddenNameLogic()
+    private void CreateNameParticles() => StartCoroutine(LoopCreateNameParticles());
+    private IEnumerator LoopCreateNameParticles()
     {
-        switch (_type)
-        {
-            case Enemys.ThePiedPiper:
-                _hiddenName = "하민우";
-                break;
-            case Enemys.BossDino:
-                _hiddenName = "공룡";
-                break;
-
-            default:
-                _hiddenName = "";
-                _hiddenName += Utility.RandomElement(Manager.Game.hiddenSurnames);
-                _hiddenName += Utility.RandomElement(Manager.Game.hiddenMainames);
-                break;
-        }
-        StartCoroutine(Loop_HiddenNameLogic());
-    }
-    private void CreateNameParticles()
-    {
-        var loop = StartCoroutine(Loop_Create());
-        StartCoroutine(StopParticle());
-        IEnumerator StopParticle()
-        {
-            foreach (int i in Count(20))
-            {
-                yield return new WaitForSeconds(0.05f);
-                yield return new WaitForFixedUpdate();
-            }
-            StopCoroutine(loop);
-        }
-        IEnumerator Loop_Create()
-        {
-            while (true)
-            {
-                Create();
-                yield return new WaitForFixedUpdate();
-            }
-        }
-        void Create()
+        float t = 1f;
+        while (t > 0)
         {
             var prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.EnemyHiddenNameParticle);
             var go = prefab.CreateClone();
             var particle = go.Component<EnemyHiddenNameParticle>();
             particle.Init(transform.position);
+
+            yield return new WaitForFixedUpdate();
+            t -= Time.fixedDeltaTime;
         }
     }
-    private IEnumerator Loop_HiddenNameLogic()
+    private IEnumerator LoopHiddenNameLogic()
     {
         while (true)
         {
+            yield return null;
+
             if (Manager.Input.isPressedN)
             {
                 yield return Manager.Speech.SpeechForSeconds(transform, _hiddenName, 0.01f);
@@ -78,91 +93,31 @@ public class Enemy : EnemyBase
             if (Manager.Game.shoutedEnemyName == _hiddenName)
             {
                 Debug.Log("야괴 이름 적중 : " + _hiddenName + " : " + _type.ToString());
+
                 yield return new WaitForSeconds(0.25f);
+
                 CreateNameParticles();
+
                 if (_type == Enemys.BossDino)
                 {
                     yield return Manager.Speech.SpeechForSeconds(transform, "윽!", 0.75f);
                     yield return Manager.Speech.SpeechForSeconds(transform, "으아앗", 1f);
                     yield return Manager.Speech.SpeechForSeconds(transform, "이럴 줄 알았죠?", 1.5f);
+                    continue;
                 }
 
-                else
+                Manager.Speech.Speech(transform, "!");
+                Vector3 position = transform.position;
+                foreach (int i in Count(20))
                 {
-                    Manager.Speech.Speech(transform, "!");
-                    Vector3 p = transform.position;
-                    foreach (int i in Count(20))
-                    {
-                        transform.position = p;
-                        yield return new WaitForSeconds(0.05f);
-                        yield return new WaitForFixedUpdate();
-                    }
-
-                    Manager.Game.remainingWaveKill--;
-                    if (_type == Enemys.Shadow)
-                        Manager.Game.ShadowState = ShadowState.Killed;
-
-                    DeleteThisClone();
+                    transform.position = position;
+                    yield return new WaitForSeconds(0.05f);
                 }
+                OnDeath();
             }
-
-            yield return new WaitForFixedUpdate();
         }
     }
-    #endregion
 
-    public void Init(Enemys type)
-    {
-        base.Init();
-        _type = type;
-        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
-        Init_HpAndSprite();
-        StartCoroutine(Loop_Move());
-        StartCoroutine(Loop_Attack());
-        StartCoroutine(Loop_Shadow_Logic());
-        StartCoroutine(Loop_Flap_Bird());
-        StartCoroutine(Loop_Jump_Thepiedpiper());
-        StartCoroutine(Loop_Jump_Dino());
-
-        Init_HiddenNameLogic();
-    }
-
-    private void Init_HpAndSprite()
-    {
-        Sprite sprite = Manager.Resource.LoadResource<Sprite>(_type);
-        gameObject.SetSpriteAndPolygon(sprite);
-        float size = 0;
-        switch (_type)
-        {
-            case Enemys.Shadow: _hp = 100; break;
-            case Enemys.VoidCavity: _hp = 12; size = 31.4f; break;
-            case Enemys.CrazyLaughMask: _hp = 18; size = 31.9f; break;
-            case Enemys.MotherSpiritSnake: _hp = 23; size = 43.2f; break;
-            case Enemys.Bird: _hp = 20; size = 31.0f; break;
-            case Enemys.SadEyes: _hp = 20; size = 31.4f; break;
-            case Enemys.ThePiedPiper: _hp = 18; size = 36.6f; break;
-            case Enemys.Fire: _hp = 23; size = 40.5f; break;
-            case Enemys.Red: _hp = 25; size = 54.9f; break;
-            case Enemys.SnowLady: _hp = 23; size = 50.0f; break;
-            case Enemys.BossDino: _hp = 100; size = 76.8f; break;
-        }
-        transform.localScale = Vector3.one * size;
-    }
-
-    protected override IEnumerator WhenTakingDamage(int damage)
-    {
-        _hp -= damage;
-        if (_hp > 0)
-            yield return Manager.Speech.SpeechForSeconds(transform, _hp.ToString(), 0.1f);
-        else
-        {
-            if (_type == Enemys.BossDino)
-                Manager.Game.isBossDinoKilled = true;
-
-            Manager.Game.remainingWaveKill -= 1;
-            DeleteThisClone();
-        }
-    }
 
     private void CreatePoison()
     {
@@ -249,7 +204,7 @@ public class Enemy : EnemyBase
                 Manager.Game.ShadowState = ShadowState.EndOfGiantization;
                 _sr.SetBrightness(0f);
             }
-            transform.localScale = Vector3.one * (25f + giantization * _hp * 1.75f);
+            transform.localScale = Vector3.one * (_data.startSize + 1.75f * giantization * _hp);
 
             if (IsContactCameraLight)
             {
@@ -336,7 +291,7 @@ public class Enemy : EnemyBase
         }
     }
 
-    private IEnumerator Loop_Move()
+    private IEnumerator MoveLoop()
     {
         while (true)
         {
@@ -550,7 +505,7 @@ public class Enemy : EnemyBase
         }
     }
 
-    private IEnumerator Loop_Attack()
+    private IEnumerator AttackLoop()
     {
         while (true)
         {

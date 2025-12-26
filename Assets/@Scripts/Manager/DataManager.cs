@@ -1,12 +1,65 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyData
+{
+    public int startHP;
+    public float startSize;
+
+    public EnemyData(int startHP, float startSize)
+    {
+        this.startHP = startHP;
+        this.startSize = startSize;
+    }
+}
 
 public class DataManager 
 {
 
-    #region ending data
+
+
+    // enemy data
+    public readonly Dictionary<Enemys, EnemyData> enemyData = new()
+    {
+        { Enemys.Shadow, new(100, 25.0f) },
+        { Enemys.VoidCavity, new(12, 31.4f) },
+        { Enemys.CrazyLaughMask, new(18, 31.9f) },
+        { Enemys.MotherSpiritSnake, new(23, 43.2f) },
+        { Enemys.Bird, new(20, 31.0f) },
+        { Enemys.SadEyes, new(20, 31.4f) },
+        { Enemys.DreamGhost, new(1, 50.0f) },
+        { Enemys.ThePiedPiper, new(18, 36.6f) },
+        { Enemys.Fire, new(23, 40.5f) },
+        { Enemys.Red, new(25, 54.9f) },
+        { Enemys.SnowLady, new(23, 50.0f) },
+        { Enemys.BossDino, new(100, 76.8f) },
+    };
+
+
+    // enemy hidden name data
+    public readonly List<string> hiddenSurnames = new()
+    {
+        "김", "이", "박", "최", "정",
+        "강", "조", "윤", "장", "임",
+        "한", "오", "서", "신", "권",
+        "황", "안", "송", "전", "홍",
+    };
+    public readonly List<string> hiddenMainames = new()
+    {
+        "서준", "하준", "도윤", "민준", "시우",
+        "예준", "주원", "지호", "준우", "유준",
+        "은우", "지후", "서진", "도현", "선우",
+        "우진", "시윤", "건우", "연우", "준서",
+        "서윤", "하윤", "서연", "지우", "하은",
+        "지유", "지안", "서아", "수아", "지아",
+        "하린", "다은", "서현", "민서", "채원",
+        "소율", "윤서", "시아", "예린", "소윤",
+    };
+
+
+    // ending data
     public readonly string patternDialogue = @"^(?<speaker>.+)\((?<name>.+)\)\s+(?<line>.+)$";
     public readonly string patternCutscene = @"^\*(?<sprite>.*)$";
-
     public readonly string[] endingScript = new[]
     {
         string.Empty,
@@ -44,5 +97,4 @@ public class DataManager
         "*" + nameof(Sprites.Ending.EndCutscene_8),
         string.Empty,
     };
-    #endregion
 }

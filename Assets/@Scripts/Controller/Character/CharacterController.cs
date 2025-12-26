@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Character : BaseController
+public class CharacterController : BaseController
 {
     private Rigidbody2D _rigidbody;
 
