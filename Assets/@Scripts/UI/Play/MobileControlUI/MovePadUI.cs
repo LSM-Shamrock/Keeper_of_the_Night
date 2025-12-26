@@ -32,16 +32,16 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
             BindEvent(button.image, EventType.PointerEnter, () =>
             {
                 button.image.transform.localScale *= 1.5f;
-                if (button.isJump) Manager.Input.isPressedJumpButton = true;
-                if (button.isLeft) Manager.Input.isPressedLeftButton = true;
-                if (button.isRight) Manager.Input.isPressedRightButton = true;
+                if (button.isJump) Manager.Input.onJumpButton = true;
+                if (button.isLeft) Manager.Input.isOnLeftButton = true;
+                if (button.isRight) Manager.Input.isOnRightButton = true;
             });
             BindEvent(button.image, EventType.PointerExit, () =>
             {
                 button.image.transform.localScale /= 1.5f;
-                if (button.isJump) Manager.Input.isPressedJumpButton = false;
-                if (button.isLeft) Manager.Input.isPressedLeftButton = false;
-                if (button.isRight) Manager.Input.isPressedRightButton = false;
+                if (button.isJump) Manager.Input.onJumpButton = false;
+                if (button.isLeft) Manager.Input.isOnLeftButton = false;
+                if (button.isRight) Manager.Input.isOnRightButton = false;
             });
         }
     }

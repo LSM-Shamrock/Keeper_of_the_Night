@@ -21,31 +21,39 @@ public class InputManager
         controlType == ControlType.Mobile || 
         controlType == ControlType.Application && Application.isMobilePlatform;
 
-    public bool isPressedS => Input.GetKey(KeyCode.S);
 
-    public bool isPressedJumpButton;
-    public bool isPressedJumpKey => Input.GetKey(KeyCode.W);
-    public bool isPressedJump => isPressedJumpButton || isPressedJumpKey;
+    public bool onJumpButton;
+    public bool onJumpKey => Input.GetKey(KeyCode.W);
+    public bool onJump => onJumpButton || onJumpKey;
 
-    public bool isPressedLeftButton;
-    public bool isPressedLeftKey => Input.GetKey(KeyCode.A);
-    public bool isPressedLeft => isPressedLeftButton || isPressedLeftKey;
+    public bool isOnLeftButton;
+    public bool isOnLeftKey => Input.GetKey(KeyCode.A);
+    public bool isOnLeft => isOnLeftButton || isOnLeftKey;
     
-    public bool isPressedRightButton;
-    public bool isPressedRightKey => Input.GetKey(KeyCode.D);
-    public bool isPressedRight => isPressedRightButton || isPressedRightKey;
+    public bool isOnRightButton;
+    public bool isOnRightKey => Input.GetKey(KeyCode.D);
+    public bool isOnRight => isOnRightButton || isOnRightKey;
     
-    public bool isPressedN => Input.GetKey(KeyCode.N);
-    public bool isPressedT => Input.GetKey(KeyCode.T);
-    public bool isPressedEnter => Input.GetKey(KeyCode.Return);
+    public bool isOnKeyN => Input.GetKey(KeyCode.N);
+    public bool isOnKeyT => Input.GetKey(KeyCode.T);
+    public bool isOnKeyEnter => Input.GetKey(KeyCode.Return);
 
-    public Vector3 attackJoystickDirection;
     public Vector3 mousePosition => Manager.Object.MainCamera.ScreenToWorldPoint(Input.mousePosition);
     public Vector3 mouseDirection => (mousePosition - Manager.Object.Character.position).normalized;
-    public Vector3 attackDirection => isMobileControl ? attackJoystickDirection : mouseDirection;
 
-    public bool isPressedAttackJoystick;
-    public bool isPressedMouse => Input.GetMouseButton(0);
-    public bool isPressedAttack => isMobileControl ? isPressedAttackJoystick : isPressedMouse;
-    public bool isDragAttack => isPressedAttack && attackDirection != Vector3.zero;
+    public Vector3 attackJoystickVector;
+    public Vector3 attackJoystickDirection => attackJoystickVector.normalized;
+    public Vector3 attackDirection => isMobileControl ? attackJoystickDirection : mouseDirection;
+    public bool isOnAttackJoystick;
+    public bool isOnMouse => Input.GetMouseButton(0);
+    public bool isOnAttack => isMobileControl ? isOnAttackJoystick : isOnMouse;
+    public bool isDragAttack => isOnAttack && attackDirection != Vector3.zero;
+
+    public Vector3 skillJoystickVector;
+    public Vector3 skillJoystickDirection => skillJoystickVector.normalized;
+    public Vector3 skillDirection => isMobileControl ? skillJoystickDirection : mouseDirection;
+    public bool isOnSkillJoystick;
+    public bool isOnKeyS => Input.GetKey(KeyCode.S);
+    public bool isOnSkill => isMobileControl ? isOnSkillJoystick : isOnKeyS;
+    public bool isDragSkill => isOnSkill && attackDirection != Vector3.zero;
 }

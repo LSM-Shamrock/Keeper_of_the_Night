@@ -84,7 +84,7 @@ public class CharacterSkill_BossDino : BaseController
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
 
-            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isPressedS)
+            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isOnSkill)
             {
                 Manager.Game.SpecialSkillCooltime = 45f;
                 Manager.Game.isSpecialSkillInvoking = true;

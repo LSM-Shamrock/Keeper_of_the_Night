@@ -84,7 +84,7 @@ public class Enemy : EnemyBase
         {
             yield return null;
 
-            if (Manager.Input.isPressedN)
+            if (Manager.Input.isOnKeyN)
             {
                 yield return Manager.Speech.SpeechForSeconds(transform, _hiddenName, 0.01f);
                 continue;

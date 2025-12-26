@@ -106,13 +106,13 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
 
             if (Manager.Game.isSpecialSkillInvoking)
             {
-                if (Manager.Input.isPressedS || Manager.Input.isDragAttack)
+                if (Manager.Input.isOnSkill || Manager.Input.isDragAttack)
                 {
                     Manager.Game.onDisarmSpecialSkill.Call();
-                    yield return new WaitUntil(() => !Manager.Input.isPressedS);
+                    yield return new WaitUntil(() => !Manager.Input.isOnSkill);
                 }
             }
-            else if (Manager.Input.isPressedS && Manager.Game.SpecialSkillCooltime <= 0f)
+            else if (Manager.Input.isOnSkill && Manager.Game.SpecialSkillCooltime <= 0f)
             {
                 Manager.Game.isSpecialSkillInvoking = true;
                 _child.SetSpriteAndPolygon(sprite_Droping);
@@ -128,7 +128,7 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
                 ShowShield();
                 _child.SetSpriteAndPolygon(sprite_StuckInTheGround);
                 yield return new WaitForSeconds(0.5f);
-                yield return new WaitUntil(() => !Manager.Input.isPressedS);
+                yield return new WaitUntil(() => !Manager.Input.isOnSkill);
             }
         }
 

@@ -98,7 +98,8 @@ public abstract class EnemyBase : BaseController
 
             if (IsContactMoonlightswordShield)
             {
-                int xDir = Math.Sign(Manager.Object.MoonlightswordShield.GetX() - transform.GetX());
+                float shieldX = Manager.Object.MoonlightswordShield.position.x;
+                int xDir = -Math.Sign(shieldX - transform.position.x);
                 foreach (int i in Count(10))
                 {
                     transform.AddX(xDir * 5f);

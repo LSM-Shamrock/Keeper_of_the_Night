@@ -47,11 +47,11 @@ public class CharacterSkill_Camera : BaseController
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Suhyen);
             
             _child.SetActive(true);
-            if (Manager.Input.isPressedAttack)
+            if (Manager.Input.isOnAttack)
             {
                 Flash();
                 yield return new WaitForSeconds(0.1f);
-                yield return new WaitUntil(() => !Manager.Input.isPressedAttack);
+                yield return new WaitUntil(() => !Manager.Input.isOnAttack);
             }
         }
     }

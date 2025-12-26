@@ -81,7 +81,7 @@ public class CharacterSkill_WaterPrison : BaseController
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Rather);
 
-            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isPressedS)
+            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isOnSkill)
             {
                 float size = 200;
                 _child.transform.localScale = Vector3.one * size;
@@ -90,10 +90,23 @@ public class CharacterSkill_WaterPrison : BaseController
                 float alpah = _sr.color.a;
                 _sr.SetAlpha(0.2f);
                 _col.enabled = false;
-                while (Manager.Input.isPressedS)
+                while (Manager.Input.isOnSkill)
                 {
-                    transform.SetY(-70);
-                    transform.SetX(Utility.MouseX);
+                    Vector3 position = new Vector3();
+                    if (Manager.Input.isMobileControl)
+                    {
+                        float characterX = Manager.Object.Character.position.x;
+                        float dragX = Manager.Input.skillJoystickVector.x;
+                        position.x = characterX + dragX * 480f;
+                    }
+                    else
+                    {
+                        position.x = Manager.Input.mousePosition.x;
+                    }
+                    position.x = Mathf.Clamp(position.x, -240, 240);
+                    position.y = -70;
+                    transform.position = position;
+
                     yield return null;
                 }
                 _sr.SetAlpha(alpah);

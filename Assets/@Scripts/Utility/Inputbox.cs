@@ -23,7 +23,7 @@ public class Inputbox : MonoBehaviour
 
         _inputField.Select();
 
-        yield return new WaitUntil(() => Manager.Input.isPressedEnter);
+        yield return new WaitUntil(() => Manager.Input.isOnKeyEnter);
 
         action?.Invoke(_inputField.text);
 
