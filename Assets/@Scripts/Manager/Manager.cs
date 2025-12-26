@@ -39,4 +39,7 @@ public class Manager
 
     private ResourceManager _resource = new ResourceManager();
     public static ResourceManager Resource => Instance._resource;
+
+    private DataManager _data = new DataManager();
+    public static DataManager Data => Instance._data;
 }

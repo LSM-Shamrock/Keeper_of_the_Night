@@ -7,49 +7,6 @@ using UnityEngine.UI;
 
 public class EndingSceneUI : SceneUI
 {
-    #region ending data
-    private string _patternDialogue = @"^(?<speaker>.+)\((?<name>.+)\)\s+(?<line>.+)$";
-    private string _patternCutscene = @"^\*(?<sprite>.*)$";
-
-    private string[] _endingScript = new[]
-    {
-        string.Empty,
-        nameof(Characters.Dino) +       "(공룡) 너는 돌아가면 또다시 기억을 잃고 행복하게 살 수 있겠지..",
-        nameof(Characters.Dino) +       "(공룡) 하지만 난 아니야",
-        nameof(Characters.Dino) +       "(공룡) 내아들을 보고도 알아보지 못한 사실이 얼마나..",
-        string.Empty,
-        nameof(Characters.Rather) +     "(라더) 야 이 썩을놈아!",
-        nameof(Characters.Heptagram) +  "(각별) 안돼,안돼!",
-        nameof(Characters.Dino) +       "(공룡) 나만 이렇게 당하고 갈순 없잖아",
-        nameof(Characters.Heptagram) +  "(각별) 형, 그아이 한테서 나와",
-        nameof(Characters.Heptagram) +  "(각별) 그 아이는 잘못 없잖아",
-        nameof(Characters.Dino) +       "(공룡) 얘가 그때 니가 동희대신 살렸던 아이",
-        nameof(Characters.Dino) +       "(공룡) 맞지?",
-        nameof(Characters.Heptagram) +  "(각별) 제발 정신 차려",
-        nameof(Characters.Dino) +       "(공룡) 이 아이만 없었더라면",
-        nameof(Characters.Dino) +       "(공룡) 우리 동희는 살 수 있었다고!!",
-        nameof(Characters.Rather) +     "(라더) 저,저놈이..",
-        nameof(Characters.Rather) +     "(라더) 이런,뭐라도 좀 해봐!",
-        nameof(Characters.Heptagram) +  "(각별) 살아있는 인간..",
-        nameof(Characters.Heptagram) +  "(각별) 이 방법밖에 없는 것인가..",
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        string.Empty,
-        "*" + nameof(Sprites.Ending.EndCutscene_1),
-        "*" + nameof(Sprites.Ending.EndCutscene_2),
-        nameof(Characters.Heptagram) +  "(각별) 미안해",
-        "*" + nameof(Sprites.Ending.EndCutscene_3),
-        "*" + nameof(Sprites.Ending.EndCutscene_4),
-        nameof(Characters.Dino) +       "(공룡) 너를 지키지 못한 내가 밉구나",
-        "*" + nameof(Sprites.Ending.EndCutscene_5),
-        "*" + nameof(Sprites.Ending.EndCutscene_6),
-        "*" + nameof(Sprites.Ending.EndCutscene_7),
-        "*" + nameof(Sprites.Ending.EndCutscene_8),
-        string.Empty,
-    };
-    #endregion
-
     private Dictionary<Characters, Transform> _characters = new();
 
     private ChildKey<Transform> ParticleRoot = new(nameof(ParticleRoot));
@@ -65,7 +22,7 @@ public class EndingSceneUI : SceneUI
         get { return _endingProgress; }
         set { _endingProgress = value; _onEndingProgressChange.Call(); }
     }
-    private string EndingCurrentLine => _endingScript[EndingProgress];
+    private string EndingCurrentLine => Manager.Data.endingScript[EndingProgress];
 
     private Sprite spriteThankYouForPlaying => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.ThankYouForPlaying);
     private Sprite spriteEndcard1 => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.Endcard_1);
@@ -106,7 +63,7 @@ public class EndingSceneUI : SceneUI
 
     private void UpdateDialogueText()
     {
-        Match matchDialogue = Regex.Match(EndingCurrentLine, _patternDialogue);
+        Match matchDialogue = Regex.Match(EndingCurrentLine, Manager.Data.patternDialogue);
 
         Text dialogueText = GetChild(DialogueText);
         Transform dialogueTextbox = GetChild(DialogueTextbox);
@@ -155,7 +112,7 @@ public class EndingSceneUI : SceneUI
     {
         yield return new WaitForSeconds(0.5f);
 
-        while (EndingProgress < _endingScript.Length - 1)
+        while (EndingProgress < Manager.Data.endingScript.Length - 1)
         {
             if (EndingCurrentLine == string.Empty)
             {
@@ -275,12 +232,12 @@ public class EndingSceneUI : SceneUI
 
         back.enabled = false;
         front.enabled = false;
-        yield return new WaitUntil(() => Regex.IsMatch(EndingCurrentLine, _patternCutscene));
+        yield return new WaitUntil(() => Regex.IsMatch(EndingCurrentLine, Manager.Data.patternCutscene));
         front.enabled = true;
 
-        while (EndingProgress != _endingScript.Length - 1)
+        while (EndingProgress != Manager.Data.endingScript.Length - 1)
         {
-            Match match = Regex.Match(EndingCurrentLine, _patternCutscene);
+            Match match = Regex.Match(EndingCurrentLine, Manager.Data.patternCutscene);
 
             if (match.Success)
             {
