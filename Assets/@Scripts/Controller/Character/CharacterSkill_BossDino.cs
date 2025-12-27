@@ -16,7 +16,7 @@ public class CharacterSkill_BossDino : BaseController
 
     protected override void Update()
     {
-        UpdateBoddy();
+        UpdateBody();
         UpdateDrawLine();
     }
 
@@ -40,7 +40,7 @@ public class CharacterSkill_BossDino : BaseController
         StartCoroutine(LoopLineEffect());
     }
 
-    private void UpdateBoddy()
+    private void UpdateBody()
     {
         bool b = Manager.Game.selectedCharacter == Characters.Dino && Manager.Game.isSpecialSkillInvoking;
         _body.SetActive(b);

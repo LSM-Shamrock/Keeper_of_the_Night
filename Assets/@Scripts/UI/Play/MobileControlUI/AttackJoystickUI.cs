@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    private ChildKey<RectTransform> Boddy = new(nameof(Boddy));
+    private ChildKey<RectTransform> Body = new(nameof(Body));
     private ChildKey<RectTransform> Handle = new(nameof(Handle));
 
     private Vector3 _defaultPosition;
@@ -17,24 +17,24 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
     private void Init()
     {
         BindChild(
-        Boddy,
+        Body,
         Handle);
 
-        _defaultPosition = GetChild(Boddy).position;
-        _joystickRadius = GetChild(Boddy).sizeDelta.y / 2f;
+        _defaultPosition = GetChild(Body).position;
+        _joystickRadius = GetChild(Body).sizeDelta.y / 2f;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector3 worldPosition = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);
-        GetChild(Boddy).position = worldPosition;
+        GetChild(Body).position = worldPosition;
 
         Manager.Input.isOnAttackJoystick = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GetChild(Boddy).position = _defaultPosition;
+        GetChild(Body).position = _defaultPosition;
         GetChild(Handle).localPosition = Vector3.zero;
 
         Manager.Input.isOnAttackJoystick = false;
@@ -42,7 +42,7 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
 
     public void OnDrag(PointerEventData eventData)
     {
-        Transform body = GetChild(Boddy);
+        Transform body = GetChild(Body);
         Transform handle = GetChild(Handle);
 
         Vector3 worldPos = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);

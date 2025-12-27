@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
-    private ChildKey<Image> Boddy = new(nameof(Boddy));
+    private ChildKey<Image> Body = new(nameof(Body));
     private ChildKey<Image> Handle = new(nameof(Handle));
 
     private Vector3 _defaultPosition;
@@ -19,31 +19,31 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
     {
         bool isCooltime = Manager.Game.SpecialSkillCooltime > 0;
 
-        GetChild(Boddy).enabled = !isCooltime;
+        GetChild(Body).enabled = !isCooltime;
         GetChild(Handle).color = isCooltime ? new Color(0.4f,0.4f,0f) : Color.yellow;
     }
 
     private void Init()
     {
         BindChild(
-        Boddy,
+        Body,
         Handle);
 
-        _defaultPosition = GetChild(Boddy).transform.position;
-        _joystickRadius = GetChild(Boddy).rectTransform.sizeDelta.y / 2f;
+        _defaultPosition = GetChild(Body).transform.position;
+        _joystickRadius = GetChild(Body).rectTransform.sizeDelta.y / 2f;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Vector3 worldPosition = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);
-        GetChild(Boddy).transform.position = worldPosition;
+        GetChild(Body).transform.position = worldPosition;
 
         Manager.Input.isOnSkillJoystick = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GetChild(Boddy).transform.position = _defaultPosition;
+        GetChild(Body).transform.position = _defaultPosition;
         GetChild(Handle).transform.localPosition = Vector3.zero;
 
         Manager.Input.isOnSkillJoystick = false;
@@ -55,7 +55,7 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
         if (isCooltime)
             return;
 
-        Transform body = GetChild(Boddy).transform;
+        Transform body = GetChild(Body).transform;
         Transform handle = GetChild(Handle).transform;
 
         Vector3 worldPos = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);
