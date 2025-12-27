@@ -254,14 +254,14 @@ public class PlaySceneUI : SceneUI
         {
             for (int i = 10; i > 0; i--)
             {
-                waveClearImage.AddBrightness(0.05f / 2f);
+                waveClearImage.AddBrightness(0.05f);
 
                 yield return new WaitForFixedUpdate();
             }
 
             for (int i = 10; i > 0; i--)
             {
-                waveClearImage.AddBrightness(-0.05f / 2f);
+                waveClearImage.AddBrightness(-0.05f);
 
                 yield return new WaitForFixedUpdate();
             }
