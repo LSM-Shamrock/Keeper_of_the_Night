@@ -183,7 +183,7 @@ public class Enemy : EnemyBase
 
         float timer = -5f;
         float giantization = 0;
-        const float Interval = 1f;
+        const float Interval = 1.0f;
 
         while (true)
         {
@@ -191,7 +191,7 @@ public class Enemy : EnemyBase
             if (giantization < 1f)
             {
                 timer += Time.fixedDeltaTime;
-                if (timer > 0f) _sr.SetBrightness(-0.75f * (timer / Interval));
+                if (timer > 0f) _sr.SetBrightness(-1f * (timer / Interval));
                 if (timer >= Interval)
                 {
                     timer = 0;
@@ -204,7 +204,8 @@ public class Enemy : EnemyBase
                 Manager.Game.ShadowState = ShadowState.EndOfGiantization;
                 _sr.SetBrightness(0f);
             }
-            transform.localScale = Vector3.one * (_data.startSize + 1.75f * giantization * _hp);
+            float size = _data.startSize + 2f * _hp * giantization;
+            transform.localScale = Vector3.one * size;
 
             if (IsContactCameraLight)
             {
@@ -212,7 +213,7 @@ public class Enemy : EnemyBase
                 if (_hp <= 0)
                 {
                     Manager.Game.ShadowState = ShadowState.Killed;
-                    DeleteThisClone();
+                    OnDeath();
                 }
             }
 
