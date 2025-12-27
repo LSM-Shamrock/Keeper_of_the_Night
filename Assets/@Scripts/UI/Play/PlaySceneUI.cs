@@ -185,10 +185,9 @@ public class PlaySceneUI : SceneUI
         MonoBehaviour[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
         foreach (MonoBehaviour code in codes)
         {
-            // if (code == this)
-            //     continue;
-            
-            Time.timeScale = 0;
+            if (code == this)
+                continue;
+
             code.enabled = false;
             code.StopAllCoroutines();
         }
@@ -214,6 +213,9 @@ public class PlaySceneUI : SceneUI
             gameOverImage.transform.position += Vector3.right * -25f;
             yield return new WaitForFixedUpdate();
         }
+
+        enabled = false;
+        StopAllCoroutines();
     }
 
 
