@@ -82,21 +82,21 @@ public class CharacterController : BaseController
     {
         while(true)
         {   
-            if (Manager.Game.ice <= 0)
-            {
-                if (Manager.Input.isOnLeft && transform.position.x > -240)
-                {
-                    Manager.Game.characterMoveDirection = Vector3.left;
-                    transform.position += Manager.Game.characterMoveDirection * 3;
-                }
-                if (Manager.Input.isOnRight && transform.position.x < 240)
-                {
-                    Manager.Game.characterMoveDirection = Vector3.right;
-                    transform.position += Manager.Game.characterMoveDirection * 3;
-                }
-            }
-
             yield return new WaitForFixedUpdate();
+            if (Manager.Game.ice > 0)
+                continue;
+
+            Vector3 direction = Vector3.zero;
+            if (Manager.Input.isOnLeft) direction = Vector3.left;
+            if (Manager.Input.isOnRight) direction = Vector3.right;
+            if (direction == Vector3.zero) 
+                continue;
+
+            Manager.Game.characterMoveDirection = direction;
+            Vector3 position = transform.position + direction * 3;
+            float limit = Define.CharacterXLimit;
+            position.x = Mathf.Clamp(position.x, -limit, limit);
+            transform.position = position;
         }
     }
 

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayScene : MonoBehaviour
 {
+    [SerializeField]
+    private Transform _bg;
+
     private void Start()
     {
         Init();

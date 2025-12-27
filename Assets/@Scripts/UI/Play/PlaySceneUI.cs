@@ -55,7 +55,6 @@ public class PlaySceneUI : SceneUI
         {
             GetChild(Text_HP).transform.localScale += Vector3.one * 0.25f;
             GetChild(Text_Wave).transform.localScale += Vector3.one * 0.4f;
-            GetChild(DeathThumbnail).enabled = true;
             StartCoroutine(ShowGameOver());
         });
 
@@ -195,27 +194,28 @@ public class PlaySceneUI : SceneUI
 
     private IEnumerator ShowGameOver()
     {
+        Image deathThumbnail = GetChild(DeathThumbnail);
+        Utility.StartRunForSec(this, 0.5f, sec =>
+        {
+            float progress = sec / 0.45f;
+            deathThumbnail.SetAlpha(progress * 0.5f);
+        });
+
         yield return new WaitForSeconds(0.1f);
         StopCodeOfAnotherObject();
 
-        Image gameOverImage = GetChild(GameOver);
-
-        Color color = gameOverImage.color;
-        color.a = 0.5f;
-        gameOverImage.color = color;
-        gameOverImage.enabled = true;
-
-        Vector3 position = gameOverImage.transform.position;
-        position.x = 300f;
-        gameOverImage.transform.position = position;
-        for (int i = 12; i > 0; i--)
+        Image gameOver = GetChild(GameOver);
+        gameOver.enabled = true;
+        yield return Utility.RunForSec(0.5f, sec =>
         {
-            gameOverImage.transform.position += Vector3.right * -25f;
-            yield return new WaitForFixedUpdate();
-        }
+            float progress = sec / 0.5f;
+            Vector3 pos = gameOver.transform.localPosition;
+            pos.x = 300 - 300 * progress;
+            gameOver.transform.localPosition = pos;
+        });
 
-        enabled = false;
-        StopAllCoroutines();
+        this.enabled = false;
+        this.StopAllCoroutines();
     }
 
 
@@ -225,13 +225,13 @@ public class PlaySceneUI : SceneUI
 
         waveClearImage.SetAlpha(0.5f);
 
-        Vector3 position = waveClearImage.transform.position;
+        Vector3 position = waveClearImage.transform.localPosition;
         position.x = 300;
-        waveClearImage.transform.position = position;
+        waveClearImage.transform.localPosition = position;
 
         for (int i = 12; i > 0; i--)
         {
-            waveClearImage.transform.position += Vector3.right * -25f;
+            waveClearImage.transform.localPosition += Vector3.right * -25f;
             yield return new WaitForFixedUpdate();
         }
         Manager.Game.Health += 10;

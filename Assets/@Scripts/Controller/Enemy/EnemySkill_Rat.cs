@@ -9,7 +9,13 @@ public class EnemySkill_Rat : EnemyBase
     {
         base.Init();
         Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
-        transform.SetX(Utility.RandomNumber(1, 2) == 1 ? 300f : -300f);
+
+        float cameraX = Manager.Object.MainCamera.transform.position.x;
+        float dist = Define.EnemySpawnDistance;
+        float createX = cameraX + Utility.RandomSign() * dist;
+        float createY = 0f;
+        transform.position = new Vector3(createX, createY);
+
         StartCoroutine(Routine_Move());
         StartCoroutine(Routine_Attack());
     }
@@ -41,6 +47,8 @@ public class EnemySkill_Rat : EnemyBase
     {
         while (true)
         {
+            yield return null;
+
             if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30 && IsContactGround)
             {
                 foreach (var i in Count(5))
@@ -50,9 +58,9 @@ public class EnemySkill_Rat : EnemyBase
                 }
                 if (IsContactCharacter)
                     Manager.Game.TakeDamageToPlayer(2);
+
                 yield return new WaitForSeconds(0.5f);
             }
-            yield return new WaitForFixedUpdate();
         }
     }
 

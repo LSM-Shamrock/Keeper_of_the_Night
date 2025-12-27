@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
 
 public static class Utility 
 {
@@ -58,7 +59,10 @@ public static class Utility
 
         return result;
     }
-
+    public static int RandomSign()
+    {
+        return UnityEngine.Random.Range(0, 2) * 2 - 1;
+    }
 
 
     public static Transform FindChild(Transform root, string name)
@@ -84,6 +88,34 @@ public static class Utility
     {
         for (int i = 0; i < count; i++)
             yield return i;
+    }
+
+
+
+
+
+
+    public static IEnumerator RunForSec(float sec, Action<float> action)
+    {
+        for (float s = 0.0f;  s < sec; s += Time.deltaTime)
+        {
+            action?.Invoke(s);
+            yield return null;
+        }
+    }
+    public static void StartRunForSec(MonoBehaviour obj, float sec, Action<float> action)
+    { 
+        obj.StartCoroutine(RunForSec(sec, action)); 
+    }
+
+    public static IEnumerator WaitAndRun(float sec, Action action)
+    {
+        yield return new WaitForSeconds(sec);
+        action?.Invoke();
+    }
+    public static void StartWaitAndRun(MonoBehaviour obj, float sec, Action action)
+    {
+        obj.StartCoroutine(WaitAndRun(sec, action)); 
     }
 }
 

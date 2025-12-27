@@ -1,4 +1,10 @@
 ﻿
+public class Define
+{
+    public static readonly float CharacterXLimit = 240f * 1.5f;
+
+    public static readonly float EnemySpawnDistance = 300f;
+}
 
 public enum Scenes
 {

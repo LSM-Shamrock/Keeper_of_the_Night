@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class EnemyGenerator : BaseController
 {
-    private Vector3 _createPosition = new Vector3(250f, 0f);
-    
     protected override void Start()
     {
         Init();
@@ -17,10 +15,15 @@ public class EnemyGenerator : BaseController
 
     private void CreateEnemy(Enemys type)
     {
+        float cameraX = Manager.Object.MainCamera.transform.position.x;
+        float dist = Define.EnemySpawnDistance;
+        float createX = cameraX + Utility.RandomSign() * dist;
+        float createY = 0f;
+
         GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.Enemy);
         GameObject go = prefab.CreateClone();
         Enemy enemy = go.GetComponent<Enemy>();
-        enemy.transform.position = _createPosition;
+        enemy.transform.position = new Vector3(createX, createY);
         enemy.Init(type);
     }
 
@@ -30,11 +33,6 @@ public class EnemyGenerator : BaseController
             enemyChoice = Utility.RandomNumber(2, 8);
         if (enemyChoice == 14)
             enemyChoice = Utility.RandomNumber(2, 13);
-
-        if (Utility.RandomNumber(1, 2) == 1)
-            _createPosition.x = 300;
-        else
-            _createPosition.x = -300;
 
         if (enemyChoice == 2) CreateEnemy(Enemys.VoidCavity);
         if (enemyChoice == 3) CreateEnemy(Enemys.CrazyLaughMask);
@@ -56,41 +54,39 @@ public class EnemyGenerator : BaseController
     {
         while (true)
         {
+            yield return null;
+
             if (Manager.Game.wave == 0)
             {
                 yield return CreateEnemyAndWait(12);
+                continue;
             }
-            else if (Manager.Game.wave == 1)
+
+            if (Manager.Game.wave == 1)
             {
                 CreateEnemy(Enemys.Shadow);
                 yield return new WaitUntil(() => Manager.Game.wave != 1);
+                continue;
             }
-            else
+
+            if (Manager.Game.wave == 15)
             {
-                if (Manager.Game.wave == 7)
+                CreateEnemy(Enemys.BossDino);
+                while (Manager.Game.wave == 15)
                 {
-                    Manager.Game.onDreamghostAppearance.Call();
+                    yield return CreateEnemyAndWait(Utility.RandomNumber(2, 13));
+                    yield return new WaitForSeconds(3f);
                 }
-                if (Manager.Game.wave == 15)
-                {
-                    CreateEnemy(Enemys.BossDino);
-                    while (Manager.Game.wave == 15)
-                    {
-                        yield return CreateEnemyAndWait(Utility.RandomNumber(2, 13));
-                        yield return new WaitForSeconds(3f);
-                    }
-                }
-                else
-                {
-                    CreateEnemyAndWait(Manager.Game.wave);
-                    int checkingWave = Manager.Game.wave;
-                    while (Manager.Game.wave == checkingWave)
-                    {
-                        yield return CreateEnemyAndWait(Utility.RandomNumber(2, Manager.Game.wave));
-                    }
-                }
+                continue;
             }
-            yield return null;
+
+            if (Manager.Game.wave == 7)
+                Manager.Game.onDreamghostAppearance.Call();
+                
+            CreateEnemyAndWait(Manager.Game.wave);
+            int checkingWave = Manager.Game.wave;
+            while (Manager.Game.wave == checkingWave)
+                yield return CreateEnemyAndWait(Utility.RandomNumber(2, Manager.Game.wave));
         }
     }
 }
