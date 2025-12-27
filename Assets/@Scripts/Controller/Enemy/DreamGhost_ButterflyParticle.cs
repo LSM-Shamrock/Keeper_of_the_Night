@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static Utility;
 
 public class DreamGhost_ButterflyParticle : BaseController
 {
@@ -8,13 +7,12 @@ public class DreamGhost_ButterflyParticle : BaseController
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        float brightness = RandomNumber(-30, 30);
-        sr.color = brightness < 0 ? Color.black : Color.white;
-        sr.SetBrightness(Mathf.Abs(brightness) / 100f * 0.75f);
+        float brightness = Utility.RandomNumber(-30, 30) / 100f;
+        sr.SetBrightness(brightness);
 
-        transform.localScale = Vector3.one * RandomNumber(5, 10);
-        transform.AddX(RandomNumber(-20, 20));
-        transform.AddY(RandomNumber(-20, 20));
+        transform.localScale = Vector3.one * Utility.RandomNumber(5, 10);
+        transform.AddX(Utility.RandomNumber(-20, 20));
+        transform.AddY(Utility.RandomNumber(-20, 20));
         Destroy(gameObject, 1f);
     }
 }
