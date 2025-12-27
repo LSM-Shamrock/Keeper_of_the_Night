@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class Speechbubble : MonoBehaviour
 {
-    Text _text;
-    Transform _master;
+    private Text _text;
+    private Transform _master;
 
     private void Update()
     {
