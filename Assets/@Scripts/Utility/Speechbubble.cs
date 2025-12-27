@@ -44,7 +44,7 @@ public class Speechbubble : MonoBehaviour
         Vector3 showDirection = Vector3.zero;
         showDirection.x = transform.position.x < 0 ? 1 : -1;
         showDirection.y = transform.position.y < 0 ? 1 : -1;
-        transform.position += showDirection * 40f;
+        transform.position += showDirection * 30f;
         transform.position += Vector3.Scale(showDirection, half);
     }
 }
