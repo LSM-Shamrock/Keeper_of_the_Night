@@ -580,7 +580,7 @@ public class Enemy : EnemyBase
 
         if (DistanceTo(Manager.Object.Character) < 250f)
         {
-            _sr.SetBrightness(-0.5f);
+            _sr.SetBrightness(-1.0f);
             yield return new WaitForSeconds(1f);
             _sr.SetBrightness(0f);
             CreatePoison();
@@ -598,7 +598,7 @@ public class Enemy : EnemyBase
 
         if (Utility.RandomNumber(1, 2) == 1)
         {
-            _sr.SetBrightness(-0.75f);
+            _sr.SetBrightness(-1.0f);
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
             {
                 LookAtTheTarget(Manager.Object.Character);
@@ -610,7 +610,7 @@ public class Enemy : EnemyBase
 
         else if (Math.Abs(Manager.Object.Character.position.x - transform.position.x) < 100) 
         {
-            _sr.SetBrightness(0.75f);
+            _sr.SetBrightness(1.0f);
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
             {
                 LookAtTheTarget(Manager.Object.Character);
