@@ -22,9 +22,9 @@ public class InputManager
         controlType == ControlType.Application && Application.isMobilePlatform;
 
 
-    public bool onJumpButton;
-    public bool onJumpKey => Input.GetKey(KeyCode.W);
-    public bool onJump => onJumpButton || onJumpKey;
+    public bool isOnJumpButton;
+    public bool isOnJumpKey => Input.GetKey(KeyCode.W);
+    public bool isOnJump => isOnJumpButton || isOnJumpKey;
 
     public bool isOnLeftButton;
     public bool isOnLeftKey => Input.GetKey(KeyCode.A);
