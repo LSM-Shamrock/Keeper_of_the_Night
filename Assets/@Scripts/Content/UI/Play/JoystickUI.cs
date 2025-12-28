@@ -15,6 +15,7 @@ public class JoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, IDragH
     public Action<Vector3> onDragAction { get; set; }
 
     public bool isDragable { get; set; } = true;
+    public bool isBodyFollowHandle { get; set; } = false;
 
     public Image bodyImage => GetChild(Body);
     public Image handleImage => GetChild(Handle);
@@ -58,9 +59,11 @@ public class JoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, IDragH
         Vector3 worldPos = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);
         Vector3 dragVec = worldPos - body.position;
         Vector3 dir = dragVec.normalized;
-        float dist = Mathf.Min(dragVec.magnitude, _joystickRadius);
+        float dist = dragVec.magnitude;
 
-        handle.localPosition = dir * dist;
+        handle.localPosition = dir * Mathf.Min(dist, _joystickRadius);
+        if (isBodyFollowHandle) body.position += worldPos - handle.position;
+
         Vector3 joystickVector = handle.localPosition / _joystickRadius;
         onDragAction?.Invoke(joystickVector);
     }
