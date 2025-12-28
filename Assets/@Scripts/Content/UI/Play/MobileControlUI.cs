@@ -48,8 +48,8 @@ public class MobileControlUI : UIBase
             float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
             float absAngle = Mathf.Abs(angle);
 
-            bool isJump = absAngle < 60f;
-            bool isMove = absAngle > 30f && absAngle < 135f;
+            bool isJump = absAngle < 90f;
+            bool isMove = absAngle > 30f && absAngle < 150f;
             Manager.Input.isOnJumpButton = isJump;
             Manager.Input.isOnLeftButton = isMove && vec.x < 0;
             Manager.Input.isOnRightButton = isMove && vec.x > 0;
