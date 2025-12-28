@@ -1,12 +1,23 @@
 # ninja log v5
+80	9695	7886011386631896	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	64e4e91f200e84d7
 299	3342	7886011318614344	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	44a4591a3e89fdc2
+182	9483	7886011384366730	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	91eca0a1ae1a82a1
 3442	6594	7886011351987094	C:/CodingProjects/Unity/Keeper of the Night/Keeper_of_the_Night/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1t5o2l42/obj/arm64-v8a/libswappywrapper.so	a30391cda3b43c95
 204	8662	7886011375804499	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	978a28ad30360caa
 277	8694	7886011376350565	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	4955692a3bf7975
-16	8753	7886011376978892	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	24f00eef88b77546
-251	8793	7886011377636327	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	bb9f5ce5fff645aa
-158	8924	7886011378835402	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	2340f93f598220c8
 228	9472	7886011384253201	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	397de0c4b0ddd2c2
-182	9483	7886011384366730	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	91eca0a1ae1a82a1
-80	9695	7886011386631896	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	64e4e91f200e84d7
+16	8753	7886011376978892	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	24f00eef88b77546
+158	8924	7886011378835402	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	2340f93f598220c8
+251	8793	7886011377636327	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	bb9f5ce5fff645aa
 9696	9989	7886011389693880	C:/CodingProjects/Unity/Keeper of the Night/Keeper_of_the_Night/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1t5o2l42/obj/arm64-v8a/libgame.so	33e82ffbfec2bc73
+238	1900	7886154550936349	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	44a4591a3e89fdc2
+1903	2944	7886154560475277	C:/CodingProjects/Unity/Keeper of the Night/Keeper_of_the_Night/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1t5o2l42/obj/arm64-v8a/libswappywrapper.so	a30391cda3b43c95
+113	7291	7886154604519823	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	978a28ad30360caa
+161	7306	7886154604529847	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	4955692a3bf7975
+43	7503	7886154606860327	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	24f00eef88b77546
+188	7521	7886154606955683	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	bb9f5ce5fff645aa
+91	7786	7886154609696314	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	2340f93f598220c8
+135	8297	7886154614868076	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	91eca0a1ae1a82a1
+212	8573	7886154617659249	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	397de0c4b0ddd2c2
+67	8796	7886154619855923	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	64e4e91f200e84d7
+8796	9189	7886154623826821	C:/CodingProjects/Unity/Keeper of the Night/Keeper_of_the_Night/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/1t5o2l42/obj/arm64-v8a/libgame.so	33e82ffbfec2bc73
