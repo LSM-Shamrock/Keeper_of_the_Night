@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class EndingSceneUI : SceneUI
 {
+    private AudioSource _audioSource;
+
     private Dictionary<Characters, Transform> _characters = new();
 
     private ChildKey<Transform> ParticleRoot = new(nameof(ParticleRoot));
@@ -28,7 +30,6 @@ public class EndingSceneUI : SceneUI
     private Sprite spriteEndcard1 => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.Endcard_1);
     private Sprite spriteEndcard2 => Manager.Resource.LoadResource<Sprite>(Sprites.Ending.Endcard_2);
 
-
     private void Start()
     {
         Init();
@@ -47,6 +48,8 @@ public class EndingSceneUI : SceneUI
         DialogueText,
         EndCutsceneBack,
         EndCutsceneFront);
+
+        _audioSource = GetComponent<AudioSource>();
 
         foreach (Characters character in (Characters[])Enum.GetValues(typeof(Characters)))
             _characters.Add(character, Utility.FindChild(transform, character.ToString()));
@@ -272,5 +275,9 @@ public class EndingSceneUI : SceneUI
             front.AddTransparency(-0.02f);
             yield return new WaitForFixedUpdate();
         }
+
+        yield return new WaitForSeconds(5f);
+
+        Utility.StartScene(Scenes.LobbyScene);
     }
 }
