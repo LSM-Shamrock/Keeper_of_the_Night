@@ -13,6 +13,9 @@ public class PlayScene : MonoBehaviour
 
     private void Update()
     {
+        if (Manager.Game.isPlayerDie)
+            return;
+
         if (Manager.Game.SpecialSkillCooltime > 0f)
             Manager.Game.SpecialSkillCooltime -= Time.deltaTime;
     }

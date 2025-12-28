@@ -52,6 +52,7 @@ public class GameManager
     private int _dreamHealth;
     public int suhyenMaxHealth = 60;
     public int dreamMaxHealth => currentCharacterData.maxHealth / 2;
+    public bool isPlayerDie => Health <= 0 || SuhyenHealth <= 0 || DreamHealth <= 0;
     public int Health
     {
         get { return _health; }
@@ -82,18 +83,13 @@ public class GameManager
     public void TakeDamageToPlayer(int damage)
     {
         if (currentCharacter == Characters.Suhyen)
-        {
             SuhyenHealth -= damage;
-            return;
-        }
-        if (IsNightmare)
-        {
+        else if (IsNightmare)
             DreamHealth -= damage;
-            return;
-        }
-        Health -= damage;
+        else
+            Health -= damage;
     }
-
+    
 
 
 

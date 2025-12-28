@@ -17,7 +17,6 @@ public class PlaySceneUI : SceneUI
 
     private ChildKey<Transform> UI_MobileControl = new(nameof(UI_MobileControl));
 
-
     private void Start()
     {
         Init();
@@ -181,11 +180,11 @@ public class PlaySceneUI : SceneUI
 
     private void StopCodeOfAnotherObject()
     {
-        MonoBehaviour[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
-        foreach (MonoBehaviour code in codes)
+        BaseController[] codes = FindObjectsByType<BaseController>(FindObjectsSortMode.None);
+        foreach (BaseController code in codes)
         {
-            if (code == this)
-                continue;
+            //if (code == this)
+            //    continue;
 
             code.enabled = false;
             code.StopAllCoroutines();
@@ -214,8 +213,13 @@ public class PlaySceneUI : SceneUI
             gameOver.transform.localPosition = pos;
         });
 
-        this.enabled = false;
-        this.StopAllCoroutines();
+        //this.enabled = false;
+        //this.StopAllCoroutines();
+
+        yield return new WaitForSeconds(0.5f);
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+        Utility.StartScene(Scenes.LobbyScene);
     }
 
 
