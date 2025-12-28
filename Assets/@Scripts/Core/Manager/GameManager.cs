@@ -38,11 +38,16 @@ public class GameManager
     }
 
 
-    private float _specialSkillCooltime;
-    public float SpecialSkillCooltime
+    public readonly ActionEx onSkillCooltimeChange = new();
+    private float _skillCooltime;
+    public float SkillCooltime
     {
-        get => _specialSkillCooltime;
-        set => _specialSkillCooltime = Mathf.Max(value, 0f);
+        get => _skillCooltime;
+        set
+        {
+            _skillCooltime = Mathf.Max(value, 0f);
+            onSkillCooltimeChange.Call();
+        }
     }
 
 

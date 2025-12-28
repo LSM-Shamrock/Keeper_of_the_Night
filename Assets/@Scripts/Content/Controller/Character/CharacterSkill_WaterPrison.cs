@@ -75,13 +75,13 @@ public class CharacterSkill_WaterPrison : BaseController
     private IEnumerator LoopInvoking()
     {
         if (Manager.Game.currentCharacter == Characters.Rather)
-            Manager.Game.SpecialSkillCooltime = 15f;
+            Manager.Game.SkillCooltime = 15f;
         
         while (true)
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Rather);
 
-            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isOnSkill)
+            if (Manager.Game.SkillCooltime <= 0 && Manager.Input.isOnSkill)
             {
                 float size = 200;
                 _child.transform.localScale = Vector3.one * size;
@@ -113,7 +113,7 @@ public class CharacterSkill_WaterPrison : BaseController
                 _col.enabled = true;
 
 
-                Manager.Game.SpecialSkillCooltime = 20f;
+                Manager.Game.SkillCooltime = 20f;
                 Manager.Game.isSpecialSkillInvoking = true;
 
 

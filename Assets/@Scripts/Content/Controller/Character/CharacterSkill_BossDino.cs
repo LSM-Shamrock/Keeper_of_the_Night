@@ -78,15 +78,15 @@ public class CharacterSkill_BossDino : BaseController
     private IEnumerator LoopRoutine()
     {
         if (Manager.Game.selectedCharacter == Characters.Dino)
-            Manager.Game.SpecialSkillCooltime = 35f;
+            Manager.Game.SkillCooltime = 35f;
 
         while (true)
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
 
-            if (Manager.Game.SpecialSkillCooltime <= 0 && Manager.Input.isOnSkill)
+            if (Manager.Game.SkillCooltime <= 0 && Manager.Input.isOnSkill)
             {
-                Manager.Game.SpecialSkillCooltime = 45f;
+                Manager.Game.SkillCooltime = 45f;
                 Manager.Game.isSpecialSkillInvoking = true;
 
                 yield return new WaitForSeconds(10f);

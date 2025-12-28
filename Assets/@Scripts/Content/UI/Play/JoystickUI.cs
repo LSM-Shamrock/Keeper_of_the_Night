@@ -1,34 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class JoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     private ChildKey<Image> Body = new(nameof(Body));
     private ChildKey<Image> Handle = new(nameof(Handle));
-
-    private Vector3 _defaultLocalPos;
     private float _joystickRadius;
+    private Vector3 _defaultLocalPos;
+
+    public Action onPointerDownAction { get; set; }
+    public Action onPointerUpAction { get; set; }
+    public Action<Vector3> onDragAction { get; set; }
+
+    public bool isDragable { get; set; } = true;
+
+    public Image bodyImage => GetChild(Body);
+    public Image handleImage => GetChild(Handle);
 
     private void Start()
     {
         Init();
     }
 
-    private void Update()
-    {
-        bool isCooltime = Manager.Game.SpecialSkillCooltime > 0;
-
-        GetChild(Body).enabled = !isCooltime;
-        GetChild(Handle).color = isCooltime ? new Color(0.4f,0.4f,0f) : Color.yellow;
-    }
-
     private void Init()
     {
-        BindChild(
-        Body,
-        Handle);
-
+        BindChild(Body, Handle);
         _defaultLocalPos = GetChild(Body).transform.localPosition;
         _joystickRadius = GetChild(Body).rectTransform.sizeDelta.y / 2f;
     }
@@ -38,21 +36,20 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
         Vector3 worldPosition = Manager.Object.MainCamera.ScreenToWorldPoint(eventData.position);
         GetChild(Body).transform.position = worldPosition;
 
-        Manager.Input.isOnSkillJoystick = true;
+        onPointerDownAction?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         GetChild(Body).transform.localPosition = _defaultLocalPos;
         GetChild(Handle).transform.localPosition = Vector3.zero;
-
-        Manager.Input.isOnSkillJoystick = false;
+        
+        onPointerUpAction?.Invoke();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        bool isCooltime = Manager.Game.SpecialSkillCooltime > 0;
-        if (isCooltime)
+        if (isDragable == false)
             return;
 
         Transform body = GetChild(Body).transform;
@@ -64,6 +61,7 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
         float dist = Mathf.Min(dragVec.magnitude, _joystickRadius);
 
         handle.localPosition = dir * dist;
-        Manager.Input.skillJoystickVector = handle.localPosition / _joystickRadius;
+        Vector3 joystickVector = handle.localPosition / _joystickRadius;
+        onDragAction?.Invoke(joystickVector);
     }
 }

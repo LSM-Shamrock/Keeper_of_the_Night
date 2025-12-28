@@ -16,6 +16,9 @@ public class PlaySceneUI : SceneUI
     private ChildKey<Image> GameOver = new(nameof(GameOver));
 
     private ChildKey<Transform> UI_MobileControl = new(nameof(UI_MobileControl));
+    private ChildKey<JoystickUI> MoveJoystick = new(nameof(MoveJoystick));
+    private ChildKey<JoystickUI> AttackJoystick = new(nameof(AttackJoystick));
+    private ChildKey<JoystickUI> SkillJoystick = new(nameof(SkillJoystick));
 
     private void Start()
     {
@@ -42,13 +45,13 @@ public class PlaySceneUI : SceneUI
         DeathThumbnail,
         WaveClear,
         GameOver,
-        UI_MobileControl);
+        UI_MobileControl,
+        //MoveJoystick,
+        AttackJoystick,
+        SkillJoystick);
 
-        SetControlUI(Manager.Input.isMobileControl);
-        Manager.Input.onControlTypeChange.Add(this, () =>
-        {
-            SetControlUI(Manager.Input.isMobileControl);
-        });
+        StartCoroutine(LoopWaveClearImageEffect());
+        Manager.Game.onWaveClear.Add(this, () => StartCoroutine(OnWaveClear()));
 
         Manager.Game.onPlayerDie.Add(this, () =>
         {
@@ -57,14 +60,26 @@ public class PlaySceneUI : SceneUI
             StartCoroutine(ShowGameOver());
         });
 
-        Manager.Game.onWaveClear.Add(this, () =>
+
+        SetMobileControl(Manager.Input.isMobileControl);
+        Manager.Input.onControlTypeChange.Add(this, () => SetMobileControl(Manager.Input.isMobileControl));
+
+        GetChild(AttackJoystick).onPointerDownAction = () => Manager.Input.isOnAttackJoystick = true;
+        GetChild(AttackJoystick).onPointerUpAction = () => Manager.Input.isOnAttackJoystick = false;
+        GetChild(AttackJoystick).onDragAction = (vec) => Manager.Input.attackJoystickVector = vec;
+
+        GetChild(SkillJoystick).onPointerDownAction = () => Manager.Input.isOnSkillJoystick = true;
+        GetChild(SkillJoystick).onPointerUpAction = () => Manager.Input.isOnSkillJoystick = false;
+        GetChild(SkillJoystick).onDragAction = (vec) => Manager.Input.skillJoystickVector = vec;
+        Manager.Game.onSkillCooltimeChange.Add(this, () =>
         {
-            StartCoroutine(OnWaveClear());
+            bool isCooltime = Manager.Game.SkillCooltime > 0;
+            GetChild(SkillJoystick).bodyImage.enabled = !isCooltime;
+            GetChild(SkillJoystick).handleImage.color = isCooltime ? new Color(0.4f, 0.4f, 0f) : Color.yellow;
         });
 
-        StartCoroutine(LoopWaveClearImageEffect());
-    }
 
+    }
 
     private void UpdateHPText()
     {
@@ -165,10 +180,10 @@ public class PlaySceneUI : SceneUI
             }
         }
 
-        if (Manager.Game.SpecialSkillCooltime > 0)
+        if (Manager.Game.SkillCooltime > 0)
         {
             specialSkillText.color = Utility.StringToColor("#848484");
-            specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.SpecialSkillCooltime:F1}";
+            specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.SkillCooltime:F1}";
         }
         else
         {
@@ -176,7 +191,6 @@ public class PlaySceneUI : SceneUI
             specialSkillText.text = "S: 특수기술!";
         }
     }
-
 
     private void StopCodeOfAnotherObject()
     {
@@ -190,7 +204,6 @@ public class PlaySceneUI : SceneUI
             code.StopAllCoroutines();
         }
     }
-
     private IEnumerator ShowGameOver()
     {
         Image deathThumbnail = GetChild(DeathThumbnail);
@@ -222,7 +235,6 @@ public class PlaySceneUI : SceneUI
         Utility.StartScene(Scenes.LobbyScene);
     }
 
-
     private IEnumerator OnWaveClear()
     {
         Image waveClearImage = GetChild(WaveClear);
@@ -249,7 +261,6 @@ public class PlaySceneUI : SceneUI
         }
         waveClearImage.SetAlpha(0);
     }
-
     private IEnumerator LoopWaveClearImageEffect()
     {
         Image waveClearImage = GetChild(WaveClear);
@@ -274,8 +285,7 @@ public class PlaySceneUI : SceneUI
         }
     }
 
-
-    private void SetControlUI(bool isMobileControl)
+    private void SetMobileControl(bool isMobileControl)
     {
         GetChild(Text_Move).gameObject.SetActive(!isMobileControl);
         GetChild(Text_Attack).gameObject.SetActive(!isMobileControl);

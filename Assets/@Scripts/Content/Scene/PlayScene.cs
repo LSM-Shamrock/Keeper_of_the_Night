@@ -16,8 +16,8 @@ public class PlayScene : MonoBehaviour
         if (Manager.Game.isPlayerDie)
             return;
 
-        if (Manager.Game.SpecialSkillCooltime > 0f)
-            Manager.Game.SpecialSkillCooltime -= Time.deltaTime;
+        if (Manager.Game.SkillCooltime > 0f)
+            Manager.Game.SkillCooltime -= Time.deltaTime;
     }
 
     private void Init()
@@ -29,7 +29,7 @@ public class PlayScene : MonoBehaviour
         Manager.Game.onNightMareChange.Add(this, () =>
         {
             if (Manager.Game.IsNightmare == true)
-                Manager.Game.SpecialSkillCooltime = 0f;
+                Manager.Game.SkillCooltime = 0f;
         });
 
         StartCoroutine(LoopWave());
@@ -50,7 +50,7 @@ public class PlayScene : MonoBehaviour
 
             if (Manager.Game.wave == 15)
             {
-                Manager.Game.SpecialSkillCooltime = 0f;
+                Manager.Game.SkillCooltime = 0f;
                 Manager.Game.remainingWaveSecond = 0;
                 Manager.Game.remainingWaveKill = 0;
                 yield return new WaitUntil(() => Manager.Game.isBossDinoKilled);

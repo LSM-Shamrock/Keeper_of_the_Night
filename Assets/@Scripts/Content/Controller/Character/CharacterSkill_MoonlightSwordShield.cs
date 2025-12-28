@@ -74,7 +74,7 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
             _child.SetActive(false);
             yield return new WaitForSeconds(0.1f);
             Manager.Game.isSpecialSkillInvoking = false;
-            Manager.Game.SpecialSkillCooltime = 0.5f;
+            Manager.Game.SkillCooltime = 0.5f;
         }
     }
 
@@ -112,7 +112,7 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
                     yield return new WaitUntil(() => !Manager.Input.isOnSkill);
                 }
             }
-            else if (Manager.Input.isOnSkill && Manager.Game.SpecialSkillCooltime <= 0f)
+            else if (Manager.Input.isOnSkill && Manager.Game.SkillCooltime <= 0f)
             {
                 Manager.Game.isSpecialSkillInvoking = true;
                 _child.SetSpriteAndPolygon(sprite_Droping);
