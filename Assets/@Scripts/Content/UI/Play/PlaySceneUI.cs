@@ -46,7 +46,7 @@ public class PlaySceneUI : SceneUI
         WaveClear,
         GameOver,
         UI_MobileControl,
-        //MoveJoystick,
+        MoveJoystick,
         AttackJoystick,
         SkillJoystick);
 
@@ -74,11 +74,24 @@ public class PlaySceneUI : SceneUI
         Manager.Game.onSkillCooltimeChange.Add(this, () =>
         {
             bool isCooltime = Manager.Game.SkillCooltime > 0;
+            GetChild(SkillJoystick).isDragable = !isCooltime;
             GetChild(SkillJoystick).bodyImage.enabled = !isCooltime;
             GetChild(SkillJoystick).handleImage.color = isCooltime ? new Color(0.4f, 0.4f, 0f) : Color.yellow;
         });
 
+        GetChild(MoveJoystick).onDragAction = (vec) =>
+        {
+            Vector3 dir = vec.normalized;
+            float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+            float absAngle = Mathf.Abs(angle);
 
+            bool isJump = absAngle < 60f;
+            bool isMove = absAngle > 30f && absAngle < 135f;
+
+            Manager.Input.isOnJumpButton = isJump;
+            Manager.Input.isOnLeftButton = isMove && vec.x < 0;
+            Manager.Input.isOnRightButton = isMove && vec.x > 0;
+        };
     }
 
     private void UpdateHPText()

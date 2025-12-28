@@ -66,7 +66,7 @@ public class PlayerCharacterController : BaseController
             if (IsOnGround)
             {
                 _jumpGauge = 15;
-                while (Manager.Input.onJump && _jumpGauge > 0)
+                while (Manager.Input.isOnJump && _jumpGauge > 0)
                 {   
                     transform.position += Vector3.up * (_jumpGauge * _jumpGauge / 10);
                     _jumpGauge--;
