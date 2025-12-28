@@ -16,9 +16,6 @@ public class PlaySceneUI : SceneUI
     private ChildKey<Image> GameOver = new(nameof(GameOver));
 
     private ChildKey<Transform> UI_MobileControl = new(nameof(UI_MobileControl));
-    private ChildKey<JoystickUI> MoveJoystick = new(nameof(MoveJoystick));
-    private ChildKey<JoystickUI> AttackJoystick = new(nameof(AttackJoystick));
-    private ChildKey<JoystickUI> SkillJoystick = new(nameof(SkillJoystick));
 
     private void Start()
     {
@@ -45,10 +42,7 @@ public class PlaySceneUI : SceneUI
         DeathThumbnail,
         WaveClear,
         GameOver,
-        UI_MobileControl,
-        MoveJoystick,
-        AttackJoystick,
-        SkillJoystick);
+        UI_MobileControl);
 
         StartCoroutine(LoopWaveClearImageEffect());
         Manager.Game.onWaveClear.Add(this, () => StartCoroutine(OnWaveClear()));
@@ -64,34 +58,6 @@ public class PlaySceneUI : SceneUI
         SetMobileControl(Manager.Input.isMobileControl);
         Manager.Input.onControlTypeChange.Add(this, () => SetMobileControl(Manager.Input.isMobileControl));
 
-        GetChild(AttackJoystick).onPointerDownAction = () => Manager.Input.isOnAttackJoystick = true;
-        GetChild(AttackJoystick).onPointerUpAction = () => Manager.Input.isOnAttackJoystick = false;
-        GetChild(AttackJoystick).onDragAction = (vec) => Manager.Input.attackJoystickVector = vec;
-
-        GetChild(SkillJoystick).onPointerDownAction = () => Manager.Input.isOnSkillJoystick = true;
-        GetChild(SkillJoystick).onPointerUpAction = () => Manager.Input.isOnSkillJoystick = false;
-        GetChild(SkillJoystick).onDragAction = (vec) => Manager.Input.skillJoystickVector = vec;
-        Manager.Game.onSkillCooltimeChange.Add(this, () =>
-        {
-            bool isCooltime = Manager.Game.SkillCooltime > 0;
-            GetChild(SkillJoystick).isDragable = !isCooltime;
-            GetChild(SkillJoystick).bodyImage.enabled = !isCooltime;
-            GetChild(SkillJoystick).handleImage.color = isCooltime ? new Color(0.4f, 0.4f, 0f) : Color.yellow;
-        });
-
-        GetChild(MoveJoystick).onDragAction = (vec) =>
-        {
-            Vector3 dir = vec.normalized;
-            float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-            float absAngle = Mathf.Abs(angle);
-
-            bool isJump = absAngle < 60f;
-            bool isMove = absAngle > 30f && absAngle < 135f;
-
-            Manager.Input.isOnJumpButton = isJump;
-            Manager.Input.isOnLeftButton = isMove && vec.x < 0;
-            Manager.Input.isOnRightButton = isMove && vec.x > 0;
-        };
     }
 
     private void UpdateHPText()
