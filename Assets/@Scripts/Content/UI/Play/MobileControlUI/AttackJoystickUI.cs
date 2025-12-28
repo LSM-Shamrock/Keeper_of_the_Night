@@ -6,7 +6,7 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
     private ChildKey<RectTransform> Body = new(nameof(Body));
     private ChildKey<RectTransform> Handle = new(nameof(Handle));
 
-    private Vector3 _defaultPosition;
+    private Vector3 _defaultLocalPos;
     private float _joystickRadius;
 
     private void Start()
@@ -20,7 +20,7 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
         Body,
         Handle);
 
-        _defaultPosition = GetChild(Body).position;
+        _defaultLocalPos = GetChild(Body).localPosition;
         _joystickRadius = GetChild(Body).sizeDelta.y / 2f;
     }
 
@@ -34,7 +34,7 @@ public class AttackJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, 
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GetChild(Body).position = _defaultPosition;
+        GetChild(Body).localPosition = _defaultLocalPos;
         GetChild(Handle).localPosition = Vector3.zero;
 
         Manager.Input.isOnAttackJoystick = false;

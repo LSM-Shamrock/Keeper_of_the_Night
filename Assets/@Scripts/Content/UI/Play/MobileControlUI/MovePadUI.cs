@@ -8,7 +8,7 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 {
     ChildKey<Transform> Body = new(nameof(Body));
     
-    private Vector3 _defaultPosition;
+    private Vector3 _defaultLocalPos;
 
     private MovePadButton[] _movePadButtons;
 
@@ -22,7 +22,7 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
         BindChild(
         Body);
 
-        _defaultPosition = GetChild(Body).position;
+        _defaultLocalPos = GetChild(Body).localPosition;
 
         _movePadButtons = GetComponentsInChildren<MovePadButton>();
 
@@ -54,6 +54,6 @@ public class MovePadUI : UIBase, IPointerDownHandler, IPointerUpHandler
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GetChild(Body).position = _defaultPosition;
+        GetChild(Body).localPosition = _defaultLocalPos;
     }
 }

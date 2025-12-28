@@ -7,7 +7,7 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
     private ChildKey<Image> Body = new(nameof(Body));
     private ChildKey<Image> Handle = new(nameof(Handle));
 
-    private Vector3 _defaultPosition;
+    private Vector3 _defaultLocalPos;
     private float _joystickRadius;
 
     private void Start()
@@ -29,7 +29,7 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
         Body,
         Handle);
 
-        _defaultPosition = GetChild(Body).transform.position;
+        _defaultLocalPos = GetChild(Body).transform.localPosition;
         _joystickRadius = GetChild(Body).rectTransform.sizeDelta.y / 2f;
     }
 
@@ -43,7 +43,7 @@ public class SkillJoystickUI : UIBase, IPointerDownHandler, IPointerUpHandler, I
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        GetChild(Body).transform.position = _defaultPosition;
+        GetChild(Body).transform.localPosition = _defaultLocalPos;
         GetChild(Handle).transform.localPosition = Vector3.zero;
 
         Manager.Input.isOnSkillJoystick = false;
