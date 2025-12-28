@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class EnemyData
 {
+    public string name;
     public int startHP;
     public float startSize;
-    public EnemyData(int startHP, float startSize)
+    public EnemyData(string name, int startHP, float startSize)
     {
+        this.name = name;
         this.startHP = startHP;
         this.startSize = startSize;
     }
@@ -55,18 +57,18 @@ public class DataManager
     // enemy data
     public readonly Dictionary<Enemys, EnemyData> enemyDatas = new()
     {
-        { Enemys.Shadow, new(100, 25.0f) },
-        { Enemys.VoidCavity, new(12, 31.4f) },
-        { Enemys.CrazyLaughMask, new(18, 31.9f) },
-        { Enemys.MotherSpiritSnake, new(23, 43.2f) },
-        { Enemys.Bird, new(20, 31.0f) },
-        { Enemys.SadEyes, new(20, 31.4f) },
-        { Enemys.DreamGhost, new(1, 50.0f) },
-        { Enemys.ThePiedPiper, new(18, 36.6f) },
-        { Enemys.Fire, new(23, 40.5f) },
-        { Enemys.Red, new(25, 54.9f) },
-        { Enemys.SnowLady, new(23, 50.0f) },
-        { Enemys.BossDino, new(100, 76.8f) },
+        { Enemys.Shadow, new("영도", 100, 25.0f) },
+        { Enemys.VoidCavity, new("허강", 12, 31.4f) },
+        { Enemys.CrazyLaughMask, new("광소탈", 18, 31.9f) },
+        { Enemys.MotherSpiritSnake, new("모령사", 23, 43.2f) },
+        { Enemys.Bird, new("새", 20, 31.0f) },
+        { Enemys.SadEyes, new("비안", 20, 31.4f) },
+        { Enemys.DreamGhost, new("몽귀", 1, 50.0f) },
+        { Enemys.ThePiedPiper, new("하민우", 18, 36.6f) },
+        { Enemys.Fire, new("화이독", 23, 40.5f) },
+        { Enemys.Red, new("홍난구", 25, 54.9f) },
+        { Enemys.SnowLady, new("설희", 23, 50.0f) },
+        { Enemys.BossDino, new("공룡", 100, 76.8f) },
     };
 
 
