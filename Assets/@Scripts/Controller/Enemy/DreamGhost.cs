@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static Utility;
 
 public class DreamGhost : EnemyBase
 {
@@ -72,21 +71,23 @@ public class DreamGhost : EnemyBase
         while (Manager.Game.wave != 8)
         {
             CreatePhantom();
-            yield return new WaitForSeconds(RandomNumber(2, 4));
+            yield return new WaitForSeconds(Utility.RandomNumber(2, 4));
         }
     }
     IEnumerator OnAppearance()
     {
-        int moveX = Manager.Object.Character.position.x > 0 ? 1 : -1;
-        float cameraX = Manager.Object.MainCamera.transform.position.x;
-        float appearanceX = cameraX + -moveX * 250f;
+        Transform character = Manager.Object.Character;
+        Transform camera = Manager.Object.MainCamera.transform;
+
+        int moveX = character.position.x > 0 ? 1 : -1;
+        float appearanceX = camera.position.x + -moveX * 250f;
         float appearanceY = 100f;
         transform.position = new Vector3(appearanceX, appearanceY);
 
         foreach (int i in Count(90))
         {
-            transform.AddX(3f * moveX);
-            transform.AddY(-2f);
+            transform.position += Vector3.right * moveX * 3f;
+            transform.position += Vector3.down * 2f;
             CreateButterflyParticle();
             yield return new WaitForFixedUpdate();
         }
@@ -97,28 +98,32 @@ public class DreamGhost : EnemyBase
 
         StartCoroutine(WhiteoutEffect());
         yield return new WaitUntil(() => Manager.Game.wave == 8);
-        transform.SetX(Manager.Object.Character.position.x > 0 ? -200f : 200f);
+
+        Vector3 pos = transform.position;
+        pos.x = camera.position.x + (character.position.x > 0 ? -200f : 200f);
+        transform.position = pos;
+
         Show();
 
         while (true)
         {
             yield return new WaitForFixedUpdate();
             
-            Vector3 direction = (Manager.Object.Character.transform.position - transform.position).normalized;
+            Vector3 direction = (character.position - transform.position).normalized;
             transform.rotation = Quaternion.Euler(Vector3.up * (direction.x > 0 ? 0 : 180));
             transform.position += direction * 1f;
 
             if (IsContactGround == false)
             {
-                transform.AddY(-1f);
+                transform.position += Vector3.down * 1f;
                 continue;
             }
 
-            if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30)
+            if (Mathf.Abs(transform.position.x - character.position.x) < 30)
             {
                 foreach (int i in Count(5))
                 {
-                    transform.AddY(5f);
+                    transform.position += Vector3.up * 5f;
                     yield return new WaitForFixedUpdate();
                 }
                 if (IsContactCharacter)
@@ -126,7 +131,7 @@ public class DreamGhost : EnemyBase
 
                 while (!IsContactGround)
                 {
-                    transform.AddY(-2f);
+                    transform.position += Vector3.down * 2f;
                     yield return new WaitForFixedUpdate();
                 }
                 yield return new WaitForSeconds(0.5f);
