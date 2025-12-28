@@ -77,13 +77,16 @@ public class DreamGhost : EnemyBase
     }
     IEnumerator OnAppearance()
     {
-        transform.SetY(100f);
-        transform.SetX(Manager.Object.Character.position.x > 0 ? -250f : 250f);
         int moveX = Manager.Object.Character.position.x > 0 ? 1 : -1;
-        foreach (int i in Count(60))
+        float cameraX = Manager.Object.MainCamera.transform.position.x;
+        float appearanceX = cameraX + -moveX * 250f;
+        float appearanceY = 100f;
+        transform.position = new Vector3(appearanceX, appearanceY);
+
+        foreach (int i in Count(90))
         {
-            transform.AddX(2f * moveX);
-            transform.AddY(-3);
+            transform.AddX(3f * moveX);
+            transform.AddY(-2f);
             CreateButterflyParticle();
             yield return new WaitForFixedUpdate();
         }
