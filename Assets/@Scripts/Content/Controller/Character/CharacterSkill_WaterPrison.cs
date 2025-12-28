@@ -95,15 +95,14 @@ public class CharacterSkill_WaterPrison : BaseController
                     Vector3 position = new Vector3();
                     if (Manager.Input.isMobileControl)
                     {
-                        float characterX = Manager.Object.Character.position.x;
+                        float cameraX = Manager.Object.MainCamera.transform.position.x;
                         float dragX = Manager.Input.skillJoystickVector.x;
-                        position.x = characterX + dragX * 480f;
+                        position.x = cameraX + dragX * 240f;
                     }
                     else
                     {
                         position.x = Manager.Input.mousePosition.x;
                     }
-                    position.x = Mathf.Clamp(position.x, -240, 240);
                     position.y = -70;
                     transform.position = position;
 
