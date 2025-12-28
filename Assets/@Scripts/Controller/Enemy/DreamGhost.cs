@@ -87,42 +87,47 @@ public class DreamGhost : EnemyBase
             CreateButterflyParticle();
             yield return new WaitForFixedUpdate();
         }
+
         Show();
         yield return new WaitForSeconds(1f);
         Hide();
+
         StartCoroutine(WhiteoutEffect());
         yield return new WaitUntil(() => Manager.Game.wave == 8);
         transform.SetX(Manager.Object.Character.position.x > 0 ? -200f : 200f);
         Show();
+
         while (true)
         {
+            yield return new WaitForFixedUpdate();
+            
             Vector3 direction = (Manager.Object.Character.transform.position - transform.position).normalized;
             transform.rotation = Quaternion.Euler(Vector3.up * (direction.x > 0 ? 0 : 180));
             transform.position += direction * 1f;
-            if (IsContactGround)
+
+            if (IsContactGround == false)
             {
-                if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30)
-                {
-                    foreach (int i in Count(5))
-                    {
-                        transform.AddY(5f);
-                        yield return new WaitForFixedUpdate();
-                    }
-                    if (IsContactCharacter)
-                        Manager.Game.TakeDamageToPlayer(9);
-
-                    while (!IsContactGround)
-                    {
-                        transform.AddY(-2f);
-                        yield return new WaitForFixedUpdate();
-                    }
-                    yield return new WaitForSeconds(0.5f);
-                }
-            }
-            else 
                 transform.AddY(-1f);
+                continue;
+            }
 
-            yield return new WaitForFixedUpdate();
+            if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30)
+            {
+                foreach (int i in Count(5))
+                {
+                    transform.AddY(5f);
+                    yield return new WaitForFixedUpdate();
+                }
+                if (IsContactCharacter)
+                    Manager.Game.TakeDamageToPlayer(9);
+
+                while (!IsContactGround)
+                {
+                    transform.AddY(-2f);
+                    yield return new WaitForFixedUpdate();
+                }
+                yield return new WaitForSeconds(0.5f);
+            }
         }
     }
 
