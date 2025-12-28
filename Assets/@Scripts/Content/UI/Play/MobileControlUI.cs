@@ -35,7 +35,7 @@ public class MobileControlUI : UIBase
             GetChild(SkillJoystick).handleImage.color = isCooltime ? new Color(0.4f, 0.4f, 0f) : Color.yellow;
         });
 
-        GetChild(MoveJoystick).isBodyFollowHandle = true;
+        //GetChild(MoveJoystick).isBodyFollowHandle = true;
         GetChild(MoveJoystick).onPointerUpAction = () =>
         {
             Manager.Input.isOnJumpButton = false;
