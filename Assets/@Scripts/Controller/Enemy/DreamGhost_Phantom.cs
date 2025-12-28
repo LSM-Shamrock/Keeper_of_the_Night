@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using static Utility;
 
 public class DreamGhost_Phantom : EnemyBase
 {
@@ -9,7 +8,13 @@ public class DreamGhost_Phantom : EnemyBase
         base.Init();
         Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
         gameObject.SetSpriteAndPolygon(Manager.Resource.LoadResource<Sprite>(Manager.Game.currentCharacter));
-        transform.SetX(RandomNumber(1, 2) == 1 ? 300 : -300);
+
+
+        float cameraX = Manager.Object.MainCamera.transform.position.x;
+        float dist = Define.EnemySpawnDistance;
+        Vector3 pos = transform.position;
+        pos.x = cameraX + Utility.RandomSign() * dist;
+        transform.position = pos; 
         StartCoroutine(Loop());
     }
 
@@ -21,18 +26,19 @@ public class DreamGhost_Phantom : EnemyBase
 
     IEnumerator Loop()
     {
+        Transform character = Manager.Object.Character;
         while (true)
         {
-            Vector3 direction = (Manager.Object.Character.position - transform.position).normalized;
+            Vector3 direction = (character.position - transform.position).normalized;
             transform.position += direction * 0.7f;
 
             if (IsContactGround)
             {
-                if (Mathf.Abs(transform.GetX() - Manager.Object.Character.GetX()) < 30f)
+                if (Mathf.Abs(transform.position.x - character.position.x) < 30f)
                 {
                     foreach (int i in Count(5))
                     {
-                        transform.AddY(5f);
+                        transform.position += Vector3.up * 5f;
                         yield return new WaitForFixedUpdate();
                     }
                     if (IsContactCharacter)
@@ -40,14 +46,14 @@ public class DreamGhost_Phantom : EnemyBase
 
                     while (!IsContactGround)
                     {
-                        transform.AddY(-2f);
+                        transform.position += Vector3.down * 2f;
                         yield return new WaitForFixedUpdate();
                     }
                     yield return new WaitForSeconds(0.5f);
                 }
             }
             else
-                transform.AddY(-1f);
+                transform.position += Vector3.down * 1f;
 
             yield return new WaitForFixedUpdate();
         }
