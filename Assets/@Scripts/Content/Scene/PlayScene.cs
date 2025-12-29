@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class PlayScene : MonoBehaviour
 {
+    SpriteRenderer _ship;
+
     private void Start()
     {
+        _ship = GameObject.Find("Ship").GetComponent<SpriteRenderer>();
+
         Manager.Game.Init();
         StartCoroutine(LoopWave());
     }
@@ -16,6 +20,49 @@ public class PlayScene : MonoBehaviour
 
         if (Manager.Game.skillCooltime > 0f)
             Manager.Game.skillCooltime -= Time.deltaTime;
+
+        if (Manager.Game.wave == 15)
+        {
+            if (_ship.color.a < 1f)
+                _ship.AddAlpha(Time.deltaTime / 0.5f);
+            else
+                _ship.SetAlpha(1f);
+        }
+        else
+            _ship.SetAlpha(0f);
+    }
+
+    private void SetWaveClearCondition()
+    {
+        int wave = Manager.Game.wave;
+        if (wave == 0)
+        {
+            Manager.Game.remainingWaveSecond = 0;
+            Manager.Game.remainingWaveKill = 2;
+            return;
+        }
+        if (wave == 7)
+        {
+            Manager.Game.remainingWaveSecond = 60;
+            Manager.Game.remainingWaveKill = 0;
+            return;
+        }
+
+        if (wave <= 4)
+        {
+            Manager.Game.remainingWaveSecond = 10;
+            Manager.Game.remainingWaveKill = 3;
+        }
+        else if (wave <= 10)
+        {
+            Manager.Game.remainingWaveSecond = 20;
+            Manager.Game.remainingWaveKill = 6;
+        }
+        else
+        {
+            Manager.Game.remainingWaveSecond = 30;
+            Manager.Game.remainingWaveKill = 10;
+        }
     }
 
     private IEnumerator LoopWave()
@@ -52,39 +99,6 @@ public class PlayScene : MonoBehaviour
             Manager.Game.wave++;
             Manager.Game.onWaveClear.Call();
             SetWaveClearCondition();
-        }
-    }
-
-    private void SetWaveClearCondition()
-    {
-        int wave = Manager.Game.wave;
-        if (wave == 0)
-        {
-            Manager.Game.remainingWaveSecond = 0;
-            Manager.Game.remainingWaveKill = 2;
-            return;
-        }
-        if (wave == 7)
-        {
-            Manager.Game.remainingWaveSecond = 60;
-            Manager.Game.remainingWaveKill = 0;
-            return;
-        }
-
-        if (wave <= 4)
-        {
-            Manager.Game.remainingWaveSecond = 10;
-            Manager.Game.remainingWaveKill = 3;
-        }
-        else if (wave <= 10)
-        {
-            Manager.Game.remainingWaveSecond = 20;
-            Manager.Game.remainingWaveKill = 6;
-        }
-        else
-        {
-            Manager.Game.remainingWaveSecond = 30;
-            Manager.Game.remainingWaveKill = 10;
         }
     }
 }
