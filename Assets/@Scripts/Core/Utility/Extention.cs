@@ -65,18 +65,29 @@ public static class Extention
 
     public static bool IsContact<T>(this Collider2D collider, T checkRigidbodyName) where T : Enum
     {
+        if (collider.isActiveAndEnabled == false)
+            return false;
+
+        string name = checkRigidbodyName.ToString();
+
         ContactFilter2D filter = new ContactFilter2D();
         List<Collider2D> cols = new List<Collider2D>();
         Physics2D.OverlapCollider(collider, filter.NoFilter(), cols);
-        return cols.Any(c => c.attachedRigidbody != null && c.attachedRigidbody.gameObject.name == checkRigidbodyName.ToString());
+        return cols.Any(c =>
+        {
+            return 
+            c.gameObject.name == name ||
+            c.attachedRigidbody != null && 
+            c.attachedRigidbody.gameObject.name == name;
+        });
     }
     public static bool IsContact<T>(this Rigidbody2D rigidbody, T checkRigidbodyName) where T : Enum
     {
         List<Collider2D> colliders = new List<Collider2D>();
         rigidbody.GetAttachedColliders(colliders);
+
         foreach (Collider2D collider in colliders)
         {
-            if (collider.isActiveAndEnabled == false) continue;
             if (IsContact(collider, checkRigidbodyName))
                 return true;
         }

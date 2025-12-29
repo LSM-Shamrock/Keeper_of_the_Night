@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkill_BossDino : BaseController
+public class CharacterSkill_BossDino : CharacterSkillController
 {
     private LineRenderer _lineRenderer;
     private GameObject _body;
@@ -49,8 +49,12 @@ public class CharacterSkill_BossDino : BaseController
         transform.position = Manager.Object.Character.position;
 
         Vector3 moveDirection = Manager.Input.moveDirection;
-        if (moveDirection != Vector3.zero) 
-            transform.localScale.Scale(new Vector3(moveDirection.x, 1f));
+        if (moveDirection != Vector3.zero)
+        {
+            Vector3 scale = Vector3.one;
+            scale.x = Mathf.Sign(moveDirection.x);
+            transform.localScale = scale;
+        }
     }
     private void UpdateDrawLine()
     {

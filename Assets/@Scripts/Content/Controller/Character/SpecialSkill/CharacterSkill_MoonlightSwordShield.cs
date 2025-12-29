@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSkill_MoonlightSwordShield : BaseController
+public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 {
     private GameObject _child;
     private SpriteRenderer _blue;
@@ -82,7 +82,10 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
     {
         while (true)
         {
-            yield return new WaitUntil(() => IsSleepground);
+            yield return null;
+            if (IsSleepground == false)
+                continue;
+
             if (Manager.Game.isSpecialSkillInvoking)
             {
                 foreach (int i in Count(150))
@@ -106,28 +109,37 @@ public class CharacterSkill_MoonlightSwordShield : BaseController
 
             if (Manager.Game.isSpecialSkillInvoking)
             {
+                // 일반공격시 스킬 해제
                 if (Manager.Input.isOnSkill || Manager.Input.isDragAttack)
                 {
                     Manager.Game.onDisarmSpecialSkill.Call();
                     yield return new WaitUntil(() => !Manager.Input.isOnSkill);
                 }
+                continue;
             }
-            else if (Manager.Input.isOnSkill && Manager.Game.skillCooltime <= 0f)
+
+            //  스킬 발동
+            if (Manager.Input.isOnSkill && Manager.Game.skillCooltime <= 0f)
             {
                 Manager.Game.isSpecialSkillInvoking = true;
+                
                 _child.SetSpriteAndPolygon(sprite_Droping);
                 _child.SetActive(true);
+                
                 transform.position = Manager.Object.Character.position + Vector3.up * 30f;
+
                 yield return new WaitUntil(() => !IsContactGround);
                 while (!IsContactGround)
                 {
                     transform.AddY(-5f);
                     yield return new WaitForFixedUpdate();
                 }
-                transform.AddY(-5f);
+                transform.position += Vector3.down * 5f;
                 ShowShield();
                 _child.SetSpriteAndPolygon(sprite_StuckInTheGround);
+                
                 yield return new WaitForSeconds(0.5f);
+
                 yield return new WaitUntil(() => !Manager.Input.isOnSkill);
             }
         }

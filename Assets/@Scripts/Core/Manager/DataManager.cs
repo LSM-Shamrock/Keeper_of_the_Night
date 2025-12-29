@@ -30,6 +30,21 @@ public class CharacterData
     public override string ToString() => name;
 }
 
+public class CharacterSpecialSkillData
+{
+    public string description;
+    public float startCooltime;
+    public float cooltime;
+    public float duration;
+    public CharacterSpecialSkillData(string description, float startCooltime, float cooltime, float duration)
+    {
+        this.description = description;
+        this.startCooltime = startCooltime;
+        this.cooltime = cooltime;
+        this.duration = duration;
+    }
+}
+
 public class DataManager 
 {
     // character data
@@ -40,8 +55,7 @@ public class DataManager
             "월광검으로 근거리 공격", 
             "월광검 방어막", 
             200) },
-        { Characters.Rather, 
-            new(
+        { Characters.Rather, new(
             "라더",
             "물로 곡선형 공격", 
             "물감옥 생성", 
@@ -51,6 +65,29 @@ public class DataManager
             "월광건으로 장거리공격", 
             "야괴로 변신해 흡혈", 
             100) },
+    };
+
+    // special skill data
+    public readonly Dictionary<Characters, CharacterSpecialSkillData> skillDatas = new()
+    {
+        { Characters.Sleepground, new(
+            description: "월광검 방어막",
+            startCooltime: 0f,
+            cooltime: 0.5f,
+            duration: 15f) 
+        },
+        { Characters.Rather, new(
+            description: "물감옥 생성",
+            startCooltime: 15f,
+            cooltime: 20f,
+            duration: 10f) 
+        },
+        { Characters.Dino, new(
+            description: "야괴로 변신해 흡혈",
+            startCooltime: 35f,
+            cooltime: 45f,
+            duration: 10f) 
+        },
     };
 
 

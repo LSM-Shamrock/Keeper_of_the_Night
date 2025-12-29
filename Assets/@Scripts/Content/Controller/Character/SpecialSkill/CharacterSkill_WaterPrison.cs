@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterSkill_WaterPrison : BaseController
+public class CharacterSkill_WaterPrison : CharacterSkillController
 {
     protected override void Start()
     {
@@ -114,8 +114,6 @@ public class CharacterSkill_WaterPrison : BaseController
 
                 Manager.Game.skillCooltime = 20f;
                 Manager.Game.isSpecialSkillInvoking = true;
-
-
                 foreach (int i in Count(10))
                 {
                     size -= 10;
@@ -123,6 +121,7 @@ public class CharacterSkill_WaterPrison : BaseController
                     yield return new WaitForFixedUpdate();
                 }
                 Manager.Game.isSpecialSkillInvoking = false;
+
                 foreach (int i in Count(10))
                 {
                     if (IsContactEnemy)

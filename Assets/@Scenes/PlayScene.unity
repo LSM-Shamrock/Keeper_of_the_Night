@@ -2107,7 +2107,7 @@ GameObject:
   - component: {fileID: 505158815}
   - component: {fileID: 505158814}
   m_Layer: 0
-  m_Name: Enemy_Dreamghost
+  m_Name: Dreamghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
