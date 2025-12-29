@@ -48,10 +48,9 @@ public class CharacterSkill_BossDino : BaseController
 
         transform.position = Manager.Object.Character.position;
 
-        bool flip = Manager.Game.characterMoveDirection.x < 0;
-        Vector3 scale = transform.localScale;
-        scale.x = flip ? -1 : 1;
-        transform.localScale = scale;
+        Vector3 moveDirection = Manager.Input.moveDirection;
+        if (moveDirection != Vector3.zero) 
+            transform.localScale.Scale(new Vector3(moveDirection.x, 1f));
     }
     private void UpdateDrawLine()
     {
@@ -78,15 +77,15 @@ public class CharacterSkill_BossDino : BaseController
     private IEnumerator LoopRoutine()
     {
         if (Manager.Game.selectedCharacter == Characters.Dino)
-            Manager.Game.SkillCooltime = 35f;
+            Manager.Game.skillCooltime = 35f;
 
         while (true)
         {
             yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
 
-            if (Manager.Game.SkillCooltime <= 0 && Manager.Input.isOnSkill)
+            if (Manager.Game.skillCooltime <= 0 && Manager.Input.isOnSkill)
             {
-                Manager.Game.SkillCooltime = 45f;
+                Manager.Game.skillCooltime = 45f;
                 Manager.Game.isSpecialSkillInvoking = true;
 
                 yield return new WaitForSeconds(10f);

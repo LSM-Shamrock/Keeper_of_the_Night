@@ -63,20 +63,20 @@ public class PlaySceneUI : SceneUI
     private void UpdateHPText()
     {
         Text hpText = GetChild(Text_HP);
-        if (Manager.Game.IsNightmare)
+        if (Manager.Game.isNightmare)
         {
-            hpText.text = $"꿈에서의 HP:{Manager.Game.DreamHealth}/{Manager.Game.dreamMaxHealth}";
+            hpText.text = $"꿈에서의 HP:{Manager.Game.dreamHealth}/{Manager.Game.dreamMaxHealth}";
             hpText.color = Utility.StringToColor("#7d6080");
         }
         else if (Manager.Game.currentCharacter == Characters.Suhyen)
         {
-            hpText.text = $"수현HP:{Manager.Game.SuhyenHealth}/{Manager.Game.suhyenMaxHealth}";
+            hpText.text = $"수현HP:{Manager.Game.suhyenHealth}/{Manager.Game.suhyenMaxHealth}";
             hpText.color = Utility.StringToColor("#8f40ff");
             hpText.fontStyle = FontStyle.Bold;
         }
         else
         {
-            hpText.text = $"HP:{Manager.Game.Health}/{Manager.Game.currentCharacterData.maxHealth}";
+            hpText.text = $"HP:{Manager.Game.health}/{Manager.Game.currentCharacterData.maxHealth}";
             hpText.color = Utility.StringToColor("#806262");
             hpText.fontStyle = FontStyle.Normal;
         }
@@ -88,7 +88,7 @@ public class PlaySceneUI : SceneUI
 
         Text waveText = GetChild(Text_Wave);
 
-        if (Manager.Game.IsNightmare)
+        if (Manager.Game.isNightmare)
         {
             waveText.text = $"WAVE:7 - 악몽";
             waveText.color = Utility.StringToColor("#704080");
@@ -117,7 +117,7 @@ public class PlaySceneUI : SceneUI
         }
         else
         {
-            if (Manager.Game.IsNightmare)
+            if (Manager.Game.isNightmare)
                 waveProgressText.color = Utility.StringToColor("#704080");
             else
                 waveProgressText.color = Utility.StringToColor("#3e5c0a");
@@ -137,7 +137,7 @@ public class PlaySceneUI : SceneUI
 
         waveProgressText.enabled = true;
         if (Manager.Game.wave == 1 && 
-            Manager.Game.ShadowState != ShadowState.EndOfGiantization)
+            Manager.Game.shadowState != ShadowState.EndOfGiantization)
                 waveProgressText.enabled = false;
     }
     private void UpdateSpecialSkillText()
@@ -159,10 +159,10 @@ public class PlaySceneUI : SceneUI
             }
         }
 
-        if (Manager.Game.SkillCooltime > 0)
+        if (Manager.Game.skillCooltime > 0)
         {
             specialSkillText.color = Utility.StringToColor("#848484");
-            specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.SkillCooltime:F1}";
+            specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.skillCooltime:F1}";
         }
         else
         {
@@ -229,7 +229,7 @@ public class PlaySceneUI : SceneUI
             waveClearImage.transform.localPosition += Vector3.right * -25f;
             yield return new WaitForFixedUpdate();
         }
-        Manager.Game.Health += 10;
+        Manager.Game.health += 10;
 
         yield return new WaitForSeconds(1f);
 

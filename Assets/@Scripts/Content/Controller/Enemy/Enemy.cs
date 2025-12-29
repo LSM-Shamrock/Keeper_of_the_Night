@@ -201,7 +201,7 @@ public class Enemy : EnemyBase
             else
             {
                 giantization = 1f;
-                Manager.Game.ShadowState = ShadowState.EndOfGiantization;
+                Manager.Game.shadowState = ShadowState.EndOfGiantization;
                 _sr.SetBrightness(0f);
             }
             float size = _data.startSize + 2f * _hp * giantization;
@@ -212,7 +212,7 @@ public class Enemy : EnemyBase
                 _hp -= 0.5f;
                 if (_hp <= 0)
                 {
-                    Manager.Game.ShadowState = ShadowState.Killed;
+                    Manager.Game.shadowState = ShadowState.Killed;
                     OnDeath();
                 }
             }

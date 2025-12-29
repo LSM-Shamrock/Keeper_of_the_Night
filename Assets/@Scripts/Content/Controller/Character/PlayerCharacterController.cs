@@ -46,9 +46,9 @@ public class PlayerCharacterController : BaseController
 
         Manager.Game.onShadowStateChange.Add(this, () =>
         {
-            if (Manager.Game.ShadowState == ShadowState.EndOfGiantization) 
+            if (Manager.Game.shadowState == ShadowState.EndOfGiantization) 
                 SetCurrentCharacter(Characters.Suhyen);
-            if (Manager.Game.ShadowState == ShadowState.Killed)
+            if (Manager.Game.shadowState == ShadowState.Killed)
                 SetCurrentCharacter(Manager.Game.selectedCharacter);
         });
 
@@ -86,13 +86,7 @@ public class PlayerCharacterController : BaseController
             if (Manager.Game.ice > 0)
                 continue;
 
-            Vector3 direction = Vector3.zero;
-            if (Manager.Input.isOnLeft) direction = Vector3.left;
-            if (Manager.Input.isOnRight) direction = Vector3.right;
-            if (direction == Vector3.zero) 
-                continue;
-
-            Manager.Game.characterMoveDirection = direction;
+            Vector3 direction = Manager.Input.moveDirection;
             Vector3 position = transform.position + direction * 3;
             float limit = Define.CharacterXLimit;
             position.x = Mathf.Clamp(position.x, -limit, limit);

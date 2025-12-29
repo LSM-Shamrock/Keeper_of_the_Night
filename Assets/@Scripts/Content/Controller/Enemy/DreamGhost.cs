@@ -40,7 +40,7 @@ public class DreamGhost : EnemyBase
             sr.AddTransparency(-0.05f);
             yield return new WaitForFixedUpdate();
         }
-        Manager.Game.IsNightmare = Manager.Game.wave == 7;
+        Manager.Game.isNightmare = Manager.Game.wave == 7;
         Manager.Game.onNightmareEvent.Call();
         foreach (int i in Count(100))
         {
@@ -54,7 +54,7 @@ public class DreamGhost : EnemyBase
             sr.AddTransparency(-0.05f);
             yield return new WaitForFixedUpdate();
         }
-        Manager.Game.IsNightmare = Manager.Game.wave == 7;
+        Manager.Game.isNightmare = Manager.Game.wave == 7;
         Manager.Game.onNightmareEvent.Call();
         foreach (int i in Count(100))
         {

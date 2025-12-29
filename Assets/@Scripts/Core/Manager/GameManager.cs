@@ -3,103 +3,123 @@ using UnityEngine;
 
 public class GameManager 
 {
-
-    public Characters selectedCharacter = Characters.Sleepground;
-    public Characters currentCharacter;
-    public CharacterData currentCharacterData => Manager.Data.characterDatas[currentCharacter];
-    public Vector3 characterMoveDirection;
-    public int wave;
-    public int remainingWaveSecond;
-    public int remainingWaveKill;
-    public bool isBossDinoKilled;
-    public bool isSpecialSkillInvoking;
-    public int ice;
+    private float _skillCooltime;
+    private int _health;
+    private int _suhyenHealth; 
+    private int _dreamHealth;
+    private Vector3 _characterMoveDirection;
+    private bool _isNightmare;
+    private ShadowState _shadowState;
 
     public readonly ActionEx onWaveClear = new();
     public readonly ActionEx onDisarmSpecialSkill = new();
     public readonly ActionEx onDreamghostAppearance = new();
     public readonly ActionEx onNightmareEvent = new();
-
-
     public readonly ActionEx onNightMareChange = new();
-    private bool _isNightmare;
-    public bool IsNightmare
-    {
-        get { return _isNightmare; }
-        set { _isNightmare = value; onNightMareChange.Call(); }
-    }
-
     public readonly ActionEx onShadowStateChange = new();
-    private ShadowState _shadowState;
-    public ShadowState ShadowState
-    {
-        get { return _shadowState; }
-        set { _shadowState = value; onShadowStateChange.Call(); }
-    }
-
-
     public readonly ActionEx onSkillCooltimeChange = new();
-    private float _skillCooltime;
-    public float SkillCooltime
-    {
-        get => _skillCooltime;
-        set
-        {
-            _skillCooltime = Mathf.Max(value, 0f);
-            onSkillCooltimeChange.Call();
-        }
-    }
-
-
     public readonly ActionEx onPlayerDie = new();
-    private int _health;
-    private int _suhyenHealth; 
-    private int _dreamHealth;
-    public int suhyenMaxHealth = 60;
+
+
+    // getter only
+    public CharacterData currentCharacterData => Manager.Data.characterDatas[currentCharacter];
+    public int suhyenMaxHealth { get; } = 60;
     public int dreamMaxHealth => currentCharacterData.maxHealth / 2;
-    public bool isPlayerDie => Health <= 0 || SuhyenHealth <= 0 || DreamHealth <= 0;
-    public int Health
-    {
-        get { return _health; }
+    public bool isPlayerDie => health <= 0 || suhyenHealth <= 0 || dreamHealth <= 0;
+
+    // getter and setter
+    public Characters selectedCharacter { get; set; } = Characters.Sleepground;
+    public Characters currentCharacter { get; set; }
+    public float skillCooltime 
+    { 
+        get => _skillCooltime; 
+        set 
+        { 
+            _skillCooltime = Mathf.Max(value, 0f); 
+            onSkillCooltimeChange.Call(); 
+        } 
+    }
+    public int health 
+    { 
+        get => _health; 
         set 
         { 
             _health = Mathf.Clamp(value, 0, currentCharacterData.maxHealth); 
             if (value <= 0) onPlayerDie.Call(); 
-        }
+        } 
     }
-    public int SuhyenHealth
+    public int suhyenHealth 
+    { 
+        get => _suhyenHealth; 
+        set 
+        { 
+            _suhyenHealth = Mathf.Clamp(value, 0, suhyenMaxHealth); 
+            if (value <= 0) onPlayerDie.Call(); 
+        } 
+    }
+    public int dreamHealth 
+    { 
+        get => _dreamHealth; 
+        set 
+        { 
+            _dreamHealth = Mathf.Clamp(value, 0, dreamMaxHealth); 
+            if (value <= 0) onPlayerDie.Call(); 
+        } 
+    }
+    public bool isSpecialSkillInvoking { get; set; }
+    public int ice { get; set; }
+    public string shoutedEnemyName { get; set; }
+    
+    public int wave { get; set; }
+    public int remainingWaveSecond { get; set; }
+    public int remainingWaveKill { get; set; }
+    public ShadowState shadowState 
+    { 
+        get => _shadowState; 
+        set 
+        { 
+            _shadowState = value; 
+            onShadowStateChange.Call(); 
+        } 
+    }
+    public bool isNightmare 
+    { 
+        get => _isNightmare; 
+        set 
+        { 
+            _isNightmare = value; 
+
+            if (isNightmare == true) 
+                skillCooltime = 0f;
+
+            onNightMareChange.Call();
+        } 
+    }
+    public bool isBossDinoKilled { get; set; }
+
+
+
+    public void Init()
     {
-        get { return _suhyenHealth; } 
-        set
-        {
-            _suhyenHealth = Mathf.Clamp(value, 0, suhyenMaxHealth);
-            if (value <= 0) onPlayerDie.Call();
-        }
+        health = currentCharacterData.maxHealth;
+        suhyenHealth = suhyenMaxHealth;
+        dreamHealth = dreamMaxHealth;
+
+        isSpecialSkillInvoking = false;
+        ice = 0;
+        shoutedEnemyName = null;
+
+        isNightmare = false;
+        isBossDinoKilled = false;
     }
-    public int DreamHealth
-    {
-        get { return _dreamHealth; }
-        set
-        {
-            _dreamHealth = Mathf.Clamp(value, 0, dreamMaxHealth);
-            if (value <= 0) onPlayerDie.Call();
-        }
-    }
+
     public void TakeDamageToPlayer(int damage)
     {
         if (currentCharacter == Characters.Suhyen)
-            SuhyenHealth -= damage;
-        else if (IsNightmare)
-            DreamHealth -= damage;
+            suhyenHealth -= damage;
+        else if (isNightmare)
+            dreamHealth -= damage;
         else
-            Health -= damage;
+            health -= damage;
     }
-    
-
-
-
-    public string shoutedEnemyName;
-    
-
-
 }

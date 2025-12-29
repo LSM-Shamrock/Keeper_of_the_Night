@@ -26,14 +26,19 @@ public class InputManager
     public bool isOnJumpKey => Input.GetKey(KeyCode.W);
     public bool isOnJump => isOnJumpButton || isOnJumpKey;
 
-    public bool isOnLeftButton;
-    public bool isOnLeftKey => Input.GetKey(KeyCode.A);
-    public bool isOnLeft => isOnLeftButton || isOnLeftKey;
-    
-    public bool isOnRightButton;
-    public bool isOnRightKey => Input.GetKey(KeyCode.D);
-    public bool isOnRight => isOnRightButton || isOnRightKey;
-    
+    public Vector3 moveJoystickDirection;
+    public Vector3 moveKeyDirection
+    {
+        get
+        {
+            Vector3 result = Vector3.zero;
+            if (Input.GetKey(KeyCode.A)) result += Vector3.left;
+            if (Input.GetKey(KeyCode.D)) result += Vector3.right;
+            return result;
+        }
+    }
+    public Vector3 moveDirection => (moveJoystickDirection + moveKeyDirection).normalized;
+
     public bool isOnKeyN => Input.GetKey(KeyCode.N);
     public bool isOnKeyT => Input.GetKey(KeyCode.T);
     public bool isOnKeyEnter => Input.GetKey(KeyCode.Return);

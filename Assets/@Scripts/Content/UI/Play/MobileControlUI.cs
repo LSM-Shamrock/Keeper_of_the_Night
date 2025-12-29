@@ -29,7 +29,7 @@ public class MobileControlUI : UIBase
         GetChild(SkillJoystick).onDragAction = (vec) => Manager.Input.skillJoystickVector = vec;
         Manager.Game.onSkillCooltimeChange.Add(this, () =>
         {
-            bool isCooltime = Manager.Game.SkillCooltime > 0;
+            bool isCooltime = Manager.Game.skillCooltime > 0;
             GetChild(SkillJoystick).isDragable = !isCooltime;
             GetChild(SkillJoystick).bodyImage.enabled = !isCooltime;
             GetChild(SkillJoystick).handleImage.color = isCooltime ? new Color(0.4f, 0.4f, 0f) : Color.yellow;
@@ -39,8 +39,7 @@ public class MobileControlUI : UIBase
         GetChild(MoveJoystick).onPointerUpAction = () =>
         {
             Manager.Input.isOnJumpButton = false;
-            Manager.Input.isOnLeftButton = false;
-            Manager.Input.isOnRightButton = false;
+            Manager.Input.moveJoystickDirection = Vector3.zero;
         };
         GetChild(MoveJoystick).onDragAction = (vec) =>
         {
@@ -51,8 +50,7 @@ public class MobileControlUI : UIBase
             bool isJump = absAngle < 90f;
             bool isMove = absAngle > 30f && absAngle < 150f;
             Manager.Input.isOnJumpButton = isJump;
-            Manager.Input.isOnLeftButton = isMove && vec.x < 0;
-            Manager.Input.isOnRightButton = isMove && vec.x > 0;
+            Manager.Input.moveJoystickDirection.x = Mathf.Sign(vec.x);
         };
     }
 }

@@ -3,12 +3,10 @@ using UnityEngine;
 
 public class PlayScene : MonoBehaviour
 {
-    [SerializeField]
-    private Transform _bg;
-
     private void Start()
     {
-        Init();
+        Manager.Game.Init();
+        StartCoroutine(LoopWave());
     }
 
     private void Update()
@@ -16,23 +14,8 @@ public class PlayScene : MonoBehaviour
         if (Manager.Game.isPlayerDie)
             return;
 
-        if (Manager.Game.SkillCooltime > 0f)
-            Manager.Game.SkillCooltime -= Time.deltaTime;
-    }
-
-    private void Init()
-    {
-        Manager.Game.Health = Manager.Game.currentCharacterData.maxHealth;
-        Manager.Game.SuhyenHealth = Manager.Game.suhyenMaxHealth;
-        Manager.Game.DreamHealth = Manager.Game.dreamMaxHealth;
-
-        Manager.Game.onNightMareChange.Add(this, () =>
-        {
-            if (Manager.Game.IsNightmare == true)
-                Manager.Game.SkillCooltime = 0f;
-        });
-
-        StartCoroutine(LoopWave());
+        if (Manager.Game.skillCooltime > 0f)
+            Manager.Game.skillCooltime -= Time.deltaTime;
     }
 
     private IEnumerator LoopWave()
@@ -44,13 +27,13 @@ public class PlayScene : MonoBehaviour
             {
                 Manager.Game.remainingWaveSecond = 0;
                 Manager.Game.remainingWaveKill = 0;
-                Manager.Game.ShadowState = ShadowState.None;
-                yield return new WaitUntil(() => Manager.Game.ShadowState == ShadowState.Killed);
+                Manager.Game.shadowState = ShadowState.None;
+                yield return new WaitUntil(() => Manager.Game.shadowState == ShadowState.Killed);
             }
 
             if (Manager.Game.wave == 15)
             {
-                Manager.Game.SkillCooltime = 0f;
+                Manager.Game.skillCooltime = 0f;
                 Manager.Game.remainingWaveSecond = 0;
                 Manager.Game.remainingWaveKill = 0;
                 yield return new WaitUntil(() => Manager.Game.isBossDinoKilled);

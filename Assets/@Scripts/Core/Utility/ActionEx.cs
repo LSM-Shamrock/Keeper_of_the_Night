@@ -7,12 +7,12 @@ public class ActionEx
 {
     readonly Dictionary<MonoBehaviour, Action> _objectActionPairs = new();
 
-    public void Add(MonoBehaviour keyObject, Action action)
+    public void Add(MonoBehaviour checker, Action action)
     {
-        if (_objectActionPairs.ContainsKey(keyObject))
-            _objectActionPairs[keyObject] += action;
+        if (_objectActionPairs.ContainsKey(checker))
+            _objectActionPairs[checker] += action;
         else
-            _objectActionPairs[keyObject] = action;
+            _objectActionPairs[checker] = action;
     }
 
     public void Call()
