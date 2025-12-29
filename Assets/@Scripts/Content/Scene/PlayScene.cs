@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayScene : MonoBehaviour
 {
-    SpriteRenderer _ship;
+    private SpriteRenderer _ship;
 
     private void Start()
     {
