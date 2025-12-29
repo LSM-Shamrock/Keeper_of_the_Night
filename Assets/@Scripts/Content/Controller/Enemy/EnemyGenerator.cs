@@ -17,7 +17,7 @@ public class EnemyGenerator : BaseController
     {
         float cameraX = Manager.Object.MainCamera.transform.position.x;
         float dist = Define.EnemySpawnDistance;
-        float createX = cameraX + Utility.RandomSign() * dist;
+        float createX = cameraX + Util.RandomSign() * dist;
         float createY = 0f;
 
         GameObject prefab = Manager.Resource.LoadResource<GameObject>(Prefabs.Play.Enemy);
@@ -30,9 +30,9 @@ public class EnemyGenerator : BaseController
     private IEnumerator CreateEnemyAndWait(int enemyChoice)
     {
         if (enemyChoice == 9 || enemyChoice == 10)
-            enemyChoice = Utility.RandomNumber(2, 8);
+            enemyChoice = Util.RandomNumber(2, 8);
         if (enemyChoice == 14)
-            enemyChoice = Utility.RandomNumber(2, 13);
+            enemyChoice = Util.RandomNumber(2, 13);
 
         if (enemyChoice == 2) CreateEnemy(Enemys.VoidCavity);
         if (enemyChoice == 3) CreateEnemy(Enemys.CrazyLaughMask);
@@ -45,9 +45,9 @@ public class EnemyGenerator : BaseController
         if (enemyChoice == 13) CreateEnemy(Enemys.SnowLady);
 
         if (Manager.Game.isNightmare)
-            yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 3.75f));
+            yield return new WaitForSeconds(Util.RandomNumber(2.5f, 3.75f));
         else
-            yield return new WaitForSeconds(Utility.RandomNumber(2.5f, 5f));
+            yield return new WaitForSeconds(Util.RandomNumber(2.5f, 5f));
     }
     
     private IEnumerator Loop()
@@ -74,7 +74,7 @@ public class EnemyGenerator : BaseController
                 CreateEnemy(Enemys.BossDino);
                 while (Manager.Game.wave == 15)
                 {
-                    yield return CreateEnemyAndWait(Utility.RandomNumber(2, 13));
+                    yield return CreateEnemyAndWait(Util.RandomNumber(2, 13));
                     yield return new WaitForSeconds(3f);
                 }
                 continue;
@@ -86,7 +86,7 @@ public class EnemyGenerator : BaseController
             CreateEnemyAndWait(Manager.Game.wave);
             int checkingWave = Manager.Game.wave;
             while (Manager.Game.wave == checkingWave)
-                yield return CreateEnemyAndWait(Utility.RandomNumber(2, Manager.Game.wave));
+                yield return CreateEnemyAndWait(Util.RandomNumber(2, Manager.Game.wave));
         }
     }
 }

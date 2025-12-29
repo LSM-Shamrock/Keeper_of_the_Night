@@ -52,7 +52,7 @@ public class EndingSceneUI : SceneUI
         _audioSource = GetComponent<AudioSource>();
 
         foreach (Characters character in (Characters[])Enum.GetValues(typeof(Characters)))
-            _characters.Add(character, Utility.FindChild(transform, character.ToString()));
+            _characters.Add(character, Util.FindChild(transform, character.ToString()));
         
         EndingProgress = 1;
 
@@ -85,9 +85,9 @@ public class EndingSceneUI : SceneUI
         dialogueTextbox.localScale = Vector3.one * 0.75f;
         dialogueText.color = (speakerCharacter) switch
         {
-            Characters.Dino => Utility.StringToColor("#16c72e"),
-            Characters.Heptagram => Utility.StringToColor("#e8e230"),
-            Characters.Rather => Utility.StringToColor("#2fc9e8"),
+            Characters.Dino => Util.StringToColor("#16c72e"),
+            Characters.Heptagram => Util.StringToColor("#e8e230"),
+            Characters.Rather => Util.StringToColor("#2fc9e8"),
             _ => dialogueText.color,
         };
 
@@ -168,7 +168,7 @@ public class EndingSceneUI : SceneUI
 
         Transform transform = _characters[Characters.Dino];
 
-        foreach (int i in Utility.Count(25))
+        foreach (int i in Util.Count(25))
         {
             CreateParticle(Sprites.Ending.Particle_Purple);
             yield return new WaitForFixedUpdate();
@@ -199,7 +199,7 @@ public class EndingSceneUI : SceneUI
 
         transform.gameObject.SetActive(false);
 
-        foreach (int i in Utility.Count(25))
+        foreach (int i in Util.Count(25))
         {
             CreateParticle(Sprites.Ending.Particle_Yellow);
             yield return new WaitForFixedUpdate();
@@ -270,7 +270,7 @@ public class EndingSceneUI : SceneUI
 
         front.SetTransparency(1f);
         front.sprite = spriteEndcard2;
-        foreach (int i in Utility.Count(50))
+        foreach (int i in Util.Count(50))
         {
             front.AddTransparency(-0.02f);
             yield return new WaitForFixedUpdate();
@@ -278,6 +278,6 @@ public class EndingSceneUI : SceneUI
 
         yield return new WaitForSeconds(5f);
 
-        Utility.StartScene(Scenes.LobbyScene);
+        Util.StartScene(Scenes.LobbyScene);
     }
 }

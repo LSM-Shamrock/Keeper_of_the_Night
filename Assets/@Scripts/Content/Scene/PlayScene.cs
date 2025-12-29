@@ -38,7 +38,7 @@ public class PlayScene : MonoBehaviour
                 Manager.Game.remainingWaveKill = 0;
                 yield return new WaitUntil(() => Manager.Game.isBossDinoKilled);
                 yield return new WaitForSeconds(1f);
-                Utility.StartScene(Scenes.EndingScene);
+                Util.StartScene(Scenes.EndingScene);
             }
 
             while (Manager.Game.remainingWaveSecond > 0)

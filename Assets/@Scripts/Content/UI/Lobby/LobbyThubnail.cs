@@ -100,7 +100,7 @@ public class LobbyThubnail : UIBase
         if (!Input.GetMouseButton(0)) return;
         if (!IsContactMousePointer) return;
 
-        transform.position = Utility.MousePosition;
+        transform.position = Util.MousePosition;
     }
 
 }

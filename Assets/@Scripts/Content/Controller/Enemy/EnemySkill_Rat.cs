@@ -12,7 +12,7 @@ public class EnemySkill_Rat : EnemyBase
 
         float cameraX = Manager.Object.MainCamera.transform.position.x;
         float dist = Define.EnemySpawnDistance;
-        float createX = cameraX + Utility.RandomSign() * dist;
+        float createX = cameraX + Util.RandomSign() * dist;
         float createY = 0f;
         transform.position = new Vector3(createX, createY);
 

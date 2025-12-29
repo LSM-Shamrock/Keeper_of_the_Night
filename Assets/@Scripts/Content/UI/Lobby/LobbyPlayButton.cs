@@ -29,7 +29,7 @@ public class LobbyPlayButton : UIBase
                         size = _size2;
                         yield return new WaitForSeconds(0.1f);
                         Manager.Game.wave = _wave;
-                        Utility.StartScene(Scenes.PlayScene);
+                        Util.StartScene(Scenes.PlayScene);
                     }
                 }
                 else size = _size2;

@@ -66,18 +66,18 @@ public class PlaySceneUI : SceneUI
         if (Manager.Game.isNightmare)
         {
             hpText.text = $"꿈에서의 HP:{Manager.Game.dreamHealth}/{Manager.Game.dreamMaxHealth}";
-            hpText.color = Utility.StringToColor("#7d6080");
+            hpText.color = Util.StringToColor("#7d6080");
         }
         else if (Manager.Game.currentCharacter == Characters.Suhyen)
         {
             hpText.text = $"수현HP:{Manager.Game.suhyenHealth}/{Manager.Game.suhyenMaxHealth}";
-            hpText.color = Utility.StringToColor("#8f40ff");
+            hpText.color = Util.StringToColor("#8f40ff");
             hpText.fontStyle = FontStyle.Bold;
         }
         else
         {
             hpText.text = $"HP:{Manager.Game.health}/{Manager.Game.currentCharacterData.maxHealth}";
-            hpText.color = Utility.StringToColor("#806262");
+            hpText.color = Util.StringToColor("#806262");
             hpText.fontStyle = FontStyle.Normal;
         }
     }
@@ -91,13 +91,13 @@ public class PlaySceneUI : SceneUI
         if (Manager.Game.isNightmare)
         {
             waveText.text = $"WAVE:7 - 악몽";
-            waveText.color = Utility.StringToColor("#704080");
+            waveText.color = Util.StringToColor("#704080");
             waveText.transform.localScale = Vector3.one * (defaultScale + increaseScale);
         }
         else
         {
             waveText.text = $"WAVE:{Manager.Game.wave}";
-            waveText.color = Utility.StringToColor("#3e5c0a");
+            waveText.color = Util.StringToColor("#3e5c0a");
             waveText.transform.localScale = Vector3.one * defaultScale;
         }
     }
@@ -108,19 +108,19 @@ public class PlaySceneUI : SceneUI
         if (Manager.Game.currentCharacter == Characters.Suhyen)
         {
             waveProgressText.text = "카메라의 빛으로 처치하세요!";
-            waveProgressText.color = Utility.StringToColor("#ebfad1");
+            waveProgressText.color = Util.StringToColor("#ebfad1");
         }
         else if (Manager.Game.wave == 15)
         {
             waveProgressText.text = "공룡을 처치하세요!";
-            waveProgressText.color = Utility.StringToColor("#ff0000");
+            waveProgressText.color = Util.StringToColor("#ff0000");
         }
         else
         {
             if (Manager.Game.isNightmare)
-                waveProgressText.color = Utility.StringToColor("#704080");
+                waveProgressText.color = Util.StringToColor("#704080");
             else
-                waveProgressText.color = Utility.StringToColor("#3e5c0a");
+                waveProgressText.color = Util.StringToColor("#3e5c0a");
 
             waveProgressText.text = "다음 웨이브까지:";
             if (Manager.Game.remainingWaveSecond > 0)
@@ -147,13 +147,13 @@ public class PlaySceneUI : SceneUI
         {
             if (Manager.Game.currentCharacter == Characters.Sleepground)
             {
-                specialSkillText.color = Utility.StringToColor("#918d10");
+                specialSkillText.color = Util.StringToColor("#918d10");
                 specialSkillText.text = "S: 검뽑기";
                 return;
             }
             if (Manager.Game.currentCharacter == Characters.Dino)
             {
-                specialSkillText.color = Utility.StringToColor("#918d10");
+                specialSkillText.color = Util.StringToColor("#918d10");
                 specialSkillText.text = "공격: 흡혈";
                 return;
             }
@@ -161,12 +161,12 @@ public class PlaySceneUI : SceneUI
 
         if (Manager.Game.skillCooltime > 0)
         {
-            specialSkillText.color = Utility.StringToColor("#848484");
+            specialSkillText.color = Util.StringToColor("#848484");
             specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.skillCooltime:F1}";
         }
         else
         {
-            specialSkillText.color = Utility.StringToColor("#918d10");
+            specialSkillText.color = Util.StringToColor("#918d10");
             specialSkillText.text = "S: 특수기술!";
         }
     }
@@ -186,7 +186,7 @@ public class PlaySceneUI : SceneUI
     private IEnumerator ShowGameOver()
     {
         Image deathThumbnail = GetChild(DeathThumbnail);
-        Utility.StartRunForSec(this, 0.5f, sec =>
+        CoroutineUtil.StartRunForSec(this, 0.5f, sec =>
         {
             float progress = sec / 0.45f;
             deathThumbnail.SetAlpha(progress * 0.5f);
@@ -197,7 +197,7 @@ public class PlaySceneUI : SceneUI
 
         Image gameOver = GetChild(GameOver);
         gameOver.enabled = true;
-        yield return Utility.RunForSec(0.5f, sec =>
+        yield return CoroutineUtil.RunForSec(0.5f, sec =>
         {
             float progress = sec / 0.5f;
             Vector3 pos = gameOver.transform.localPosition;
@@ -211,7 +211,7 @@ public class PlaySceneUI : SceneUI
         yield return new WaitForSeconds(0.5f);
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
-        Utility.StartScene(Scenes.LobbyScene);
+        Util.StartScene(Scenes.LobbyScene);
     }
 
     private IEnumerator OnWaveClear()

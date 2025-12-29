@@ -47,7 +47,7 @@ public class TrailerSceneUI : SceneUI
         _audioSource.Play();
         yield return new WaitForSeconds(_trailerAudioClip.length);
         yield return new WaitForSeconds(1f);
-        Utility.StartScene(Scenes.LobbyScene);
+        Util.StartScene(Scenes.LobbyScene);
     }
 
     private IEnumerator TextSizeUpdate()
@@ -86,6 +86,6 @@ public class TrailerSceneUI : SceneUI
         yield return new WaitUntil(() => Input.GetMouseButton(0));
 
         yield return new WaitForSeconds(0.1f);
-        Utility.StartScene(Scenes.LobbyScene);
+        Util.StartScene(Scenes.LobbyScene);
     }
 }

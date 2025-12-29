@@ -17,6 +17,7 @@ public class EnemyProjectile_Poison : EnemyProjectile
 
             if (IsContactCharacter)
             {
+
                 while (true)
                 {
                     transform.position = Manager.Object.Character.position;
@@ -30,6 +31,7 @@ public class EnemyProjectile_Poison : EnemyProjectile
     protected override IEnumerator Routine_ContactCharacter()
     {
         yield return new WaitUntil(() => IsContactCharacter);
+
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 20f;
         foreach (int i in Count(10))

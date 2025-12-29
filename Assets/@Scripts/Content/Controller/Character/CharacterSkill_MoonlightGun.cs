@@ -65,7 +65,7 @@ public class CharacterSkill_MoonlightGun : BaseController
 
             _sr.sprite = _direction.x < 0 ? _spriteL : _spriteR;
 
-            transform.rotation = Utility.Direction2Rotation(_direction);
+            transform.rotation = Util.Direction2Rotation(_direction);
             transform.position += _direction * 25f;
         }
         else

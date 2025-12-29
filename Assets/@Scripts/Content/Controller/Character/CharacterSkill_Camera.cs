@@ -1,7 +1,7 @@
 ﻿
 using System.Collections;
 using UnityEngine;
-using static Utility;
+using static Util;
 
 public class CharacterSkill_Camera : BaseController
 {
@@ -66,7 +66,7 @@ public class CharacterSkill_Camera : BaseController
         bool flip = _direction.x < 0;
         _sr.sprite = flip ? _sprite_left : _sprite_right;
 
-        transform.rotation = Utility.Direction2Rotation(_direction);
+        transform.rotation = Util.Direction2Rotation(_direction);
         transform.position += _direction * 25f;
     }
 }

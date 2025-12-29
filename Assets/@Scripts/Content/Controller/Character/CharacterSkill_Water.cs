@@ -41,7 +41,7 @@ public class CharacterSkill_Water : BaseController
         transform.position = Manager.Object.Character.position;
 
         Vector3 direction = Manager.Input.attackDirection;
-        transform.rotation = Utility.Direction2Rotation(direction);
+        transform.rotation = Util.Direction2Rotation(direction);
 
         go.SetActive(true);
 

@@ -122,13 +122,13 @@ public class CharacterSkill_BossDino : BaseController
         while (true)
         {
             Color color;
-            color = Utility.StringToColor("#ff0000");
+            color = Util.StringToColor("#ff0000");
             color.a = 0.5f;
             _lineRenderer.startColor = color;
             _lineRenderer.endColor = color;
             yield return new WaitForSeconds(0.1f);
 
-            color = Utility.StringToColor("#ff4040");
+            color = Util.StringToColor("#ff4040");
             color.a = 0.5f;
             _lineRenderer.startColor = color;
             _lineRenderer.endColor = color;
@@ -150,7 +150,7 @@ public class CharacterSkill_BossDino : BaseController
 
         Vector3 startPos = _ballStart.transform.position;
         Vector3 dir = Manager.Input.attackDirection;
-        float dist = Utility.RandomNumber(1, 250);
+        float dist = Util.RandomNumber(1, 250);
         transform.position = startPos + dir * dist;
 
         StartCoroutine(LoopEffect());

@@ -37,8 +37,8 @@ public class Enemy : EnemyBase
             Enemys.ThePiedPiper => "하민우",
             Enemys.BossDino => "공룡",
             _ => ""
-            + Utility.RandomElement(Manager.Data.hiddenSurnames)
-            + Utility.RandomElement(Manager.Data.hiddenMainames)
+            + Util.RandomElement(Manager.Data.hiddenSurnames)
+            + Util.RandomElement(Manager.Data.hiddenMainames)
         };
         StartCoroutine(LoopHiddenNameLogic());
     }
@@ -338,7 +338,7 @@ public class Enemy : EnemyBase
         MoveToMoveDirection(1f);
         if (_type == Enemys.CrazyLaughMask)
         {
-            if (Utility.RandomNumber(1, 500) == 1)
+            if (Util.RandomNumber(1, 500) == 1)
                 yield return Manager.Speech.SpeechForSeconds(transform, "ㅋ흐하하하하핳ㅋ흫흐하핳", 1f);
         }
         if (DistanceTo(Manager.Object.Character) < 50f)
@@ -596,7 +596,7 @@ public class Enemy : EnemyBase
         if (transform.position.y <= 50) 
             yield break;
 
-        if (Utility.RandomNumber(1, 2) == 1)
+        if (Util.RandomNumber(1, 2) == 1)
         {
             _sr.SetBrightness(-1.0f);
             for (var timer = 1f; timer > 0; timer -= Time.fixedDeltaTime)
@@ -662,7 +662,7 @@ public class Enemy : EnemyBase
         if (DistanceTo(Manager.Object.Character) < 200)
         {
             Manager.Speech.Speech(transform, "♪");
-            foreach (int i in Count(Utility.RandomNumber(3, 6)))
+            foreach (int i in Count(Util.RandomNumber(3, 6)))
             {
                 CallingRat();
                 yield return PlayPipeSoundAndWaiting();

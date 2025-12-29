@@ -7,11 +7,11 @@ public class EnemyHiddenNameParticle : BaseController
     {
         SpriteRenderer sr = gameObject.Component<SpriteRenderer>();
 
-        transform.localScale = Vector3.one * Utility.RandomNumber(8, 10);
-        sr.SetBrightness(Utility.RandomNumber(-0.05f, 0.25f));
+        transform.localScale = Vector3.one * Util.RandomNumber(8, 10);
+        sr.SetBrightness(Util.RandomNumber(-0.05f, 0.25f));
         transform.position = position;
-        transform.AddX(Utility.RandomNumber(-50, 50));
-        transform.AddY(Utility.RandomNumber(-10, 10));
+        transform.AddX(Util.RandomNumber(-50, 50));
+        transform.AddY(Util.RandomNumber(-10, 10));
         StartCoroutine(Routine());
     }
 

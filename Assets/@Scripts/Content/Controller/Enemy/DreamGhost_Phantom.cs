@@ -13,7 +13,7 @@ public class DreamGhost_Phantom : EnemyBase
         float cameraX = Manager.Object.MainCamera.transform.position.x;
         float dist = Define.EnemySpawnDistance;
         Vector3 pos = transform.position;
-        pos.x = cameraX + Utility.RandomSign() * dist;
+        pos.x = cameraX + Util.RandomSign() * dist;
         transform.position = pos; 
         StartCoroutine(Loop());
     }

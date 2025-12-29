@@ -11,7 +11,7 @@ public class ObjectManager : MonoBehaviour
         get
         {
             if (_character == null)
-                _character = Utility.FindGameObject(PlaySceneObjects.Character).transform;
+                _character = Util.FindGameObject(PlaySceneObjects.Character).transform;
             return _character;
         }
     }
@@ -20,7 +20,7 @@ public class ObjectManager : MonoBehaviour
         get
         {
             if (_moonlightswordShield == null)
-                _moonlightswordShield = Utility.FindGameObject(PlaySceneObjects.MoonlightswordShield).transform;
+                _moonlightswordShield = Util.FindGameObject(PlaySceneObjects.MoonlightswordShield).transform;
             return _moonlightswordShield;
         }
     }
@@ -29,7 +29,7 @@ public class ObjectManager : MonoBehaviour
         get
         {
             if (_waterPrison == null)
-                _waterPrison = Utility.FindGameObject(PlaySceneObjects.WaterPrison).transform;
+                _waterPrison = Util.FindGameObject(PlaySceneObjects.WaterPrison).transform;
             return _waterPrison;
         }
     }

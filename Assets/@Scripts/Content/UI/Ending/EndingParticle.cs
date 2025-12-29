@@ -35,7 +35,7 @@ public class EndingParticle : UIBase
     {
         yield return new WaitUntil(() => _endingProgress == 21);
 
-        foreach (int i in Utility.Count(10))
+        foreach (int i in Util.Count(10))
         {
             _image.AddTransparency(0.1f);
             yield return new WaitForFixedUpdate();
@@ -47,14 +47,14 @@ public class EndingParticle : UIBase
     {
         while (true)
         {
-            float brightness = Utility.RandomNumber(-0.25f, 0.1f);
+            float brightness = Util.RandomNumber(-0.25f, 0.1f);
             _image.SetBrightness(brightness);
       
             Transform dino = _characters[Characters.Dino];
 
             transform.position = dino.position;
-            transform.AddX(Utility.RandomNumber(-50, 50));
-            transform.AddY(Utility.RandomNumber(-50, 50));
+            transform.AddX(Util.RandomNumber(-50, 50));
+            transform.AddY(Util.RandomNumber(-50, 50));
             
             yield return transform.MoveToTransformOverTime(0.5f, dino);
             
@@ -66,7 +66,7 @@ public class EndingParticle : UIBase
     {
         while (true)
         {
-            float brightness = Utility.RandomNumber(0.1f, 0.25f);
+            float brightness = Util.RandomNumber(0.1f, 0.25f);
             _image.SetBrightness(brightness);
 
             Transform target;
@@ -77,7 +77,7 @@ public class EndingParticle : UIBase
 
             transform.position = target.position;
 
-            Vector3 v = new Vector3(Utility.RandomNumber(-25, 25), 50);
+            Vector3 v = new Vector3(Util.RandomNumber(-25, 25), 50);
             yield return transform.MoveToPositionOverTime(0.5f, target.position + v);
             
             yield return new WaitForFixedUpdate();

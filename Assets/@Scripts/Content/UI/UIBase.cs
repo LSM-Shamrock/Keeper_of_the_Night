@@ -31,7 +31,7 @@ public class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     protected void BindChild(ChildKey key) 
     {
-        Transform child = Utility.FindChild(transform, key.name);
+        Transform child = Util.FindChild(transform, key.name);
         if (child == null)
         {
             Debug.Log($"바인딩 실패! {transform}에게서 {key.name}이름의 자식을 찾지 못함");
