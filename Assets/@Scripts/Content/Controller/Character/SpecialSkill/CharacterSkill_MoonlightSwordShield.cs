@@ -39,7 +39,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
         _sprite_Droping = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
         _sprite_StuckInTheGround = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
 
-        Manager.Game.onDisarmSpecialSkill.Add(this, () => StartCoroutine(OnDisarmSpecialSkill()));
+        Manager.Game.onDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
         StartCoroutine(LoopRelease());
         StartCoroutine(LoopOnSkill());
         StartCoroutine(LoopShieldEffect());
@@ -80,14 +80,13 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
         }
     }
 
-    private IEnumerator OnDisarmSpecialSkill()
+    private void OnDisarmSpecialSkill()
     {
         if (IsSleepground == false)
-            yield break;
+            return;
 
         HideShield();
         _swordBody.SetActive(false);
-        yield return new WaitForSeconds(0.1f);
         Manager.Game.isSpecialSkillInvoking = false;
         Manager.Game.skillCooltime = 0.5f;
     }
@@ -147,8 +146,8 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
                     yield return new WaitForFixedUpdate();
                 }
                 transform.position += Vector3.down * 5f;
-                ShowShield();
                 _swordBodySR.sprite = _sprite_StuckInTheGround;
+                ShowShield();
                 
                 yield return new WaitForSeconds(0.5f);
 
