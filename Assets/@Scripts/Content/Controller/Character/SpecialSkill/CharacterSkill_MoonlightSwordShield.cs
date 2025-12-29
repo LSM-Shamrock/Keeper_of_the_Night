@@ -6,11 +6,14 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 {
     private GameObject _swordBody;
     private SpriteRenderer _swordBodySR;
-    private PolygonCollider2D _swordBodyCol;
+    private Collider2D _swordBodyCol;
+    private Sprite _sprite_Droping;
+    private Sprite _sprite_StuckInTheGround;
+
     private SpriteRenderer[] _shieldEffect;
     private float[] _shieldEffectDefaultAlpha;
 
-    private bool IsContactGround => _swordBody.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
+    private bool IsContactGround => _swordBodyCol.IsContact(PlaySceneObjects.Ground);
 
     private bool IsSleepground => Manager.Game.currentCharacter == Characters.Sleepground;
 
@@ -23,7 +26,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
     {
         _swordBody = transform.GetChild(0).gameObject;
         _swordBodySR = _swordBody.GetComponent<SpriteRenderer>();
-        _swordBodyCol = _swordBody.GetComponent<PolygonCollider2D>();
+        _swordBodyCol = _swordBody.GetComponent<Collider2D>();
 
         _shieldEffect = new SpriteRenderer[3];
         _shieldEffectDefaultAlpha = new float[_shieldEffect.Length];
@@ -32,6 +35,9 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
         _shieldEffect[2] = transform.GetChild(3).GetComponent<SpriteRenderer>();
         for (int i = 0; i < _shieldEffect.Length; i++) 
             _shieldEffectDefaultAlpha[i] = _shieldEffect[i].color.a;
+
+        _sprite_Droping = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
+        _sprite_StuckInTheGround = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
 
         Manager.Game.onDisarmSpecialSkill.Add(this, () => StartCoroutine(OnDisarmSpecialSkill()));
         StartCoroutine(LoopRelease());
@@ -76,14 +82,14 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 
     private IEnumerator OnDisarmSpecialSkill()
     {
-        if (IsSleepground)
-        {
-            HideShield();
-            _swordBody.SetActive(false);
-            yield return new WaitForSeconds(0.1f);
-            Manager.Game.isSpecialSkillInvoking = false;
-            Manager.Game.skillCooltime = 0.5f;
-        }
+        if (IsSleepground == false)
+            yield break;
+
+        HideShield();
+        _swordBody.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        Manager.Game.isSpecialSkillInvoking = false;
+        Manager.Game.skillCooltime = 0.5f;
     }
 
     private IEnumerator LoopRelease()
@@ -109,8 +115,6 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
     }
     private IEnumerator LoopOnSkill()
     {
-        Sprite sprite_Droping = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
-        Sprite sprite_StuckInTheGround = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
         while (true)
         {
             yield return new WaitUntil(() => IsSleepground);
@@ -131,7 +135,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
             {
                 Manager.Game.isSpecialSkillInvoking = true;
                 
-                Util.SetSpriteAndPolygon(_swordBody, sprite_Droping);
+                _swordBodySR.sprite = _sprite_Droping;
                 _swordBody.SetActive(true);
                 
                 transform.position = Manager.Object.Character.position + Vector3.up * 30f;
@@ -139,12 +143,12 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
                 yield return new WaitUntil(() => !IsContactGround);
                 while (!IsContactGround)
                 {
-                    transform.AddY(-5f);
+                    transform.position += Vector3.down * 5f;
                     yield return new WaitForFixedUpdate();
                 }
                 transform.position += Vector3.down * 5f;
                 ShowShield();
-                Util.SetSpriteAndPolygon(_swordBody, sprite_StuckInTheGround);
+                _swordBodySR.sprite = _sprite_StuckInTheGround;
                 
                 yield return new WaitForSeconds(0.5f);
 
