@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 {
-    private GameObject _child;
-    private SpriteRenderer _blue;
-    private SpriteRenderer _yellow;
-    private SpriteRenderer _white;
+    private GameObject _swordBody;
+    private SpriteRenderer _swordBodySR;
+    private PolygonCollider2D _swordBodyCol;
+    private SpriteRenderer[] _shieldEffect;
+    private float[] _shieldEffectDefaultAlpha;
 
-    private bool IsContactGround => _child.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
+    private bool IsContactGround => _swordBody.Component<Collider2D>().IsContact(PlaySceneObjects.Ground);
 
     private bool IsSleepground => Manager.Game.currentCharacter == Characters.Sleepground;
 
@@ -20,47 +21,54 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 
     private void Init()
     {
-        _child = transform.GetChild(0).gameObject;
-        _blue = transform.GetChild(1).GetComponent<SpriteRenderer>();
-        _yellow = transform.GetChild(2).GetComponent<SpriteRenderer>();
-        _white = transform.GetChild(3).GetComponent<SpriteRenderer>();
+        _swordBody = transform.GetChild(0).gameObject;
+        _swordBodySR = _swordBody.GetComponent<SpriteRenderer>();
+        _swordBodyCol = _swordBody.GetComponent<PolygonCollider2D>();
+
+        _shieldEffect = new SpriteRenderer[3];
+        _shieldEffectDefaultAlpha = new float[_shieldEffect.Length];
+        _shieldEffect[0] = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        _shieldEffect[1] = transform.GetChild(2).GetComponent<SpriteRenderer>();
+        _shieldEffect[2] = transform.GetChild(3).GetComponent<SpriteRenderer>();
+        for (int i = 0; i < _shieldEffect.Length; i++) 
+            _shieldEffectDefaultAlpha[i] = _shieldEffect[i].color.a;
+
         Manager.Game.onDisarmSpecialSkill.Add(this, () => StartCoroutine(OnDisarmSpecialSkill()));
         StartCoroutine(LoopRelease());
         StartCoroutine(LoopOnSkill());
+        StartCoroutine(LoopShieldEffect());
     }
 
     private void ShowShield()
     {
-        _blue.gameObject.SetActive(true);
-        _yellow.gameObject.SetActive(true);
-        _white.gameObject.SetActive(true);
-
-        _blue.SetTransparency(0.5f);
-        _yellow.SetTransparency(0.75f);
-        _white.SetTransparency(0.5f);
+        for (int i=0; i<_shieldEffect.Length; i++)
+        {
+            _shieldEffect[i].SetAlpha(_shieldEffectDefaultAlpha[i]);
+            _shieldEffect[i].gameObject.SetActive(true);
+        }
     }
     private void HideShield()
     {
-        _blue.gameObject.SetActive(false);
-        _yellow.gameObject.SetActive(false);
-        _white.gameObject.SetActive(false);
+        foreach (SpriteRenderer sr in _shieldEffect)
+            sr.gameObject.SetActive(false);
     }
+
     private IEnumerator LoopShieldEffect()
     {
         while (true)
         {
             foreach (int i in Count(100))
             {
-                _blue.AddTransparency(0.1f);
-                _yellow.AddTransparency(0.1f);
-                _white.AddTransparency(0.1f);
+                foreach(SpriteRenderer sr in _shieldEffect)
+                    sr.AddTransparency(0.001f);
+
                 yield return new WaitForFixedUpdate();
             }
             foreach (int i in Count(100))
             {
-                _blue.AddTransparency(-0.1f);
-                _yellow.AddTransparency(-0.1f);
-                _white.AddTransparency(-0.1f);
+                foreach (SpriteRenderer sr in _shieldEffect)
+                    sr.AddTransparency(-0.001f);
+
                 yield return new WaitForFixedUpdate();
             }
         }
@@ -71,7 +79,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
         if (IsSleepground)
         {
             HideShield();
-            _child.SetActive(false);
+            _swordBody.SetActive(false);
             yield return new WaitForSeconds(0.1f);
             Manager.Game.isSpecialSkillInvoking = false;
             Manager.Game.skillCooltime = 0.5f;
@@ -123,8 +131,8 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
             {
                 Manager.Game.isSpecialSkillInvoking = true;
                 
-                Util.SetSpriteAndPolygon(_child, sprite_Droping);
-                _child.SetActive(true);
+                Util.SetSpriteAndPolygon(_swordBody, sprite_Droping);
+                _swordBody.SetActive(true);
                 
                 transform.position = Manager.Object.Character.position + Vector3.up * 30f;
 
@@ -136,7 +144,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
                 }
                 transform.position += Vector3.down * 5f;
                 ShowShield();
-                Util.SetSpriteAndPolygon(_child, sprite_StuckInTheGround);
+                Util.SetSpriteAndPolygon(_swordBody, sprite_StuckInTheGround);
                 
                 yield return new WaitForSeconds(0.5f);
 
