@@ -31,38 +31,9 @@ public static class Util
         return Quaternion.Euler(0, 0, angle);
     }
 
-    public static Vector3 MousePosition
-    {
-        get
-        {
-            return Manager.Object.MainCamera.ScreenToWorldPoint(Input.mousePosition);
-        }
-    }
-    public static float MouseX => MousePosition.x;
-    public static float MouseY => MousePosition.y;
+    public static Vector3 MousePosition => Manager.Object.MainCamera.ScreenToWorldPoint(Input.mousePosition);
+        
 
-    public static int RandomNumber(int min, int max)
-    {
-        return UnityEngine.Random.Range(min, max + 1);
-    }
-    public static float RandomNumber(float min, float max)
-    {
-        return UnityEngine.Random.Range(min, max);
-    }
-    public static T RandomElement<T>(IEnumerable<T> collection)
-    {
-        int count = collection.Count();
-
-        int randomIndex = UnityEngine.Random.Range(0, count);
-
-        T result = collection.ElementAt(randomIndex);
-
-        return result;
-    }
-    public static int RandomSign()
-    {
-        return UnityEngine.Random.Range(0, 2) * 2 - 1;
-    }
 
 
     public static Transform FindChild(Transform root, string name)
@@ -92,6 +63,37 @@ public static class Util
 
 
 
+
+    public static void SetSpriteAndPolygon(SpriteRenderer spriteRenderer, PolygonCollider2D polygonCollider, Sprite sprite)
+    {
+        if (spriteRenderer != null) 
+            spriteRenderer.sprite = sprite;
+
+        if (polygonCollider != null)
+        {
+            if (sprite == null)
+            {
+                polygonCollider.pathCount = 0;
+                return;
+            }
+
+            int shapeCount = sprite.GetPhysicsShapeCount();
+            polygonCollider.pathCount = shapeCount;
+
+            for (int i = 0; i < shapeCount; i++)
+            {
+                List<Vector2> points = new();
+                sprite.GetPhysicsShape(i, points);
+                polygonCollider.SetPath(i, points);
+            }
+        }
+    }
+    public static void SetSpriteAndPolygon(GameObject gameObject, Sprite sprite)
+    {
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        PolygonCollider2D polygonCollider = gameObject.GetComponent<PolygonCollider2D>();
+        SetSpriteAndPolygon(spriteRenderer, polygonCollider, sprite);
+    }
 
 }
 

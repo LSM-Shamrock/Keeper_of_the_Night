@@ -154,7 +154,7 @@ public class CharacterSkill_BossDino : CharacterSkillController
 
         Vector3 startPos = _ballStart.transform.position;
         Vector3 dir = Manager.Input.attackDirection;
-        float dist = Util.RandomNumber(1, 250);
+        float dist = RandomUtil.RandomNumber(1, 250);
         transform.position = startPos + dir * dist;
 
         StartCoroutine(LoopEffect());

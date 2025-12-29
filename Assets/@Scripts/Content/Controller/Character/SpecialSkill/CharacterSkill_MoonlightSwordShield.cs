@@ -123,7 +123,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
             {
                 Manager.Game.isSpecialSkillInvoking = true;
                 
-                _child.SetSpriteAndPolygon(sprite_Droping);
+                Util.SetSpriteAndPolygon(_child, sprite_Droping);
                 _child.SetActive(true);
                 
                 transform.position = Manager.Object.Character.position + Vector3.up * 30f;
@@ -136,7 +136,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
                 }
                 transform.position += Vector3.down * 5f;
                 ShowShield();
-                _child.SetSpriteAndPolygon(sprite_StuckInTheGround);
+                Util.SetSpriteAndPolygon(_child, sprite_StuckInTheGround);
                 
                 yield return new WaitForSeconds(0.5f);
 

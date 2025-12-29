@@ -71,7 +71,7 @@ public class DreamGhost : EnemyBase
         while (Manager.Game.wave != 8)
         {
             CreatePhantom();
-            yield return new WaitForSeconds(Util.RandomNumber(2, 4));
+            yield return new WaitForSeconds(RandomUtil.RandomNumber(2, 4));
         }
     }
     IEnumerator OnAppearance()

@@ -7,12 +7,12 @@ public class DreamGhost_ButterflyParticle : BaseController
     {
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
 
-        float brightness = Util.RandomNumber(-30, 30) / 100f;
+        float brightness = RandomUtil.RandomNumber(-30, 30) / 100f;
         sr.SetBrightness(brightness);
 
-        transform.localScale = Vector3.one * Util.RandomNumber(5, 10);
-        transform.AddX(Util.RandomNumber(-20, 20));
-        transform.AddY(Util.RandomNumber(-20, 20));
+        transform.localScale = Vector3.one * RandomUtil.RandomNumber(5, 10);
+        transform.AddX(RandomUtil.RandomNumber(-20, 20));
+        transform.AddY(RandomUtil.RandomNumber(-20, 20));
         Destroy(gameObject, 1f);
     }
 }

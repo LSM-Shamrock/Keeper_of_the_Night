@@ -7,13 +7,13 @@ public class DreamGhost_Phantom : EnemyBase
     {
         base.Init();
         Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
-        gameObject.SetSpriteAndPolygon(Manager.Resource.LoadResource<Sprite>(Manager.Game.currentCharacter));
+        Util.SetSpriteAndPolygon(gameObject, Manager.Resource.LoadResource<Sprite>(Manager.Game.currentCharacter));
 
 
         float cameraX = Manager.Object.MainCamera.transform.position.x;
         float dist = Define.EnemySpawnDistance;
         Vector3 pos = transform.position;
-        pos.x = cameraX + Util.RandomSign() * dist;
+        pos.x = cameraX + RandomUtil.RandomSign() * dist;
         transform.position = pos; 
         StartCoroutine(Loop());
     }

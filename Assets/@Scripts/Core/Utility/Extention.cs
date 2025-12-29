@@ -94,25 +94,9 @@ public static class Extention
         return false;
     }
 
-    public static void SetSpriteAndPolygon(this GameObject gameObject, Sprite sprite)
-    {
-        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        PolygonCollider2D polygonCollider = gameObject.GetComponent<PolygonCollider2D>();
 
-        spriteRenderer.sprite = sprite;
 
-        if (polygonCollider == null)
-            return;
 
-        int shapeCount = sprite.GetPhysicsShapeCount();
-        polygonCollider.pathCount = sprite.GetPhysicsShapeCount();
-        for (int i = 0; i < shapeCount; i++)
-        {
-            List<Vector2> points = new();
-            sprite.GetPhysicsShape(i, points);
-            polygonCollider.SetPath(i, points);
-        }
-    }
 
 
     static readonly Dictionary<(GameObject, Type), Component> s_components = new();
