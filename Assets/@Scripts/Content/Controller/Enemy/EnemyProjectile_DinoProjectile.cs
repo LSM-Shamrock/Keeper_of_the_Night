@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyProjectile_DinoProjectile : EnemyProjectile
 {
-    protected override IEnumerator Routine_ContactCharacter()
+    protected override IEnumerator StartContactCharacter()
     {
         while (true)
         {
@@ -16,7 +16,7 @@ public class EnemyProjectile_DinoProjectile : EnemyProjectile
             yield return new WaitForFixedUpdate();
         }
     }
-    protected override IEnumerator Start_Shoot()
+    protected override IEnumerator StartShoot()
     {
         _sr.SetTransparency(0.25f);
         transform.localScale = Vector3.one * 5f;

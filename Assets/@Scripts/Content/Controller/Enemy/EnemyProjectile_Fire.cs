@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyProjectile_Fire : EnemyProjectile
 {
-    protected override IEnumerator Start_Shoot()
+    protected override IEnumerator StartShoot()
     {
         _sr.SetTransparency(0.1f);
         transform.localScale = Vector3.one * 25;
@@ -28,7 +28,7 @@ public class EnemyProjectile_Fire : EnemyProjectile
         }
         DestroyThisClone();
     }
-    protected override IEnumerator Routine_ContactCharacter()
+    protected override IEnumerator StartContactCharacter()
     {
         yield return new WaitUntil(() => IsContactCharacter);
         _sr.SetTransparency(0.5f);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyProjectile_IceShard : EnemyProjectile
 {
-    protected override IEnumerator Routine_ContactCharacter()
+    protected override IEnumerator StartContactCharacter()
     {
         yield return new WaitUntil(() => IsContactCharacter);
         Manager.Game.TakeDamageToPlayer(11);
@@ -21,7 +21,7 @@ public class EnemyProjectile_IceShard : EnemyProjectile
         DestroyThisClone();
     }
 
-    protected override IEnumerator Start_Shoot()
+    protected override IEnumerator StartShoot()
     {
         _sr.SetTransparency(0.1f);
         transform.localScale = Vector3.one * 10f;

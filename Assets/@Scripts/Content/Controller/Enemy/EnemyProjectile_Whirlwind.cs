@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyProjectile_Whirlwind : EnemyProjectile
 {
     bool IsContactGround => _col.IsContact(PlaySceneObjects.Ground);
-    protected override IEnumerator Start_Shoot()
+    protected override IEnumerator StartShoot()
     {
         transform.localScale = Vector3.one * 5f;
         _sr.SetTransparency(0.25f);
@@ -45,7 +45,7 @@ public class EnemyProjectile_Whirlwind : EnemyProjectile
         }
         DestroyThisClone();
     }
-    protected override IEnumerator Routine_ContactCharacter()
+    protected override IEnumerator StartContactCharacter()
     {
         while (true)
         {
