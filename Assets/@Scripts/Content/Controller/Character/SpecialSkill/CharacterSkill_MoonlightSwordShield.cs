@@ -137,16 +137,17 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
                 _swordBodySR.sprite = _sprite_Droping;
                 _swordBody.SetActive(true);
                 
-                transform.position = Manager.Object.Character.position + Vector3.up * 30f;
+                transform.position = Manager.Object.Character.position;
 
-                yield return new WaitUntil(() => !IsContactGround);
+                yield return null;
                 while (!IsContactGround)
                 {
-                    transform.position += Vector3.down * 5f;
+                    transform.position += Vector3.down * 6f;
                     yield return new WaitForFixedUpdate();
                 }
-                transform.position += Vector3.down * 5f;
+                transform.position += Vector3.down * 4f;
                 _swordBodySR.sprite = _sprite_StuckInTheGround;
+                
                 ShowShield();
                 
                 yield return new WaitForSeconds(0.5f);
