@@ -10,8 +10,8 @@ public class DreamGhost : EnemyBase
     public override void Init()
     {
         base.Init();
-        Manager.Game.onDreamghostAppearance.Add(this, () => StartCoroutine(OnAppearance()));
-        Manager.Game.onNightmareEvent.Add(this, () => StartCoroutine(OnNightmareEvent()));
+        Manager.Game.OnDreamghostAppearance.Add(this, () => StartCoroutine(OnAppearance()));
+        Manager.Game.OnNightmareEvent.Add(this, () => StartCoroutine(OnNightmareEvent()));
     }
 
     void CreateButterflyParticle()
@@ -40,22 +40,22 @@ public class DreamGhost : EnemyBase
             sr.AddTransparency(-0.05f);
             yield return new WaitForFixedUpdate();
         }
-        Manager.Game.isNightmare = Manager.Game.wave == 7;
-        Manager.Game.onNightmareEvent.Call();
+        Manager.Game.IsNightmare = Manager.Game.Wave == 7;
+        Manager.Game.OnNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
             yield return new WaitForFixedUpdate();
         }
-        yield return new WaitUntil(() => Manager.Game.wave == 8);
+        yield return new WaitUntil(() => Manager.Game.Wave == 8);
         sr.SetTransparency(1f);
         foreach (int i in Count(20))
         {
             sr.AddTransparency(-0.05f);
             yield return new WaitForFixedUpdate();
         }
-        Manager.Game.isNightmare = Manager.Game.wave == 7;
-        Manager.Game.onNightmareEvent.Call();
+        Manager.Game.IsNightmare = Manager.Game.Wave == 7;
+        Manager.Game.OnNightmareEvent.Call();
         foreach (int i in Count(100))
         {
             sr.AddTransparency(0.01f);
@@ -65,10 +65,10 @@ public class DreamGhost : EnemyBase
 
     IEnumerator OnNightmareEvent()
     {
-        if (Manager.Game.wave == 7)
+        if (Manager.Game.Wave == 7)
             Hide();
 
-        while (Manager.Game.wave != 8)
+        while (Manager.Game.Wave != 8)
         {
             CreatePhantom();
             yield return new WaitForSeconds(RandomUtil.RandomNumber(2, 4));
@@ -97,7 +97,7 @@ public class DreamGhost : EnemyBase
         Hide();
 
         StartCoroutine(WhiteoutEffect());
-        yield return new WaitUntil(() => Manager.Game.wave == 8);
+        yield return new WaitUntil(() => Manager.Game.Wave == 8);
 
         Vector3 pos = transform.position;
         pos.x = camera.position.x + (character.position.x > 0 ? -200f : 200f);
@@ -141,7 +141,7 @@ public class DreamGhost : EnemyBase
 
     protected override IEnumerator WhenTakingDamage(int damage)
     {
-        if (Manager.Game.wave == 8)
+        if (Manager.Game.Wave == 8)
             Hide();
         yield break;
     }

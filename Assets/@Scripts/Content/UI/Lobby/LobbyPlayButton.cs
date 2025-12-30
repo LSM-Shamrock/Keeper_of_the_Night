@@ -28,7 +28,7 @@ public class LobbyPlayButton : UIBase
                     {
                         size = _size2;
                         yield return new WaitForSeconds(0.1f);
-                        Manager.Game.wave = _wave;
+                        Manager.Game.Wave = _wave;
                         Util.StartScene(Scenes.PlayScene);
                     }
                 }

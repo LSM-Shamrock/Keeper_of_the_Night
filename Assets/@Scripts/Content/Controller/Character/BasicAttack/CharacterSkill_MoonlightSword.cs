@@ -43,9 +43,9 @@ public class CharacterSkill_MoonlightSword : BaseController
         while (true)
         {
         Return:
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Sleepground);
+            yield return new WaitUntil(() => Manager.Game.CurrentCharacter == Characters.Sleepground);
             
-            if (Manager.Game.isSpecialSkillInvoking) 
+            if (Manager.Game.IsSpecialSkillInvoking) 
                 goto Return;
 
             if (!Manager.Input.isDragAttack) 

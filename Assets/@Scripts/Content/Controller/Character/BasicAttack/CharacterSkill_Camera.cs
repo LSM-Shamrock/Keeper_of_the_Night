@@ -44,7 +44,7 @@ public class CharacterSkill_Camera : BaseController
         while (true)
         {
             _child.SetActive(false);
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Suhyen);
+            yield return new WaitUntil(() => Manager.Game.CurrentCharacter == Characters.Suhyen);
             
             _child.SetActive(true);
             if (Manager.Input.isOnAttack)

@@ -6,8 +6,8 @@ public class DreamGhost_Phantom : EnemyBase
     public override void Init()
     {
         base.Init();
-        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
-        Util.SetSpriteAndPolygon(gameObject, Manager.Resource.LoadResource<Sprite>(Manager.Game.currentCharacter));
+        Manager.Game.OnNightmareEvent.Add(this, DeleteThisClone);
+        Util.SetSpriteAndPolygon(gameObject, Manager.Resource.LoadResource<Sprite>(Manager.Game.CurrentCharacter));
 
 
         float cameraX = Manager.Object.MainCamera.transform.position.x;

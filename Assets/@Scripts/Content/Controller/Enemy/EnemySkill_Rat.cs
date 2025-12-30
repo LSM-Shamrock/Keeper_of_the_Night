@@ -8,7 +8,7 @@ public class EnemySkill_Rat : EnemyBase
     public void OnCreate()
     {
         base.Init();
-        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
+        Manager.Game.OnNightmareEvent.Add(this, DeleteThisClone);
 
         float cameraX = Manager.Object.MainCamera.transform.position.x;
         float dist = Define.EnemySpawnDistance;

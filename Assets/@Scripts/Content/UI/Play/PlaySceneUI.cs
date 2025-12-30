@@ -45,9 +45,9 @@ public class PlaySceneUI : SceneUI
         UI_MobileControl);
 
         StartCoroutine(LoopWaveClearImageEffect());
-        Manager.Game.onWaveClear.Add(this, () => StartCoroutine(OnWaveClear()));
+        Manager.Game.OnWaveClear.Add(this, () => StartCoroutine(OnWaveClear()));
 
-        Manager.Game.onPlayerDie.Add(this, () =>
+        Manager.Game.OnPlayerDie.Add(this, () =>
         {
             GetChild(Text_HP).transform.localScale += Vector3.one * 0.25f;
             GetChild(Text_Wave).transform.localScale += Vector3.one * 0.4f;
@@ -63,20 +63,20 @@ public class PlaySceneUI : SceneUI
     private void UpdateHPText()
     {
         Text hpText = GetChild(Text_HP);
-        if (Manager.Game.isNightmare)
+        if (Manager.Game.IsNightmare)
         {
-            hpText.text = $"꿈에서의 HP:{Manager.Game.dreamHealth}/{Manager.Game.dreamMaxHealth}";
+            hpText.text = $"꿈에서의 HP:{Manager.Game.DreamHealth}/{Manager.Game.DreamMaxHealth}";
             hpText.color = Util.StringToColor("#7d6080");
         }
-        else if (Manager.Game.currentCharacter == Characters.Suhyen)
+        else if (Manager.Game.CurrentCharacter == Characters.Suhyen)
         {
-            hpText.text = $"수현HP:{Manager.Game.suhyenHealth}/{Manager.Game.suhyenMaxHealth}";
+            hpText.text = $"수현HP:{Manager.Game.SuhyenHealth}/{Manager.Game.SuhyenMaxHealth}";
             hpText.color = Util.StringToColor("#8f40ff");
             hpText.fontStyle = FontStyle.Bold;
         }
         else
         {
-            hpText.text = $"HP:{Manager.Game.health}/{Manager.Game.currentCharacterData.maxHealth}";
+            hpText.text = $"HP:{Manager.Game.Health}/{Manager.Game.CurrentCharacterData.maxHealth}";
             hpText.color = Util.StringToColor("#806262");
             hpText.fontStyle = FontStyle.Normal;
         }
@@ -88,7 +88,7 @@ public class PlaySceneUI : SceneUI
 
         Text waveText = GetChild(Text_Wave);
 
-        if (Manager.Game.isNightmare)
+        if (Manager.Game.IsNightmare)
         {
             waveText.text = $"WAVE:7 - 악몽";
             waveText.color = Util.StringToColor("#704080");
@@ -96,7 +96,7 @@ public class PlaySceneUI : SceneUI
         }
         else
         {
-            waveText.text = $"WAVE:{Manager.Game.wave}";
+            waveText.text = $"WAVE:{Manager.Game.Wave}";
             waveText.color = Util.StringToColor("#3e5c0a");
             waveText.transform.localScale = Vector3.one * defaultScale;
         }
@@ -105,53 +105,53 @@ public class PlaySceneUI : SceneUI
     {
         Text waveProgressText = GetChild(Text_WaveProgress);
 
-        if (Manager.Game.currentCharacter == Characters.Suhyen)
+        if (Manager.Game.CurrentCharacter == Characters.Suhyen)
         {
             waveProgressText.text = "카메라의 빛으로 처치하세요!";
             waveProgressText.color = Util.StringToColor("#ebfad1");
         }
-        else if (Manager.Game.wave == 15)
+        else if (Manager.Game.Wave == 15)
         {
             waveProgressText.text = "공룡을 처치하세요!";
             waveProgressText.color = Util.StringToColor("#ff0000");
         }
         else
         {
-            if (Manager.Game.isNightmare)
+            if (Manager.Game.IsNightmare)
                 waveProgressText.color = Util.StringToColor("#704080");
             else
                 waveProgressText.color = Util.StringToColor("#3e5c0a");
 
             waveProgressText.text = "다음 웨이브까지:";
-            if (Manager.Game.remainingWaveSecond > 0)
+            if (Manager.Game.RemainingWaveSecond > 0)
             {
-                waveProgressText.text += $"{Manager.Game.remainingWaveSecond}초";
-                if (Manager.Game.remainingWaveKill > 0)
+                waveProgressText.text += $"{Manager.Game.RemainingWaveSecond}초";
+                if (Manager.Game.RemainingWaveKill > 0)
                     waveProgressText.text += ",";
             }
-            if (Manager.Game.remainingWaveKill > 0)
+            if (Manager.Game.RemainingWaveKill > 0)
             {
-                waveProgressText.text += $"{Manager.Game.remainingWaveKill}킬";
+                waveProgressText.text += $"{Manager.Game.RemainingWaveKill}킬";
             }
         }
 
         waveProgressText.enabled = true;
-        if (Manager.Game.wave == 1 && 
-            Manager.Game.shadowState != ShadowState.EndOfGiantization)
+        if (Manager.Game.Wave == 1 && 
+            Manager.Game.ShadowState != ShadowState.EndOfGiantization)
                 waveProgressText.enabled = false;
     }
     private void UpdateSpecialSkillText()
     {
         Text specialSkillText = GetChild(Text_SpecialSkill);
-        if (Manager.Game.isSpecialSkillInvoking)
+        if (Manager.Game.IsSpecialSkillInvoking)
         {
-            if (Manager.Game.currentCharacter == Characters.Sleepground)
+            if (Manager.Game.CurrentCharacter == Characters.Sleepground)
             {
                 specialSkillText.color = Util.StringToColor("#918d10");
                 specialSkillText.text = "S: 검뽑기";
                 return;
             }
-            if (Manager.Game.currentCharacter == Characters.Dino)
+            if (Manager.Game.CurrentCharacter == Characters.Dino)
             {
                 specialSkillText.color = Util.StringToColor("#918d10");
                 specialSkillText.text = "공격: 흡혈";
@@ -159,10 +159,10 @@ public class PlaySceneUI : SceneUI
             }
         }
 
-        if (Manager.Game.skillCooltime > 0)
+        if (Manager.Game.SkillCooltime > 0)
         {
             specialSkillText.color = Util.StringToColor("#848484");
-            specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.skillCooltime:F1}";
+            specialSkillText.text = $"특수기술 쿨타임:{Manager.Game.SkillCooltime:F1}";
         }
         else
         {
@@ -229,7 +229,7 @@ public class PlaySceneUI : SceneUI
             waveClearImage.transform.localPosition += Vector3.right * -25f;
             yield return new WaitForFixedUpdate();
         }
-        Manager.Game.health += 10;
+        Manager.Game.Health += 10;
 
         yield return new WaitForSeconds(1f);
 

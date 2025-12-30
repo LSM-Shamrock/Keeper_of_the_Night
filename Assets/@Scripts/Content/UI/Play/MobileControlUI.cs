@@ -27,9 +27,9 @@ public class MobileControlUI : UIBase
         GetChild(SkillJoystick).onPointerDownAction = () => Manager.Input.isOnSkillJoystick = true;
         GetChild(SkillJoystick).onPointerUpAction = () => Manager.Input.isOnSkillJoystick = false;
         GetChild(SkillJoystick).onDragAction = (vec) => Manager.Input.skillJoystickVector = vec;
-        Manager.Game.onSkillCooltimeChange.Add(this, () =>
+        Manager.Game.OnSkillCooltimeChange.Add(this, () =>
         {
-            bool isCooltime = Manager.Game.skillCooltime > 0;
+            bool isCooltime = Manager.Game.SkillCooltime > 0;
             GetChild(SkillJoystick).isDragable = !isCooltime;
             GetChild(SkillJoystick).bodyImage.enabled = !isCooltime;
             GetChild(SkillJoystick).handleImage.color = isCooltime ? new Color(0.4f, 0.4f, 0f) : Color.yellow;

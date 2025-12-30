@@ -10,7 +10,7 @@ public class EnemyProjectile_IceShard : EnemyProjectile
         _sr.sprite = Manager.Resource.LoadResource<Sprite>(Sprites.EnemySkill.Ice);
         _sr.SetTransparency(0.5f);
         transform.localScale = Vector3.one * 50f;
-        Manager.Game.ice += 4;
+        Manager.Game.Ice += 4;
         yield return new WaitForSeconds(0.3f);
         foreach (int i in Count(10))
         {

@@ -42,9 +42,9 @@ public class CharacterSkill_MoonlightGun : BaseController
     {
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
+            yield return new WaitUntil(() => Manager.Game.CurrentCharacter == Characters.Dino);
 
-            if (!Manager.Game.isSpecialSkillInvoking && Manager.Input.isDragAttack)
+            if (!Manager.Game.IsSpecialSkillInvoking && Manager.Input.isDragAttack)
             {
                 Shoot();
                 yield return new WaitForSeconds(0.5f);
@@ -54,7 +54,7 @@ public class CharacterSkill_MoonlightGun : BaseController
 
     private void UpdateGun()
     {
-        if (Manager.Game.currentCharacter == Characters.Dino && !Manager.Game.isSpecialSkillInvoking)
+        if (Manager.Game.CurrentCharacter == Characters.Dino && !Manager.Game.IsSpecialSkillInvoking)
         { 
             _child.SetActive(true);
 

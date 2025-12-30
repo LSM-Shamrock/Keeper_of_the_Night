@@ -27,10 +27,10 @@ public class CharacterSkill_BossDino : CharacterSkillController
         _ballStart = transform.GetChild(1).GetComponent<SpriteRenderer>();
         _ballEnd = transform.GetChild(2).GetComponent<SpriteRenderer>();
 
-        Manager.Game.onDisarmSpecialSkill.Add(this, () =>
+        Manager.Game.OnDisarmSpecialSkill.Add(this, () =>
         {
-            if (Manager.Game.selectedCharacter == Characters.Dino)
-                Manager.Game.isSpecialSkillInvoking = false;
+            if (Manager.Game.SelectedCharacter == Characters.Dino)
+                Manager.Game.IsSpecialSkillInvoking = false;
         });
 
         StartCoroutine(LoopRoutine());
@@ -42,7 +42,7 @@ public class CharacterSkill_BossDino : CharacterSkillController
 
     private void UpdateBody()
     {
-        bool b = Manager.Game.selectedCharacter == Characters.Dino && Manager.Game.isSpecialSkillInvoking;
+        bool b = Manager.Game.SelectedCharacter == Characters.Dino && Manager.Game.IsSpecialSkillInvoking;
         _body.SetActive(b);
         _ballStart.gameObject.SetActive(b);
 
@@ -58,8 +58,8 @@ public class CharacterSkill_BossDino : CharacterSkillController
     }
     private void UpdateDrawLine()
     {
-        bool characterCheck = Manager.Game.currentCharacter == Characters.Dino;
-        if (characterCheck && Manager.Game.isSpecialSkillInvoking && Manager.Input.isDragAttack)
+        bool characterCheck = Manager.Game.CurrentCharacter == Characters.Dino;
+        if (characterCheck && Manager.Game.IsSpecialSkillInvoking && Manager.Input.isDragAttack)
         {
             _ballEnd.gameObject.SetActive(true);
 
@@ -80,21 +80,21 @@ public class CharacterSkill_BossDino : CharacterSkillController
 
     private IEnumerator LoopRoutine()
     {
-        if (Manager.Game.selectedCharacter == Characters.Dino)
-            Manager.Game.skillCooltime = 35f;
+        if (Manager.Game.SelectedCharacter == Characters.Dino)
+            Manager.Game.SkillCooltime = 35f;
 
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Dino);
+            yield return new WaitUntil(() => Manager.Game.CurrentCharacter == Characters.Dino);
 
-            if (Manager.Game.skillCooltime <= 0 && Manager.Input.isOnSkill)
+            if (Manager.Game.SkillCooltime <= 0 && Manager.Input.isOnSkill)
             {
-                Manager.Game.skillCooltime = 45f;
-                Manager.Game.isSpecialSkillInvoking = true;
+                Manager.Game.SkillCooltime = 45f;
+                Manager.Game.IsSpecialSkillInvoking = true;
 
                 yield return new WaitForSeconds(10f);
 
-                Manager.Game.onDisarmSpecialSkill.Call();
+                Manager.Game.OnDisarmSpecialSkill.Call();
             }
         }
     }
@@ -186,8 +186,8 @@ public class CharacterSkill_BossDino : CharacterSkillController
     {
         while (true)
         {
-            bool characterCheck = Manager.Game.currentCharacter == Characters.Dino;
-            if (characterCheck && Manager.Game.isSpecialSkillInvoking)
+            bool characterCheck = Manager.Game.CurrentCharacter == Characters.Dino;
+            if (characterCheck && Manager.Game.IsSpecialSkillInvoking)
                 CreateParticle();
 
             yield return new WaitForFixedUpdate();

@@ -15,7 +15,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 
     private bool IsContactGround => _swordBodyCol.IsContact(PlaySceneObjects.Ground);
 
-    private bool IsSleepground => Manager.Game.currentCharacter == Characters.Sleepground;
+    private bool IsSleepground => Manager.Game.CurrentCharacter == Characters.Sleepground;
 
     protected override void Start()
     {
@@ -39,7 +39,7 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
         _sprite_Droping = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_Droping);
         _sprite_StuckInTheGround = Manager.Resource.LoadResource<Sprite>(Sprites.CharacterSkill.Sleepground_MoonlightswordShield_Sword_StuckInTheGround);
 
-        Manager.Game.onDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
+        Manager.Game.OnDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
         StartCoroutine(LoopRelease());
         StartCoroutine(LoopOnSkill());
         StartCoroutine(LoopShieldEffect());
@@ -87,8 +87,8 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
 
         HideShield();
         _swordBody.SetActive(false);
-        Manager.Game.isSpecialSkillInvoking = false;
-        Manager.Game.skillCooltime = 0.5f;
+        Manager.Game.IsSpecialSkillInvoking = false;
+        Manager.Game.SkillCooltime = 0.5f;
     }
 
     private IEnumerator LoopRelease()
@@ -99,16 +99,16 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
             if (IsSleepground == false)
                 continue;
 
-            if (Manager.Game.isSpecialSkillInvoking)
+            if (Manager.Game.IsSpecialSkillInvoking)
             {
                 foreach (int i in Count(150))
                 {
                     yield return new WaitForSeconds(0.1f);
-                    if (!Manager.Game.isSpecialSkillInvoking) break;
+                    if (!Manager.Game.IsSpecialSkillInvoking) break;
                 }
 
-                if (Manager.Game.isSpecialSkillInvoking)
-                    Manager.Game.onDisarmSpecialSkill.Call();
+                if (Manager.Game.IsSpecialSkillInvoking)
+                    Manager.Game.OnDisarmSpecialSkill.Call();
             }
         }
     }
@@ -118,21 +118,21 @@ public class CharacterSkill_MoonlightSwordShield : CharacterSkillController
         {
             yield return new WaitUntil(() => IsSleepground);
 
-            if (Manager.Game.isSpecialSkillInvoking)
+            if (Manager.Game.IsSpecialSkillInvoking)
             {
                 // 일반공격시 스킬 해제
                 if (Manager.Input.isOnSkill || Manager.Input.isDragAttack)
                 {
-                    Manager.Game.onDisarmSpecialSkill.Call();
+                    Manager.Game.OnDisarmSpecialSkill.Call();
                     yield return new WaitUntil(() => !Manager.Input.isOnSkill);
                 }
                 continue;
             }
 
             //  스킬 발동
-            if (Manager.Input.isOnSkill && Manager.Game.skillCooltime <= 0f)
+            if (Manager.Input.isOnSkill && Manager.Game.SkillCooltime <= 0f)
             {
-                Manager.Game.isSpecialSkillInvoking = true;
+                Manager.Game.IsSpecialSkillInvoking = true;
                 
                 _swordBodySR.sprite = _sprite_Droping;
                 _swordBody.SetActive(true);

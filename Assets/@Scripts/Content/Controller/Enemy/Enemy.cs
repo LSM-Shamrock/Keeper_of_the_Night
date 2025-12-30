@@ -23,7 +23,7 @@ public class Enemy : EnemyBase
         _hp = _data.startHP;
         transform.localScale = Vector3.one * _data.startSize;
 
-        Manager.Game.onNightmareEvent.Add(this, DeleteThisClone);
+        Manager.Game.OnNightmareEvent.Add(this, DeleteThisClone);
 
         StartCoroutine(MoveLoop());
         StartCoroutine(AttackLoop());
@@ -47,9 +47,9 @@ public class Enemy : EnemyBase
     private void OnDeath()
     {
         if (_type == Enemys.BossDino)
-            Manager.Game.isBossDinoKilled = true;
+            Manager.Game.IsBossDinoKilled = true;
 
-        Manager.Game.remainingWaveKill -= 1;
+        Manager.Game.RemainingWaveKill -= 1;
         DeleteThisClone();
     }
     protected override IEnumerator WhenTakingDamage(int damage)
@@ -90,7 +90,7 @@ public class Enemy : EnemyBase
                 continue;
             }
 
-            if (Manager.Game.shoutedEnemyName == _hiddenName)
+            if (Manager.Game.ShoutedEnemyName == _hiddenName)
             {
                 Debug.Log("야괴 이름 적중 : " + _hiddenName + " : " + _type.ToString());
 
@@ -201,7 +201,7 @@ public class Enemy : EnemyBase
             else
             {
                 giantization = 1f;
-                Manager.Game.shadowState = ShadowState.EndOfGiantization;
+                Manager.Game.ShadowState = ShadowState.EndOfGiantization;
                 _sr.SetBrightness(0f);
             }
             float size = _data.startSize + 2f * _hp * giantization;
@@ -212,7 +212,7 @@ public class Enemy : EnemyBase
                 _hp -= 0.5f;
                 if (_hp <= 0)
                 {
-                    Manager.Game.shadowState = ShadowState.Killed;
+                    Manager.Game.ShadowState = ShadowState.Killed;
                     OnDeath();
                 }
             }
@@ -220,7 +220,7 @@ public class Enemy : EnemyBase
             // 특수기술 캔슬링
             if (IsContactMoonlightswordShield ||
                 IsContactBossDinoSkill ||
-                IsContactWaterPrison) Manager.Game.onDisarmSpecialSkill.Call();
+                IsContactWaterPrison) Manager.Game.OnDisarmSpecialSkill.Call();
 
             yield return new WaitForFixedUpdate();
         }

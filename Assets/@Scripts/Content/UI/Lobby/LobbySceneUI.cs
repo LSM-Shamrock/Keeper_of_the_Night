@@ -32,7 +32,7 @@ public class LobbySceneUI : SceneUI
             GetChild(ControlTexts).SetActive(!Manager.Input.isMobileControl);
         });
 
-        SetSelectedCharacter(Manager.Game.selectedCharacter);
+        SetSelectedCharacter(Manager.Game.SelectedCharacter);
         foreach (Transform child in GetChild(Characters))
         {
             Characters character = (Characters)Enum.Parse(typeof(Characters), child.name);
@@ -48,7 +48,7 @@ public class LobbySceneUI : SceneUI
 
     private void Update()
     {
-        CharacterData characterData = Manager.Data.characterDatas[Manager.Game.selectedCharacter];
+        CharacterData characterData = Manager.Data.characterDatas[Manager.Game.SelectedCharacter];
         GetChild(CharacterNameText).text = characterData.name;
         GetChild(CharacterNormalText).text = characterData.description;
         GetChild(CharacterSpecialText).text = "특수기술:" + characterData.specialDescription;
@@ -58,7 +58,7 @@ public class LobbySceneUI : SceneUI
 
     private void SetSelectedCharacter(Characters character)
     {
-        Manager.Game.selectedCharacter = character;
+        Manager.Game.SelectedCharacter = character;
 
         CharacterData data = Manager.Data.characterDatas[character];
 

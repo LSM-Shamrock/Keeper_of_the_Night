@@ -23,7 +23,7 @@ public class PlayerCharacterController : BaseController
 
     private void SetCurrentCharacter(Characters character)
     {
-        Manager.Game.currentCharacter = character;
+        Manager.Game.CurrentCharacter = character;
         foreach (Transform child in transform)
         {
             if (child.name == character.ToString())
@@ -37,32 +37,32 @@ public class PlayerCharacterController : BaseController
     {
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        SetCurrentCharacter(Manager.Game.selectedCharacter);
+        SetCurrentCharacter(Manager.Game.SelectedCharacter);
 
         StartCoroutine(LoopJump());
         StartCoroutine(LoopMove());
         StartCoroutine(LoopIceDown());
         StartCoroutine(LoopShoutEnemyName());
 
-        Manager.Game.onShadowStateChange.Add(this, () =>
+        Manager.Game.OnShadowStateChange.Add(this, () =>
         {
-            if (Manager.Game.shadowState == ShadowState.EndOfGiantization) 
+            if (Manager.Game.ShadowState == ShadowState.EndOfGiantization) 
                 SetCurrentCharacter(Characters.Suhyen);
-            if (Manager.Game.shadowState == ShadowState.Killed)
-                SetCurrentCharacter(Manager.Game.selectedCharacter);
+            if (Manager.Game.ShadowState == ShadowState.Killed)
+                SetCurrentCharacter(Manager.Game.SelectedCharacter);
         });
 
-        Manager.Game.onNightmareEvent.Add(this, () =>
+        Manager.Game.OnNightmareEvent.Add(this, () =>
         {
-            if (Manager.Game.wave == 7) Manager.Speech.SpeechForSeconds(transform, "ZzzzZzzz", 3f);
-            if (Manager.Game.wave == 8) Manager.Speech.SpeechForSeconds(transform, "!", 2f);
+            if (Manager.Game.Wave == 7) Manager.Speech.SpeechForSeconds(transform, "ZzzzZzzz", 3f);
+            if (Manager.Game.Wave == 8) Manager.Speech.SpeechForSeconds(transform, "!", 2f);
         });
     }
     private IEnumerator LoopJump()
     {
         while (true)
         {
-            if (Manager.Game.ice > 0) { yield return new WaitForFixedUpdate(); continue; }
+            if (Manager.Game.Ice > 0) { yield return new WaitForFixedUpdate(); continue; }
             if (IsOnGround)
             {
                 _jumpGauge = 15;
@@ -83,7 +83,7 @@ public class PlayerCharacterController : BaseController
         while(true)
         {   
             yield return new WaitForFixedUpdate();
-            if (Manager.Game.ice > 0)
+            if (Manager.Game.Ice > 0)
                 continue;
 
             Vector3 direction = Manager.Input.moveDirection;
@@ -99,10 +99,10 @@ public class PlayerCharacterController : BaseController
     {
         while (true)
         {
-            if (Manager.Game.ice > 0)
+            if (Manager.Game.Ice > 0)
             {
                 yield return new WaitForSeconds(0.1f);
-                Manager.Game.ice--;
+                Manager.Game.Ice--;
             }
             else yield return null;
         }
@@ -111,13 +111,13 @@ public class PlayerCharacterController : BaseController
     // TODO
     private void UpdateDinoSpecial()
     {
-        if (Manager.Game.selectedCharacter != Characters.Dino) 
+        if (Manager.Game.SelectedCharacter != Characters.Dino) 
             return;
 
         Transform dinoTransform = transform.Find(Characters.Dino.ToString());
         SpriteRenderer dinoSpriteRenderer = dinoTransform.GetComponentInChildren<SpriteRenderer>();
 
-        if (!Manager.Game.isSpecialSkillInvoking)
+        if (!Manager.Game.IsSpecialSkillInvoking)
         {
             dinoSpriteRenderer.enabled = true;
             dinoTransform.localScale = Vector3.one;
@@ -135,10 +135,10 @@ public class PlayerCharacterController : BaseController
         {
             if (Manager.Input.isOnKeyT)
             {
-                yield return Manager.Speech.SpeechAndWaitInput(transform, "야괴 이름 외치기:", inpuut => Manager.Game.shoutedEnemyName = inpuut);
+                yield return Manager.Speech.SpeechAndWaitInput(transform, "야괴 이름 외치기:", inpuut => Manager.Game.ShoutedEnemyName = inpuut);
                 foreach (int i in Count(3))
                 {
-                    yield return Manager.Speech.SpeechForSeconds(transform, Manager.Game.shoutedEnemyName + "!", 0.5f);
+                    yield return Manager.Speech.SpeechForSeconds(transform, Manager.Game.ShoutedEnemyName + "!", 0.5f);
                     yield return new WaitForSeconds(0.25f);
                 }
             }

@@ -20,7 +20,7 @@ public class CharacterSkill_WaterPrison : CharacterSkillController
         _sr = _child.Component<SpriteRenderer>();
         _col = _child.GetComponent<Collider2D>();
 
-        Manager.Game.onDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
+        Manager.Game.OnDisarmSpecialSkill.Add(this, OnDisarmSpecialSkill);
 
         StartCoroutine(LoopInvoking());
         StartCoroutine(LoopBrightnessEffect());
@@ -29,9 +29,9 @@ public class CharacterSkill_WaterPrison : CharacterSkillController
 
     private void OnDisarmSpecialSkill()
     {
-        if (Manager.Game.selectedCharacter == Characters.Rather)
+        if (Manager.Game.SelectedCharacter == Characters.Rather)
         {
-            Manager.Game.isSpecialSkillInvoking = false;
+            Manager.Game.IsSpecialSkillInvoking = false;
             _child.SetActive(false);
         }
     }
@@ -74,14 +74,14 @@ public class CharacterSkill_WaterPrison : CharacterSkillController
 
     private IEnumerator LoopInvoking()
     {
-        if (Manager.Game.currentCharacter == Characters.Rather)
-            Manager.Game.skillCooltime = 15f;
+        if (Manager.Game.CurrentCharacter == Characters.Rather)
+            Manager.Game.SkillCooltime = 15f;
         
         while (true)
         {
-            yield return new WaitUntil(() => Manager.Game.currentCharacter == Characters.Rather);
+            yield return new WaitUntil(() => Manager.Game.CurrentCharacter == Characters.Rather);
 
-            if (Manager.Game.skillCooltime <= 0 && Manager.Input.isOnSkill)
+            if (Manager.Game.SkillCooltime <= 0 && Manager.Input.isOnSkill)
             {
                 float size = 200;
                 _child.transform.localScale = Vector3.one * size;
@@ -112,15 +112,15 @@ public class CharacterSkill_WaterPrison : CharacterSkillController
                 _col.enabled = true;
 
 
-                Manager.Game.skillCooltime = 20f;
-                Manager.Game.isSpecialSkillInvoking = true;
+                Manager.Game.SkillCooltime = 20f;
+                Manager.Game.IsSpecialSkillInvoking = true;
                 foreach (int i in Count(10))
                 {
                     size -= 10;
                     _child.transform.localScale = Vector3.one * size;
                     yield return new WaitForFixedUpdate();
                 }
-                Manager.Game.isSpecialSkillInvoking = false;
+                Manager.Game.IsSpecialSkillInvoking = false;
 
                 foreach (int i in Count(10))
                 {
@@ -129,7 +129,7 @@ public class CharacterSkill_WaterPrison : CharacterSkillController
                     else
                         yield return null;
                 }
-                Manager.Game.onDisarmSpecialSkill.Call();
+                Manager.Game.OnDisarmSpecialSkill.Call();
             }
         }
     }

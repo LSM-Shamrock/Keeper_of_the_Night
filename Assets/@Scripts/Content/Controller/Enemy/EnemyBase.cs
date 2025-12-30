@@ -76,8 +76,8 @@ public abstract class EnemyBase : BaseController
 
             if (IsContactBossDinoSkill)
             {
-                if (Manager.Game.wave == 7) Manager.Game.dreamHealth += 2;
-                else Manager.Game.health += 2;
+                if (Manager.Game.Wave == 7) Manager.Game.DreamHealth += 2;
+                else Manager.Game.Health += 2;
                 yield return WhenTakingDamage(3);
             }
 
@@ -115,7 +115,7 @@ public abstract class EnemyBase : BaseController
             yield return null;
             if (isSkillIgnore) continue;
 
-            if (IsContactWaterPrison && Manager.Game.isSpecialSkillInvoking)
+            if (IsContactWaterPrison && Manager.Game.IsSpecialSkillInvoking)
             {
                 while (IsContactWaterPrison)
                 {
